@@ -1,0 +1,5 @@
+__pycache__/
+.venv/
+data/figure2/
+figures/src/.fig1_render.html
+abstract/

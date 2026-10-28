@@ -1,0 +1,6 @@
+,bridge,local,both
+rescan,2.38,2.01,2.15
+protocol,,,3.05
+scanner,6.48,6.81,6.86
+pipeline,29.21,34.34,31.33
+between_subjects,29.3,27.56,28.57

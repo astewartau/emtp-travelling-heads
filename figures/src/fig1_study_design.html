@@ -1,0 +1,221 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: "DejaVu Sans"; src: url("fonts/DejaVuSans.ttf"); }
+  @font-face { font-family: "DejaVu Sans"; font-weight: 700; src: url("fonts/DejaVuSans-Bold.ttf"); }
+  body { margin:0; background:#fff; font-family: "DejaVu Sans", Arial, sans-serif; }
+  svg text { fill:#0b0b0b; }
+  .t { font-size:16px; font-weight:700; }
+  .s { font-size:12.5px; fill:#52514e; }
+  .m { font-size:13.5px; }
+  .lab { font-size:22px; font-weight:700; }
+  .arrow { stroke:#52514e; stroke-width:2; fill:none; marker-end:url(#ah); }
+</style></head>
+<body>
+<svg id="fig" width="1330" height="925" viewBox="0 0 1330 925" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#52514e"/></marker>
+</defs>
+
+<!-- A: aim -->
+<text class="lab" x="10" y="30">A</text>
+<text class="t" x="40" y="30">Aim: calibrate each site's own QSM protocol to a shared reference</text>
+<g transform="translate(40,52)" id="aim"></g>
+
+<!-- B: dataset -->
+<text class="lab" x="10" y="262">B</text>
+<text class="t" x="40" y="262">Travelling-brain dataset: 6 subjects, 11 scanners, 3 vendors, 6 sites</text>
+<g transform="translate(40,292)">
+  <g id="hdr"></g>
+  <g id="rows"></g>
+  <g transform="translate(0,368)">
+    <circle cx="8" cy="0" r="7" fill="#0b0b0b"/><text class="s" x="22" y="4">Analysed: 12 sessions, 72 acquisitions</text>
+    <circle cx="318" cy="0" r="6.5" fill="#fff" stroke="#0b0b0b" stroke-width="2"/><text class="s" x="332" y="4">Acquired Oct 2026, analysis pending: 5 sessions</text>
+  </g>
+  <g transform="translate(0,410)" id="session"></g>
+</g>
+
+<!-- C: QSM-CI -->
+<text class="lab" x="840" y="262">C</text>
+<text class="t" x="870" y="262">Reconstruction and analysis on QSM-CI</text>
+<g transform="translate(870,282)" id="flow"></g>
+</svg>
+
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text !== undefined) e.textContent = text;
+  parent.appendChild(e); return e;
+}
+const BLUE = '#2a78d6', ORANGE = '#eb6834';
+
+// ---- A: aim strip
+const aim = document.getElementById('aim');
+function node(x, y, w, h, title, sub, fill, ink, stroke) {
+  el('rect', {x, y, width: w, height: h, rx: 10, fill, stroke: stroke || 'none', 'stroke-width': 1.5}, aim);
+  el('text', {x: x + w/2, y: y + 25, 'text-anchor': 'middle', 'font-size': 14.5, 'font-weight': 700, style: `fill:${ink}`}, aim, title);
+  el('text', {x: x + w/2, y: y + 44, 'text-anchor': 'middle', 'font-size': 12, style: `fill:${ink}`}, aim, sub);
+}
+[0, 68].forEach((yy, i) => {
+  node(0, yy, 250, 56, `Site ${i + 1}: local protocol`, 'own acquisition and reconstruction', '#fdeee6', '#0b0b0b');
+  el('path', {d: `M252,${yy + 28} L438,${yy + 28 + (i ? -26 : 26)}`, class: 'arrow'}, aim);
+});
+{
+  // calibration equation, typeset with subscripts and italic coefficients
+  const eq = el('text', {x: 0, y: 152, 'font-size': 14}, aim);
+  const ts = (txt, at) => el('tspan', at || {}, eq, txt);
+  ts('Calibration per site:  ', {'font-weight': 700, 'font-size': 13, style: 'fill:#52514e'});
+  ts('QSM'); ts('bridge', {'font-size': 10, dy: 4});
+  ts(' = ', {dy: -4}); ts('a', {'font-style': 'italic', 'font-family': 'DejaVu Serif, serif'}); ts(' · QSM');
+  ts('local', {'font-size': 10, dy: 4});
+  ts(' + ', {dy: -4}); ts('b', {'font-style': 'italic', 'font-family': 'DejaVu Serif, serif'});
+}
+
+node(440, 34, 280, 56, 'Bridge-method space', 'shared quantitative reference', BLUE, '#ffffff');
+el('path', {d: 'M722,62 L888,62', class: 'arrow'}, aim);
+node(890, 34, 300, 56, 'Pooled multi-site analyses', 'and normative data, e.g. UK Biobank', '#fff', '#0b0b0b', '#9b9a95');
+// callout: what this study tests
+el('path', {d: 'M580,92 L580,120', stroke: BLUE, 'stroke-width': 2, 'stroke-dasharray': '4 3', fill: 'none'}, aim);
+el('rect', {x: 470, y: 120, width: 220, height: 0}, aim);
+el('text', {x: 580, y: 140, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 700, style: `fill:${BLUE}`}, aim, 'Tested here:');
+el('text', {x: 580, y: 157, 'text-anchor': 'middle', 'font-size': 12.5, style: `fill:${BLUE}`}, aim, 'is the bridge method as reproducible');
+el('text', {x: 580, y: 173, 'text-anchor': 'middle', 'font-size': 12.5, style: `fill:${BLUE}`}, aim, 'across scanners as within a scanner?');
+
+// ---- B: dataset grid
+// Sites are numbered, not named, to protect participants' privacy
+const SITES = [
+  ['Site 1', [['achieva','Philips','Achieva'], ['elition','Philips','Elition X']]],
+  ['Site 2', [['lzprisma','Siemens','Prisma'], ['cimax','Siemens','Cima.X'], ['lzskyra','Siemens','Skyra']]],
+  ['Site 3', [['mr750w','GE','MR750w'], ['bkprisma','Siemens','Prisma']]],
+  ['Site 4', [['skyra','Siemens','Skyra']]],
+  ['Site 5', [['mr750','GE','MR750'], ['wcprisma','Siemens','Prisma']]],
+  ['Site 6', [['ingenia','Philips','Ingenia']]],
+];
+const X0 = 104, DX = 54, GAP = 12, ROWW = 728;
+const xs = {}; const hdr = document.getElementById('hdr');
+let x = X0;
+SITES.forEach(([site, scs]) => {
+  const x1 = x;
+  scs.forEach(([k, v, m]) => {
+    xs[k] = x;
+    el('text', {x, y: 44, 'font-size': 11.5, 'text-anchor': 'middle'}, hdr, v);
+    el('text', {x, y: 59, 'font-size': 11.5, 'text-anchor': 'middle'}, hdr, m);
+    x += DX;
+  });
+  const x2 = x - DX;
+  el('line', {x1: x1 - 22, y1: 24, x2: x2 + 22, y2: 24, stroke: '#9b9a95'}, hdr);
+  const words = site.split(' ');
+  const two = x2 - x1 < 60 && words.length > 1;
+  el('text', {x: (x1 + x2) / 2, y: two ? 2 : 16, 'font-size': 11.5, 'font-weight': 700, 'text-anchor': 'middle'}, hdr, two ? words.slice(0, -1).join(' ') : site);
+  if (two) el('text', {x: (x1 + x2) / 2, y: 16, 'font-size': 11.5, 'font-weight': 700, 'text-anchor': 'middle'}, hdr, words[words.length - 1]);
+  x += GAP;
+});
+el('text', {x: (xs.achieva + xs.elition) / 2, y: 76, 'text-anchor': 'middle', class: 's'}, hdr, 'reference site');
+const design = [
+  ['Subject 1', ['achieva'], ['lzprisma','cimax','lzskyra']],
+  ['Subject 2', ['achieva'], ['mr750w','bkprisma']],
+  ['Subject 3', ['achieva','skyra'], []],
+  ['Subject 4', ['elition','mr750','wcprisma'], []],
+  ['Subject 5', ['achieva','mr750','wcprisma'], []],
+  ['Subject 6', ['achieva','ingenia'], []],
+];
+const rows = document.getElementById('rows');
+design.forEach(([name, done, pend], i) => {
+  const y = 106 + i * 40;
+  if (i % 2 === 0) el('rect', {x: 0, y: y - 18, width: ROWW, height: 36, fill: '#f6f6f4', rx: 6}, rows);
+  el('text', {x: 8, y: y + 5, 'font-size': 13}, rows, name);
+  for (const k in xs) {
+    if (done.includes(k)) el('circle', {cx: xs[k], cy: y, r: 11, fill: '#0b0b0b'}, rows);
+    else if (pend.includes(k)) el('circle', {cx: xs[k], cy: y, r: 10, fill: '#fff', stroke: '#0b0b0b', 'stroke-width': 2.2}, rows);
+    else el('circle', {cx: xs[k], cy: y, r: 3.5, fill: '#d9d8d3'}, rows);
+  }
+});
+
+
+// ---- B: one session, as acquired (same run order in all analysed sessions), with the pairs compared
+{
+  const ses = document.getElementById('session');
+  const GREY = '#52514e';
+  el('text', {x: 0, y: 0, class: 'm', 'font-weight': 700}, ses, 'Each session: one subject, one scanner, runs in this order');
+  const BW = 100, BH = 30, BG = 22, Y = 58, X = 0;
+  const runs = [['Bridge', 1], ['Local', 1], ['Bridge', 2], ['Local', 2], ['Bridge', 3], ['Local', 3]];
+  const left = i => X + i * (BW + BG), cx = i => left(i) + BW / 2;
+  // test-retest: every pair of runs of one protocol (bridge arcs above, local arcs below)
+  function arc(i, j, up, h, col) {
+    const y0 = up ? Y : Y + BH, dy = up ? -h : h;
+    el('path', {d: `M${cx(i)},${y0} C${cx(i)},${y0 + dy} ${cx(j)},${y0 + dy} ${cx(j)},${y0}`,
+                stroke: col, 'stroke-width': 1.6, fill: 'none'}, ses);
+  }
+  [[0, 2, 22], [2, 4, 22], [0, 4, 44]].forEach(([i, j, h]) => arc(i, j, true, h, BLUE));
+  [[1, 3, 22], [3, 5, 22], [1, 5, 44]].forEach(([i, j, h]) => arc(i, j, false, h, ORANGE));
+  runs.forEach(([p, r], i) => {
+    const col = p === 'Bridge' ? BLUE : ORANGE;
+    el('rect', {x: left(i), y: Y, width: BW, height: BH, rx: 6, fill: '#ffffff', stroke: col, 'stroke-width': 1.5}, ses);
+    el('rect', {x: left(i), y: Y, width: BW, height: BH, rx: 6, fill: col, 'fill-opacity': 0.16, stroke: 'none'}, ses);
+    el('text', {x: cx(i), y: Y + 20, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 700}, ses, `${p} run ${r}`);
+  });
+  // local vs bridge: each bridge run with the local run acquired right after it
+  [0, 2, 4].forEach(i => {
+    const x1 = left(i) + BW + 3, x2 = left(i + 1) - 3, ym = Y + BH / 2;
+    el('line', {x1, y1: ym, x2, y2: ym, stroke: GREY, 'stroke-width': 2}, ses);
+    el('circle', {cx: x1, cy: ym, r: 2.4, fill: GREY}, ses); el('circle', {cx: x2, cy: ym, r: 2.4, fill: GREY}, ses);
+  });
+  const tEnd = left(5) + BW, YT = Y + BH + 56;
+  el('path', {d: `M${X},${YT} L${tEnd + 16},${YT}`, class: 'arrow'}, ses);
+  el('text', {x: tEnd + 20, y: YT + 4, class: 's'}, ses, 'time');
+  // key
+  const KY = YT + 28;
+  const key = [[BLUE, 'arc', 'Test–retest:', 'every pair of runs of one protocol (bridge above, local below)'],
+               [GREY, 'link', 'Local vs bridge:', 'each bridge run with the local run acquired right after it'],
+               [null, null, 'Inter-scanner:', 'same subject and protocol on another scanner, every pair of runs']];
+  key.forEach(([col, kind, k, v], i) => {
+    const y = KY + i * 20;
+    if (kind === 'arc') {
+      el('path', {d: `M0,${y} C0,${y - 10} 11,${y - 10} 11,${y}`, stroke: BLUE, 'stroke-width': 1.6, fill: 'none'}, ses);
+      el('path', {d: `M12,${y - 8} C12,${y + 2} 23,${y + 2} 23,${y - 8}`, stroke: ORANGE, 'stroke-width': 1.6, fill: 'none'}, ses);
+    } else if (kind === 'link') {
+      el('line', {x1: 2, y1: y - 4, x2: 21, y2: y - 4, stroke: GREY, 'stroke-width': 2}, ses);
+      el('circle', {cx: 2, cy: y - 4, r: 2.4, fill: GREY}, ses); el('circle', {cx: 21, cy: y - 4, r: 2.4, fill: GREY}, ses);
+    }
+    const t = el('text', {x: 32, y, 'font-size': 12.5}, ses);
+    el('tspan', {'font-weight': 700}, t, k + ' ');
+    el('tspan', {style: `fill:${GREY}`}, t, v);
+  });
+}
+
+// ---- C: QSM-CI processing, explicit steps
+const flow = document.getElementById('flow');
+const W = 420, H = 46, G = 14;
+el('rect', {x: -14, y: 2, width: W + 28, height: 388, rx: 12, fill: 'none', stroke: BLUE, 'stroke-width': 1.5, 'stroke-dasharray': '6 4'}, flow);
+let y = 18;
+function step(t, s, n, fill) {
+  el('rect', {x: 0, y, width: W, height: H, rx: 8, fill: fill || '#f6f6f4', stroke: '#d9d8d3'}, flow);
+  el('text', {x: 14, y: y + 19, class: 'm', 'font-weight': 700}, flow, t);
+  el('text', {x: 14, y: y + 36, class: 's'}, flow, s);
+  if (n) {
+    el('text', {x: W - 14, y: y + 30, 'text-anchor': 'end', 'font-size': 22, 'font-weight': 700, style: `fill:${BLUE}`}, flow, n);
+  }
+  y += H;
+  el('path', {d: `M${W/2},${y + 1} L${W/2},${y + G - 1}`, class: 'arrow'}, flow);
+  y += G;
+}
+step('Input: magnitude + phase', 'every acquisition, multi-echo', '72');
+step('Phase unwrapping / field mapping', 'e.g. ROMEO, Laplacian', '2');
+step('Background field removal', 'e.g. V-SHARP, PDF, LBV, RESHARP', '11');
+step('Dipole inversion', '+ 14 combined or end-to-end methods', '30');
+step('Regional mean susceptibility', 'up to 25 SynthSeg regions; 638 pipelines, 45,927 maps', '25');
+// last step without trailing arrow
+el('rect', {x: 0, y, width: W, height: H, rx: 8, fill: '#f6f6f4', stroke: '#d9d8d3'}, flow);
+{ const t = el('text', {x: 14, y: y + 19, class: 'm', 'font-weight': 700}, flow, 'Agreement per scan pair: slope ');
+  el('tspan', {'font-style': 'italic', 'font-family': 'DejaVu Serif, serif'}, t, 'a'); }
+el('text', {x: 14, y: y + 36, class: 's'}, flow, 'test–retest · inter-scanner · local vs bridge');
+// regression glyph
+const g = el('g', {transform: `translate(${W - 58},${y + 4})`}, flow);
+el('line', {x1: 0, y1: 38, x2: 38, y2: 0, stroke: '#d9d8d3', 'stroke-width': 1.5, 'stroke-dasharray': '3 3'}, g);
+el('line', {x1: 0, y1: 36, x2: 40, y2: 6, stroke: BLUE, 'stroke-width': 2}, g);
+[[5,32],[12,27],[18,23],[25,17],[32,12],[37,9]].forEach(([a,b]) => el('circle', {cx: a, cy: b, r: 2.6, fill: BLUE}, g));
+</script>
+</body></html>

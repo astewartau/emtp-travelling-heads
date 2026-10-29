@@ -1,0 +1,73 @@
+acquisition,manufacturer,model,software,acquisition_type,n_echoes,te_first_ms,te_last_ms,delta_te_ms,tr_ms,flip_angle_deg,voxel_x_mm,voxel_y_mm,voxel_z_mm,matrix,pixel_bandwidth_hz,parallel_factor_inplane,parallel_technique,partial_fourier,percent_sampling,scan_options,sequence_variant,acquisition_duration_s,slab_angle_to_b0_deg
+s002001-site1-achieva-bridge-run1,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,6.0
+s002001-site1-achieva-bridge-run2,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,6.0
+s002001-site1-achieva-bridge-run3,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,6.0
+s002001-site1-achieva-local-run1,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,6.0
+s002001-site1-achieva-local-run2,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,6.0
+s002001-site1-achieva-local-run3,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,6.0
+s003001-site1-achieva-bridge-run1,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,6.4
+s003001-site1-achieva-bridge-run2,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,6.4
+s003001-site1-achieva-bridge-run3,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,6.4
+s003001-site1-achieva-local-run1,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,6.4
+s003001-site1-achieva-local-run2,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,6.4
+s003001-site1-achieva-local-run3,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,6.4
+s004001-site1-achieva-bridge-run1,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,10.2
+s004001-site1-achieva-bridge-run2,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,10.2
+s004001-site1-achieva-bridge-run3,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,10.2
+s004001-site1-achieva-local-run1,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,10.2
+s004001-site1-achieva-local-run2,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,10.2
+s004001-site1-achieva-local-run3,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,10.2
+s004001-site4-skyra-bridge-run1,Siemens,MAGNETOM Skyra,syngo MR XA30,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,184x256x128,250.0,2.0,,1.0,100.0,PER,SK,,0.0
+s004001-site4-skyra-bridge-run2,Siemens,MAGNETOM Skyra,syngo MR XA30,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,184x256x128,250.0,2.0,,1.0,100.0,PER,SK,,0.0
+s004001-site4-skyra-bridge-run3,Siemens,MAGNETOM Skyra,syngo MR XA30,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,184x256x128,250.0,2.0,,1.0,100.0,PER,SK,,0.0
+s004001-site4-skyra-local-run1,Siemens,MAGNETOM Skyra,syngo MR XA30,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,2.0,184x256x64,250.0,2.0,,0.75,100.0,PFP\PER,SK,,0.0
+s004001-site4-skyra-local-run2,Siemens,MAGNETOM Skyra,syngo MR XA30,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,2.0,184x256x64,250.0,2.0,,0.75,100.0,PFP\PER,SK,,0.0
+s004001-site4-skyra-local-run3,Siemens,MAGNETOM Skyra,syngo MR XA30,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,2.0,184x256x64,250.0,2.0,,0.75,100.0,PFP\PER,SK,,0.0
+s005001-site1-elition-bridge-run1,Philips,Ingenia Elition X,5.7.1\5.7.1.0,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,5.0
+s005001-site1-elition-bridge-run2,Philips,Ingenia Elition X,5.7.1\5.7.1.0,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,5.0
+s005001-site1-elition-bridge-run3,Philips,Ingenia Elition X,5.7.1\5.7.1.0,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,5.0
+s005001-site1-elition-local-run1,Philips,Ingenia Elition X,5.7.1\5.7.1.0,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,5.0
+s005001-site1-elition-local-run2,Philips,Ingenia Elition X,5.7.1\5.7.1.0,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,5.0
+s005001-site1-elition-local-run3,Philips,Ingenia Elition X,5.7.1\5.7.1.0,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,5.0
+s005001-site5-mr750-bridge-run1,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x140,244.141,1.96086,,,100.0,ACC_GEMS,NONE,,0.0
+s005001-site5-mr750-bridge-run2,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x140,244.141,1.96086,,,100.0,ACC_GEMS,NONE,,0.0
+s005001-site5-mr750-bridge-run3,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x140,244.141,1.96086,,,100.0,ACC_GEMS,NONE,,0.0
+s005001-site5-mr750-local-run1,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,8,4.12,35.98,4.55,40.3,15,0.938,0.938,1.0,256x256x152,325.547,1.96924,,,74.9519,FC\ACC_GEMS\PFP,NONE,,0.0
+s005001-site5-mr750-local-run2,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,8,4.12,35.98,4.55,40.3,15,0.938,0.938,1.0,256x256x152,325.547,1.96924,,,74.9519,FC\ACC_GEMS\PFP,NONE,,0.0
+s005001-site5-mr750-local-run3,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,8,4.12,35.98,4.55,40.3,15,0.938,0.938,1.0,256x256x152,325.547,1.96924,,,74.9519,FC\ACC_GEMS\PFP,NONE,,0.0
+s005001-site5-prisma-bridge-run1,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,184x256x128,250.0,2.0,GRAPPA,1.0,100.0,,SP,539.245,0.0
+s005001-site5-prisma-bridge-run2,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,184x256x128,250.0,2.0,GRAPPA,1.0,100.0,,SP,539.245,0.0
+s005001-site5-prisma-bridge-run3,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,184x256x128,250.0,2.0,GRAPPA,1.0,100.0,,SP,539.245,0.0
+s005001-site5-prisma-local-run1,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,8,6.28,34.7,4.06,40.0,15,0.75,0.75,1.0,260x320x160,260.0,2.0,GRAPPA,1.0,80.0,,SP,303.56,0.0
+s005001-site5-prisma-local-run2,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,8,6.28,34.7,4.06,40.0,15,0.75,0.75,1.0,260x320x160,260.0,2.0,GRAPPA,1.0,80.0,,SP,303.56,0.0
+s005001-site5-prisma-local-run3,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,8,6.28,34.7,4.06,40.0,15,0.75,0.75,1.0,260x320x160,260.0,2.0,GRAPPA,1.0,80.0,,SP,303.56,0.0
+s005002-site1-achieva-bridge-run1,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,11.3
+s005002-site1-achieva-bridge-run2,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,11.3
+s005002-site1-achieva-bridge-run3,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,11.3
+s005002-site1-achieva-local-run1,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,11.3
+s005002-site1-achieva-local-run2,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,11.3
+s005002-site1-achieva-local-run3,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,11.3
+s005002-site5-mr750-bridge-run1,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x140,244.141,1.96086,,,100.0,ACC_GEMS,NONE,,0.0
+s005002-site5-mr750-bridge-run2,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x140,244.141,1.96086,,,100.0,ACC_GEMS,NONE,,0.0
+s005002-site5-mr750-bridge-run3,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x140,244.141,1.96086,,,100.0,ACC_GEMS,NONE,,0.0
+s005002-site5-mr750-local-run1,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,8,4.12,35.98,4.55,40.3,15,0.938,0.938,1.0,256x256x152,325.547,1.96924,,,74.9519,FC\ACC_GEMS\PFP,NONE,,0.0
+s005002-site5-mr750-local-run2,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,8,4.12,35.98,4.55,40.3,15,0.938,0.938,1.0,256x256x152,325.547,1.96924,,,74.9519,FC\ACC_GEMS\PFP,NONE,,0.0
+s005002-site5-mr750-local-run3,GE,DISCOVERY MR750,27\LX\MR Software release:DV26.0_R01_1725.a,3D,8,4.12,35.98,4.55,40.3,15,0.938,0.938,1.0,256x256x152,325.547,1.96924,,,74.9519,FC\ACC_GEMS\PFP,NONE,,0.0
+s005002-site5-prisma-bridge-run1,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,184x256x128,250.0,2.0,GRAPPA,1.0,100.0,,SP,539.245,0.0
+s005002-site5-prisma-bridge-run2,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,184x256x128,250.0,2.0,GRAPPA,1.0,100.0,,SP,539.245,0.0
+s005002-site5-prisma-bridge-run3,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,184x256x128,250.0,2.0,GRAPPA,1.0,100.0,,SP,539.245,0.0
+s005002-site5-prisma-local-run1,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,8,6.28,34.7,4.06,40.0,15,0.75,0.75,1.0,260x320x160,260.0,2.0,GRAPPA,1.0,80.0,,SP,303.56,0.0
+s005002-site5-prisma-local-run2,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,8,6.28,34.7,4.06,40.0,15,0.75,0.75,1.0,260x320x160,260.0,2.0,GRAPPA,1.0,80.0,,SP,303.56,0.0
+s005002-site5-prisma-local-run3,Siemens,MAGNETOM Prisma Fit,syngo MR XA60,3D,8,6.28,34.7,4.06,40.0,15,0.75,0.75,1.0,260x320x160,260.0,2.0,GRAPPA,1.0,80.0,,SP,303.56,0.0
+s006001-site1-achieva-bridge-run1,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,6.8
+s006001-site1-achieva-bridge-run2,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,6.8
+s006001-site1-achieva-bridge-run3,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.401,2.0,SENSE,,100.0,OTHER,SP,528.29,6.8
+s006001-site1-achieva-local-run1,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,6.8
+s006001-site1-achieva-local-run2,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,6.8
+s006001-site1-achieva-local-run3,Philips,Achieva dStream,5.7.1\5.7.1.2,3D,5,5.5,29.5,6.0,40.0,15,1.0,1.0,1.0,240x240x150,241.127,,,,78.5398,FC,SP,208.84,6.8
+s006001-site6-ingenia-bridge-run1,Philips,Ingenia,12.3.0\12.3.0.1,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.0,2.0,SENSE,,100.0,OTHER,SP,528.29,0.0
+s006001-site6-ingenia-bridge-run2,Philips,Ingenia,12.3.0\12.3.0.1,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.0,2.0,SENSE,,100.0,OTHER,SP,528.29,0.0
+s006001-site6-ingenia-bridge-run3,Philips,Ingenia,12.3.0\12.3.0.1,3D,5,5.0,29.0,6.0,35.0,15,1.0,1.0,1.0,256x256x128,250.0,2.0,SENSE,,100.0,OTHER,SP,528.29,0.0
+s006001-site6-ingenia-local-run1,Philips,Ingenia,12.3.0\12.3.0.1,3D,6,3.0,30.53,5.51,34.25,17,1.0,1.0,1.0,224x224x130,241.0,1.0,,,78.5398,OTHER,SP,250.093,0.0
+s006001-site6-ingenia-local-run2,Philips,Ingenia,12.3.0\12.3.0.1,3D,6,3.0,30.53,5.51,34.25,17,1.0,1.0,1.0,224x224x130,241.0,1.0,,,78.5398,OTHER,SP,250.093,0.0
+s006001-site6-ingenia-local-run3,Philips,Ingenia,12.3.0\12.3.0.1,3D,6,3.0,30.53,5.51,34.25,17,1.0,1.0,1.0,224x224x130,241.0,1.0,,,78.5398,OTHER,SP,250.093,0.0

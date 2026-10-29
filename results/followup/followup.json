@@ -1,0 +1,1145 @@
+{
+  "issue_2_slope_spread": {
+    "bridge": {
+      "test_retest_sd_slope_pct": {
+        "median": 3.29,
+        "p25": 2.92,
+        "p75": 3.78,
+        "n_pipelines": 638
+      },
+      "test_retest_mean_slope_minus_1_pct": {
+        "median": -0.53,
+        "p25": -0.87,
+        "p75": -0.14,
+        "n_pipelines": 638
+      },
+      "test_retest_median_abs_slope_dev_pct": {
+        "median": 2.21,
+        "p25": 1.92,
+        "p75": 2.61,
+        "n_pipelines": 638
+      },
+      "inter_scanner_median_abs_slope_dev_pct": {
+        "median": 6.36,
+        "p25": 5.16,
+        "p75": 8.56,
+        "n_pipelines": 638
+      },
+      "inter_scanner_iqr_across_scanner_pairs_pct": {
+        "median": 6.09,
+        "p25": 4.04,
+        "p75": 9.04,
+        "n_pipelines": 638
+      },
+      "n_scanner_pairs": 7
+    },
+    "local": {
+      "test_retest_sd_slope_pct": {
+        "median": 2.19,
+        "p25": 1.84,
+        "p75": 2.7,
+        "n_pipelines": 638
+      },
+      "test_retest_mean_slope_minus_1_pct": {
+        "median": 0.24,
+        "p25": 0.04,
+        "p75": 0.46,
+        "n_pipelines": 638
+      },
+      "test_retest_median_abs_slope_dev_pct": {
+        "median": 1.42,
+        "p25": 1.2,
+        "p75": 1.79,
+        "n_pipelines": 638
+      },
+      "inter_scanner_median_abs_slope_dev_pct": {
+        "median": 6.98,
+        "p25": 4.17,
+        "p75": 11.11,
+        "n_pipelines": 638
+      },
+      "inter_scanner_iqr_across_scanner_pairs_pct": {
+        "median": 5.47,
+        "p25": 3.47,
+        "p75": 9.95,
+        "n_pipelines": 638
+      },
+      "n_scanner_pairs": 7
+    }
+  },
+  "issue_3_corrected_loa": {
+    "test_retest_bridge": {
+      "loa_ppb": {
+        "median": 8.73,
+        "p25": 5.75,
+        "p75": 11.44,
+        "n_pipelines": 638
+      },
+      "loa_corrected_ppb": {
+        "median": 8.31,
+        "p25": 5.37,
+        "p75": 10.88,
+        "n_pipelines": 638
+      }
+    },
+    "test_retest_local": {
+      "loa_ppb": {
+        "median": 5.61,
+        "p25": 3.9,
+        "p75": 7.39,
+        "n_pipelines": 638
+      },
+      "loa_corrected_ppb": {
+        "median": 5.32,
+        "p25": 3.72,
+        "p75": 7.03,
+        "n_pipelines": 638
+      }
+    },
+    "inter_scanner_bridge": {
+      "loa_ppb": {
+        "median": 19.05,
+        "p25": 14.02,
+        "p75": 26.44,
+        "n_pipelines": 638
+      },
+      "loa_corrected_ppb": {
+        "median": 17.97,
+        "p25": 13.19,
+        "p75": 25.14,
+        "n_pipelines": 638
+      }
+    },
+    "inter_scanner_local": {
+      "loa_ppb": {
+        "median": 17.5,
+        "p25": 12.89,
+        "p75": 24.98,
+        "n_pipelines": 638
+      },
+      "loa_corrected_ppb": {
+        "median": 16.22,
+        "p25": 10.63,
+        "p75": 22.82,
+        "n_pipelines": 638
+      }
+    },
+    "inter_protocol_local_vs_bridge": {
+      "loa_ppb": {
+        "median": 12.23,
+        "p25": 8.65,
+        "p75": 16.77,
+        "n_pipelines": 638
+      },
+      "loa_corrected_ppb": {
+        "median": 11.58,
+        "p25": 7.81,
+        "p75": 15.74,
+        "n_pipelines": 638
+      }
+    }
+  },
+  "issue_7_8_scanner_relation": {
+    "site_relation": {
+      "inter_site": {
+        "bridge": {
+          "median": 6.73,
+          "p25": 5.11,
+          "p75": 8.97,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 6,
+          "n_subjects": 4
+        },
+        "local": {
+          "median": 6.64,
+          "p25": 4.63,
+          "p75": 9.17,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 6,
+          "n_subjects": 4
+        }
+      },
+      "intra_site": {
+        "bridge": {
+          "median": 6.76,
+          "p25": 4.04,
+          "p75": 10.78,
+          "n_pipelines": 636,
+          "n_scanner_pairs": 1,
+          "n_subjects": 2
+        },
+        "local": {
+          "median": 6.8,
+          "p25": 3.18,
+          "p75": 13.22,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 1,
+          "n_subjects": 2
+        }
+      }
+    },
+    "vendor_relation": {
+      "cross_vendor": {
+        "bridge": {
+          "median": 7.12,
+          "p25": 5.61,
+          "p75": 9.52,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 6,
+          "n_subjects": 3
+        },
+        "local": {
+          "median": 7.12,
+          "p25": 4.3,
+          "p75": 12.66,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 6,
+          "n_subjects": 3
+        }
+      },
+      "same_vendor": {
+        "bridge": {
+          "median": 4.12,
+          "p25": 2.3,
+          "p75": 5.95,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 1,
+          "n_subjects": 1
+        },
+        "local": {
+          "median": 3.85,
+          "p25": 2.37,
+          "p75": 6.35,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 1,
+          "n_subjects": 1
+        }
+      }
+    },
+    "scanner_pairs_median_abs_slope_dev_pct": {
+      "site1-achieva|site4-skyra": {
+        "site_relation": "inter_site",
+        "vendors": "Philips vs Siemens",
+        "bridge": 9.19,
+        "local": 8.48,
+        "subjects": "s004001"
+      },
+      "site1-achieva|site5-mr750": {
+        "site_relation": "inter_site",
+        "vendors": "GE vs Philips",
+        "bridge": 9.6,
+        "local": 6.59,
+        "subjects": "s005002"
+      },
+      "site1-achieva|site5-prisma": {
+        "site_relation": "inter_site",
+        "vendors": "Philips vs Siemens",
+        "bridge": 8.65,
+        "local": 6.21,
+        "subjects": "s005002"
+      },
+      "site1-achieva|site6-ingenia": {
+        "site_relation": "inter_site",
+        "vendors": "Philips vs Philips",
+        "bridge": 4.12,
+        "local": 3.85,
+        "subjects": "s006001"
+      },
+      "site1-elition|site5-mr750": {
+        "site_relation": "inter_site",
+        "vendors": "GE vs Philips",
+        "bridge": 7.04,
+        "local": 5.29,
+        "subjects": "s005001"
+      },
+      "site1-elition|site5-prisma": {
+        "site_relation": "inter_site",
+        "vendors": "Philips vs Siemens",
+        "bridge": 4.75,
+        "local": 8.56,
+        "subjects": "s005001"
+      },
+      "site5-mr750|site5-prisma": {
+        "site_relation": "intra_site",
+        "vendors": "GE vs Siemens",
+        "bridge": 6.76,
+        "local": 6.8,
+        "subjects": "s005001, s005002"
+      }
+    }
+  },
+  "issue_4_protocol_spread": {
+    "transform": {
+      "median_slope": 0.987,
+      "p25_slope": 0.956,
+      "p75_slope": 1.022
+    },
+    "Caudate": {
+      "protocol_sd_ppb": 2.1,
+      "protocol_sd_corrected_ppb": 1.8,
+      "rescan_sd_ppb": {
+        "bridge": 1.7,
+        "local": 1.0
+      }
+    },
+    "Pallidum": {
+      "protocol_sd_ppb": 3.0,
+      "protocol_sd_corrected_ppb": 2.1,
+      "rescan_sd_ppb": {
+        "bridge": 2.4,
+        "local": 2.0
+      }
+    }
+  },
+  "issue_5_calibration": {
+    "scanners": {
+      "site1-achieva": 5,
+      "site5-mr750": 2,
+      "site5-prisma": 2
+    },
+    "sd_of_local_to_bridge_slope_over_subjects_pct": {
+      "site1-achieva": {
+        "median": 3.72,
+        "p25": 2.64,
+        "p75": 4.89,
+        "n_pipelines": 638
+      },
+      "site5-mr750": {
+        "median": 2.8,
+        "p25": 1.27,
+        "p75": 4.97,
+        "n_pipelines": 627
+      },
+      "site5-prisma": {
+        "median": 4.73,
+        "p25": 3.0,
+        "p75": 6.39,
+        "n_pipelines": 638
+      }
+    },
+    "site1-achieva": {
+      "none_abs_slope_dev": {
+        "median": 3.29,
+        "p25": 2.61,
+        "p75": 4.59,
+        "n_pipelines": 638
+      },
+      "none_loa": {
+        "median": 11.37,
+        "p25": 7.61,
+        "p75": 16.08,
+        "n_pipelines": 638
+      },
+      "loso_abs_slope_dev": {
+        "median": 3.6,
+        "p25": 2.52,
+        "p75": 4.85,
+        "n_pipelines": 638
+      },
+      "loso_loa": {
+        "median": 11.31,
+        "p25": 7.59,
+        "p75": 16.1,
+        "n_pipelines": 638
+      },
+      "in_sample_abs_slope_dev": {
+        "median": 0.82,
+        "p25": 0.53,
+        "p75": 1.16,
+        "n_pipelines": 638
+      },
+      "in_sample_loa": {
+        "median": 10.89,
+        "p25": 7.16,
+        "p75": 15.58,
+        "n_pipelines": 638
+      },
+      "share_of_pipelines_loso_better_than_none": 0.42
+    },
+    "site5-mr750": {
+      "none_abs_slope_dev": {
+        "median": 4.03,
+        "p25": 2.66,
+        "p75": 6.77,
+        "n_pipelines": 627
+      },
+      "none_loa": {
+        "median": 13.97,
+        "p25": 9.52,
+        "p75": 19.18,
+        "n_pipelines": 627
+      },
+      "loso_abs_slope_dev": {
+        "median": 4.03,
+        "p25": 2.27,
+        "p75": 6.95,
+        "n_pipelines": 627
+      },
+      "loso_loa": {
+        "median": 13.85,
+        "p25": 9.49,
+        "p75": 19.3,
+        "n_pipelines": 627
+      },
+      "in_sample_abs_slope_dev": {
+        "median": 1.35,
+        "p25": 0.89,
+        "p75": 2.09,
+        "n_pipelines": 627
+      },
+      "in_sample_loa": {
+        "median": 13.37,
+        "p25": 8.79,
+        "p75": 18.01,
+        "n_pipelines": 627
+      },
+      "share_of_pipelines_loso_better_than_none": 0.48
+    },
+    "site5-prisma": {
+      "none_abs_slope_dev": {
+        "median": 6.9,
+        "p25": 4.13,
+        "p75": 14.52,
+        "n_pipelines": 638
+      },
+      "none_loa": {
+        "median": 17.21,
+        "p25": 13.58,
+        "p75": 24.78,
+        "n_pipelines": 638
+      },
+      "loso_abs_slope_dev": {
+        "median": 7.24,
+        "p25": 4.64,
+        "p75": 9.77,
+        "n_pipelines": 637
+      },
+      "loso_loa": {
+        "median": 17.26,
+        "p25": 12.59,
+        "p75": 24.2,
+        "n_pipelines": 637
+      },
+      "in_sample_abs_slope_dev": {
+        "median": 1.52,
+        "p25": 1.06,
+        "p75": 2.1,
+        "n_pipelines": 637
+      },
+      "in_sample_loa": {
+        "median": 15.09,
+        "p25": 11.33,
+        "p75": 22.5,
+        "n_pipelines": 637
+      },
+      "share_of_pipelines_loso_better_than_none": 0.47
+    },
+    "all": {
+      "none_abs_slope_dev": {
+        "median": 3.97,
+        "p25": 3.16,
+        "p75": 5.4,
+        "n_pipelines": 638
+      },
+      "none_loa": {
+        "median": 12.64,
+        "p25": 8.8,
+        "p75": 17.75,
+        "n_pipelines": 638
+      },
+      "loso_abs_slope_dev": {
+        "median": 4.2,
+        "p25": 3.23,
+        "p75": 5.33,
+        "n_pipelines": 638
+      },
+      "loso_loa": {
+        "median": 12.87,
+        "p25": 8.94,
+        "p75": 17.84,
+        "n_pipelines": 638
+      },
+      "in_sample_abs_slope_dev": {
+        "median": 1.01,
+        "p25": 0.77,
+        "p75": 1.31,
+        "n_pipelines": 638
+      },
+      "in_sample_loa": {
+        "median": 12.13,
+        "p25": 8.24,
+        "p75": 17.14,
+        "n_pipelines": 638
+      },
+      "share_of_pipelines_loso_better_than_none": 0.46
+    }
+  },
+  "issue_10_noise_vs_systematic": {
+    "bridge": {
+      "rms_ln_slope_test_retest_pct": {
+        "median": 3.38,
+        "p25": 2.96,
+        "p75": 3.82,
+        "n_pipelines": 638
+      },
+      "rms_ln_slope_inter_scanner_pct": {
+        "median": 9.15,
+        "p25": 7.4,
+        "p75": 12.08,
+        "n_pipelines": 638
+      },
+      "systematic_rms_pct": {
+        "median": 8.46,
+        "p25": 6.68,
+        "p75": 11.48,
+        "n_pipelines": 638
+      },
+      "run_averaged_inter_scanner_median_abs_slope_dev_pct": {
+        "median": 6.14,
+        "p25": 4.52,
+        "p75": 8.46,
+        "n_pipelines": 638
+      }
+    },
+    "local": {
+      "rms_ln_slope_test_retest_pct": {
+        "median": 2.18,
+        "p25": 1.84,
+        "p75": 2.69,
+        "n_pipelines": 638
+      },
+      "rms_ln_slope_inter_scanner_pct": {
+        "median": 9.87,
+        "p25": 5.88,
+        "p75": 18.24,
+        "n_pipelines": 638
+      },
+      "systematic_rms_pct": {
+        "median": 9.58,
+        "p25": 5.45,
+        "p75": 17.9,
+        "n_pipelines": 638
+      },
+      "run_averaged_inter_scanner_median_abs_slope_dev_pct": {
+        "median": 6.83,
+        "p25": 4.12,
+        "p75": 11.21,
+        "n_pipelines": 638
+      }
+    },
+    "share_of_pipelines_bridge_systematic_lower": 0.5,
+    "run_averaged_share_of_pipelines_bridge_lower": 0.55,
+    "run_averaged_by_scanner_pair_pct": {
+      "site1-achieva|site4-skyra": {
+        "bridge": 8.65,
+        "local": 7.89
+      },
+      "site1-achieva|site5-mr750": {
+        "bridge": 9.56,
+        "local": 6.57
+      },
+      "site1-achieva|site5-prisma": {
+        "bridge": 8.41,
+        "local": 6.42
+      },
+      "site1-achieva|site6-ingenia": {
+        "bridge": 3.76,
+        "local": 3.8
+      },
+      "site1-elition|site5-mr750": {
+        "bridge": 6.97,
+        "local": 5.6
+      },
+      "site1-elition|site5-prisma": {
+        "bridge": 3.87,
+        "local": 8.55
+      },
+      "site5-mr750|site5-prisma": {
+        "bridge": 6.73,
+        "local": 7.08
+      }
+    }
+  },
+  "issue_4_scanner_spread": {
+    "Caudate": {
+      "bridge": {
+        "scanner_sd_ppb": 2.6,
+        "scanner_sd_corrected_ppb": 3.0
+      },
+      "local": {
+        "scanner_sd_ppb": 4.1,
+        "scanner_sd_corrected_ppb": 3.8
+      }
+    },
+    "Pallidum": {
+      "bridge": {
+        "scanner_sd_ppb": 6.5,
+        "scanner_sd_corrected_ppb": 2.3
+      },
+      "local": {
+        "scanner_sd_ppb": 6.8,
+        "scanner_sd_corrected_ppb": 2.2
+      }
+    }
+  },
+  "issue_6_pipeline_conversion": {
+    "median_slope_vs_consensus": {
+      "median": 1.03,
+      "p25": 0.88,
+      "p75": 1.2,
+      "n_pipelines": 638
+    },
+    "sd_of_slope_within_pipeline_pct": {
+      "total": {
+        "median": 6.6,
+        "p25": 4.65,
+        "p75": 11.76,
+        "n_pipelines": 638
+      },
+      "runs": {
+        "median": 0.99,
+        "p25": 0.75,
+        "p75": 1.5,
+        "n_pipelines": 638
+      },
+      "protocols": {
+        "median": 2.15,
+        "p25": 1.45,
+        "p75": 3.23,
+        "n_pipelines": 636
+      },
+      "scanners": {
+        "median": 4.29,
+        "p25": 3.02,
+        "p75": 6.5,
+        "n_pipelines": 637
+      },
+      "subjects": {
+        "median": 5.49,
+        "p25": 3.64,
+        "p75": 7.93,
+        "n_pipelines": 636
+      }
+    },
+    "Caudate": {
+      "none": {
+        "pipeline_sd_ppb": {
+          "bridge": 21.5,
+          "local": 20.8
+        },
+        "pipeline_sd_held_out_scans_ppb": {
+          "bridge": 18.2,
+          "local": 20.8
+        },
+        "scanner_sd_ppb": {
+          "bridge": 2.6,
+          "local": 4.1
+        },
+        "protocol_sd_ppb": 2.1,
+        "between_subjects_sd_ppb": {
+          "bridge": 13.2,
+          "local": 12.9
+        }
+      },
+      "global_in_sample": {
+        "pipeline_sd_ppb": {
+          "bridge": 9.6,
+          "local": 12.3
+        },
+        "pipeline_sd_held_out_scans_ppb": {
+          "bridge": 10.1,
+          "local": 12.3
+        },
+        "scanner_sd_ppb": {
+          "bridge": 2.9,
+          "local": 4.1
+        },
+        "protocol_sd_ppb": 2.1,
+        "between_subjects_sd_ppb": {
+          "bridge": 13.1,
+          "local": 12.9
+        }
+      },
+      "global_from_reference_bridge": {
+        "pipeline_sd_ppb": {
+          "bridge": 9.7,
+          "local": 12.3
+        },
+        "pipeline_sd_held_out_scans_ppb": {
+          "bridge": 9.9,
+          "local": 12.3
+        },
+        "scanner_sd_ppb": {
+          "bridge": 2.9,
+          "local": 4.1
+        },
+        "protocol_sd_ppb": 2.2,
+        "between_subjects_sd_ppb": {
+          "bridge": 13.1,
+          "local": 13.0
+        }
+      }
+    },
+    "Pallidum": {
+      "none": {
+        "pipeline_sd_ppb": {
+          "bridge": 29.2,
+          "local": 34.3
+        },
+        "pipeline_sd_held_out_scans_ppb": {
+          "bridge": 29.2,
+          "local": 34.3
+        },
+        "scanner_sd_ppb": {
+          "bridge": 6.5,
+          "local": 6.8
+        },
+        "protocol_sd_ppb": 3.0,
+        "between_subjects_sd_ppb": {
+          "bridge": 29.3,
+          "local": 27.6
+        }
+      },
+      "global_in_sample": {
+        "pipeline_sd_ppb": {
+          "bridge": 13.0,
+          "local": 15.7
+        },
+        "pipeline_sd_held_out_scans_ppb": {
+          "bridge": 14.2,
+          "local": 15.7
+        },
+        "scanner_sd_ppb": {
+          "bridge": 6.6,
+          "local": 7.2
+        },
+        "protocol_sd_ppb": 3.1,
+        "between_subjects_sd_ppb": {
+          "bridge": 28.5,
+          "local": 26.8
+        }
+      },
+      "global_from_reference_bridge": {
+        "pipeline_sd_ppb": {
+          "bridge": 15.3,
+          "local": 16.3
+        },
+        "pipeline_sd_held_out_scans_ppb": {
+          "bridge": 16.7,
+          "local": 16.3
+        },
+        "scanner_sd_ppb": {
+          "bridge": 6.7,
+          "local": 7.2
+        },
+        "protocol_sd_ppb": 3.1,
+        "between_subjects_sd_ppb": {
+          "bridge": 28.4,
+          "local": 26.8
+        }
+      }
+    }
+  },
+  "bootstrap_over_subjects": {
+    "test_retest_bridge_median_pct": {
+      "estimate": 2.21,
+      "ci95": [
+        1.74,
+        2.59
+      ],
+      "n_valid_replicates": 500
+    },
+    "test_retest_bridge_sd_slope_pct": {
+      "estimate": 3.29,
+      "ci95": [
+        2.46,
+        3.65
+      ],
+      "n_valid_replicates": 500
+    },
+    "inter_scanner_bridge_median_pct": {
+      "estimate": 6.36,
+      "ci95": [
+        4.71,
+        8.08
+      ],
+      "n_valid_replicates": 500
+    },
+    "inter_scanner_bridge_p75_pct": {
+      "estimate": 8.56,
+      "ci95": [
+        6.39,
+        12.28
+      ],
+      "n_valid_replicates": 500
+    },
+    "inter_scanner_bridge_p95_pct": {
+      "estimate": 21.76,
+      "ci95": [
+        10.3,
+        36.73
+      ],
+      "n_valid_replicates": 500
+    },
+    "test_retest_local_median_pct": {
+      "estimate": 1.42,
+      "ci95": [
+        1.3,
+        1.59
+      ],
+      "n_valid_replicates": 500
+    },
+    "test_retest_local_sd_slope_pct": {
+      "estimate": 2.19,
+      "ci95": [
+        1.85,
+        2.3
+      ],
+      "n_valid_replicates": 500
+    },
+    "inter_scanner_local_median_pct": {
+      "estimate": 6.98,
+      "ci95": [
+        4.71,
+        8.48
+      ],
+      "n_valid_replicates": 500
+    },
+    "inter_scanner_local_p75_pct": {
+      "estimate": 11.11,
+      "ci95": [
+        6.67,
+        14.35
+      ],
+      "n_valid_replicates": 500
+    },
+    "inter_scanner_local_p95_pct": {
+      "estimate": 27.96,
+      "ci95": [
+        14.58,
+        50.37
+      ],
+      "n_valid_replicates": 500
+    },
+    "inter_scanner_share_pipelines_bridge_lower": {
+      "estimate": 0.52,
+      "ci95": [
+        0.42,
+        0.57
+      ],
+      "n_valid_replicates": 500
+    },
+    "inter_scanner_median_bridge_minus_local_pct": {
+      "estimate": -0.21,
+      "ci95": [
+        -0.46,
+        1.03
+      ],
+      "n_valid_replicates": 500
+    },
+    "inter_scanner_p75_bridge_minus_local_pct": {
+      "estimate": -2.55,
+      "ci95": [
+        -3.39,
+        -0.17
+      ],
+      "n_valid_replicates": 500
+    },
+    "inter_scanner_p95_bridge_minus_local_pct": {
+      "estimate": -6.2,
+      "ci95": [
+        -35.62,
+        -1.56
+      ],
+      "n_valid_replicates": 500
+    },
+    "inter_scanner_pipelines_above_25pct_bridge_minus_local": {
+      "estimate": -9.0,
+      "ci95": [
+        -44.0,
+        1.0
+      ],
+      "n_valid_replicates": 500
+    }
+  },
+  "issue_10_first_run": {
+    "test_retest": {
+      "bridge": {
+        "all_pairs_pct": {
+          "median": 2.21,
+          "p25": 1.92,
+          "p75": 2.61,
+          "n_pipelines": 638
+        },
+        "pairs_with_run1_pct": {
+          "median": 2.51,
+          "p25": 2.15,
+          "p75": 2.88,
+          "n_pipelines": 638
+        },
+        "pairs_without_run1_pct": {
+          "median": 1.64,
+          "p25": 1.21,
+          "p75": 2.34,
+          "n_pipelines": 638
+        }
+      },
+      "local": {
+        "all_pairs_pct": {
+          "median": 1.42,
+          "p25": 1.2,
+          "p75": 1.79,
+          "n_pipelines": 638
+        },
+        "pairs_with_run1_pct": {
+          "median": 1.41,
+          "p25": 1.15,
+          "p75": 1.79,
+          "n_pipelines": 638
+        },
+        "pairs_without_run1_pct": {
+          "median": 1.5,
+          "p25": 1.22,
+          "p75": 1.92,
+          "n_pipelines": 638
+        }
+      }
+    },
+    "inter_scanner": {
+      "bridge": {
+        "all_pairs_pct": {
+          "median": 6.36,
+          "p25": 5.16,
+          "p75": 8.56,
+          "n_pipelines": 638
+        },
+        "pairs_with_run1_pct": {
+          "median": 6.56,
+          "p25": 5.18,
+          "p75": 8.59,
+          "n_pipelines": 638
+        },
+        "pairs_without_run1_pct": {
+          "median": 6.4,
+          "p25": 4.97,
+          "p75": 8.62,
+          "n_pipelines": 638
+        }
+      },
+      "local": {
+        "all_pairs_pct": {
+          "median": 6.98,
+          "p25": 4.17,
+          "p75": 11.11,
+          "n_pipelines": 638
+        },
+        "pairs_with_run1_pct": {
+          "median": 7.05,
+          "p25": 3.97,
+          "p75": 11.44,
+          "n_pipelines": 638
+        },
+        "pairs_without_run1_pct": {
+          "median": 6.81,
+          "p25": 4.42,
+          "p75": 10.84,
+          "n_pipelines": 638
+        }
+      }
+    },
+    "odd_run_per_session": {
+      "bridge": {
+        "run1": 9,
+        "run3": 2,
+        "run2": 1
+      },
+      "local": {
+        "run2": 6,
+        "run1": 4,
+        "run3": 2
+      }
+    }
+  },
+  "issue_10_field_drift": {
+    "bridge run1 vs run3": {
+      "abs_median_hz": 5.11,
+      "gradient_hz_per_cm": 0.259,
+      "residual_sd_hz": 2.652
+    },
+    "bridge run2 vs run3": {
+      "abs_median_hz": 2.442,
+      "gradient_hz_per_cm": 0.185,
+      "residual_sd_hz": 2.082
+    },
+    "local run1 vs run3": {
+      "abs_median_hz": 5.095,
+      "gradient_hz_per_cm": 0.256,
+      "residual_sd_hz": 2.336
+    },
+    "local run2 vs run3": {
+      "abs_median_hz": 2.709,
+      "gradient_hz_per_cm": 0.183,
+      "residual_sd_hz": 1.685
+    }
+  },
+  "issue_9_repositioning": {
+    "inter_scanner": {
+      "bridge": {
+        "b0_angle_deg": {
+          "median": 9.58,
+          "p25": 4.36,
+          "p75": 12.85,
+          "n_scan_pairs": 72,
+          "max": 14.19
+        },
+        "spearman_rho_vs_abs_slope_dev": 0.32
+      },
+      "local": {
+        "b0_angle_deg": {
+          "median": 9.37,
+          "p25": 4.4,
+          "p75": 12.68,
+          "n_scan_pairs": 72,
+          "max": 15.15
+        },
+        "spearman_rho_vs_abs_slope_dev": -0.37
+      }
+    },
+    "inter_scanner_session_level_spearman_rho": {
+      "bridge": 0.24,
+      "local": -0.62
+    },
+    "inter_scanner_by_session_pair": {
+      "s004001 site1-achieva|site4-skyra bridge": {
+        "b0_angle_deg": 4.3,
+        "abs_slope_dev_pct": 9.43
+      },
+      "s004001 site1-achieva|site4-skyra local": {
+        "b0_angle_deg": 4.16,
+        "abs_slope_dev_pct": 7.94
+      },
+      "s005001 site1-elition|site5-mr750 bridge": {
+        "b0_angle_deg": 13.77,
+        "abs_slope_dev_pct": 6.93
+      },
+      "s005001 site1-elition|site5-mr750 local": {
+        "b0_angle_deg": 13.76,
+        "abs_slope_dev_pct": 5.44
+      },
+      "s005001 site1-elition|site5-prisma bridge": {
+        "b0_angle_deg": 4.3,
+        "abs_slope_dev_pct": 4.77
+      },
+      "s005001 site1-elition|site5-prisma local": {
+        "b0_angle_deg": 4.55,
+        "abs_slope_dev_pct": 8.74
+      },
+      "s005001 site5-mr750|site5-prisma bridge": {
+        "b0_angle_deg": 9.98,
+        "abs_slope_dev_pct": 9.41
+      },
+      "s005001 site5-mr750|site5-prisma local": {
+        "b0_angle_deg": 9.54,
+        "abs_slope_dev_pct": 7.06
+      },
+      "s005002 site1-achieva|site5-mr750 bridge": {
+        "b0_angle_deg": 13.42,
+        "abs_slope_dev_pct": 8.87
+      },
+      "s005002 site1-achieva|site5-mr750 local": {
+        "b0_angle_deg": 14.57,
+        "abs_slope_dev_pct": 6.59
+      },
+      "s005002 site1-achieva|site5-prisma bridge": {
+        "b0_angle_deg": 12.57,
+        "abs_slope_dev_pct": 9.24
+      },
+      "s005002 site1-achieva|site5-prisma local": {
+        "b0_angle_deg": 12.07,
+        "abs_slope_dev_pct": 6.52
+      },
+      "s005002 site5-mr750|site5-prisma bridge": {
+        "b0_angle_deg": 2.47,
+        "abs_slope_dev_pct": 3.66
+      },
+      "s005002 site5-mr750|site5-prisma local": {
+        "b0_angle_deg": 2.56,
+        "abs_slope_dev_pct": 6.66
+      },
+      "s006001 site1-achieva|site6-ingenia bridge": {
+        "b0_angle_deg": 9.59,
+        "abs_slope_dev_pct": 3.84
+      },
+      "s006001 site1-achieva|site6-ingenia local": {
+        "b0_angle_deg": 9.63,
+        "abs_slope_dev_pct": 4.06
+      }
+    },
+    "test_retest": {
+      "bridge": {
+        "b0_angle_deg": {
+          "median": 0.51,
+          "p25": 0.32,
+          "p75": 0.78,
+          "n_scan_pairs": 36,
+          "max": 1.83
+        },
+        "spearman_rho_vs_abs_slope_dev": 0.01
+      },
+      "local": {
+        "b0_angle_deg": {
+          "median": 0.49,
+          "p25": 0.17,
+          "p75": 0.7,
+          "n_scan_pairs": 36,
+          "max": 2.12
+        },
+        "spearman_rho_vs_abs_slope_dev": -0.08
+      },
+      "b0_angle_deg_with_vs_without_run1": {
+        "bridge": {
+          "without_run1": 0.43,
+          "with_run1": 0.57
+        },
+        "local": {
+          "without_run1": 0.49,
+          "with_run1": 0.49
+        }
+      }
+    },
+    "within_session_vs_bridge_run1": {
+      "bridge": {
+        "rotation_deg": {
+          "median": 0.59,
+          "p25": 0.33,
+          "p75": 0.91,
+          "n_scans": 24,
+          "max": 1.86
+        },
+        "translation_mm": {
+          "median": 0.51,
+          "p25": 0.27,
+          "p75": 0.84,
+          "n_scans": 24,
+          "max": 1.31
+        }
+      },
+      "local": {
+        "rotation_deg": {
+          "median": 0.54,
+          "p25": 0.31,
+          "p75": 0.96,
+          "n_scans": 36,
+          "max": 2.29
+        },
+        "translation_mm": {
+          "median": 0.48,
+          "p25": 0.33,
+          "p75": 0.9,
+          "n_scans": 36,
+          "max": 1.86
+        }
+      }
+    }
+  }
+}

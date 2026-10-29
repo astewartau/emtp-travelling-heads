@@ -1,0 +1,17 @@
+subject,scanner_pair,protocol,b0_angle_deg,abs_slope_dev_pct
+s004001,site1-achieva|site4-skyra,bridge,4.3,9.43
+s004001,site1-achieva|site4-skyra,local,4.16,7.94
+s005001,site1-elition|site5-mr750,bridge,13.77,6.93
+s005001,site1-elition|site5-mr750,local,13.76,5.44
+s005001,site1-elition|site5-prisma,bridge,4.3,4.77
+s005001,site1-elition|site5-prisma,local,4.55,8.74
+s005001,site5-mr750|site5-prisma,bridge,9.98,9.41
+s005001,site5-mr750|site5-prisma,local,9.54,7.06
+s005002,site1-achieva|site5-mr750,bridge,13.42,8.87
+s005002,site1-achieva|site5-mr750,local,14.57,6.59
+s005002,site1-achieva|site5-prisma,bridge,12.57,9.24
+s005002,site1-achieva|site5-prisma,local,12.07,6.52
+s005002,site5-mr750|site5-prisma,bridge,2.47,3.66
+s005002,site5-mr750|site5-prisma,local,2.56,6.66
+s006001,site1-achieva|site6-ingenia,bridge,9.59,3.84
+s006001,site1-achieva|site6-ingenia,local,9.63,4.06

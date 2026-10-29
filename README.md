@@ -14,8 +14,13 @@ Subject IDs are pseudonymised (`s002001`–`s006001`).
 | `data/acquisitions.csv` | Acquisition → subject, scanner, protocol, run |
 | `data/pipelines.csv` | Pipeline → steps and methods, QSM Challenge 2.0 scores |
 | `data/regional_chi.csv.gz` | Per pipeline, acquisition and SynthSeg label: voxel count and mean/median/SD χ (ppm, relative to the whole-brain mean). How it was extracted: `extraction/README.md` |
+| `data/protocols.csv` | Acquisition parameters per acquisition, from the raw sidecars (`scripts/extract_protocols.py`) |
+| `data/head_pose.csv` | Head pose per acquisition from rigid registration: motion within the session and repositioning between sessions (`scripts/head_pose.py`) |
+| `data/b0_drift.csv` | Field drift between runs of a protocol within a session, from the multi-echo phase (`scripts/b0_drift.py`) |
+| `analysis/followup.py` | Follow-up analyses for the open issues; writes `results/followup/` |
 | `analysis/emtp.py` | Pair definitions, orthogonal fits, per-pipeline summaries, sources of variability |
 | `analysis/abstract_numbers.py` | Writes `results/`: the headline values (`numbers.json`), pair fits, per-pipeline medians, spread tables |
+| `docs/decisions.md` | Analysis decisions since the abstract, each with the alternative not taken |
 | `analysis.ipynb` | Walk-through of the analysis with outputs: dataset, regions per fit, agreement, sources of variability, key results and Figures 1–5 (rebuild: `python analysis/build_notebook.py`) |
 | `figures/` | Figures 1–5; sources in `figures/src/` |
 

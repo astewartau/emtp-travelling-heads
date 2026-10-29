@@ -421,6 +421,42 @@ def run1_image_quality():
     return out
 
 
+def within_run_drift():
+    """#10: field drift during each run, from the echo-to-echo shift (data/echo_shift.csv: Hz per voxel
+    axis). Run 1 against runs 2 and 3 of the same session and protocol, per axis, and against how odd run 1
+    is in test-retest."""
+    from scipy.stats import spearmanr
+    q = pd.read_csv(emtp.DATA / 'echo_shift.csv').merge(emtp.acquisitions(), on='acquisition')
+    axes = [f'drift_hz_axis{i}' for i in range(3)]
+    rows = []
+    for (subj, sc, prot), g in q.groupby(['subject', 'scanner', 'protocol']):
+        g = g.set_index('run')
+        row = {'subject': subj, 'scanner': sc, 'protocol': prot}
+        for a in axes:
+            row[f'{a}_run1'] = g.loc['run1', a]
+            row[f'{a}_later_mean'] = g.loc[['run2', 'run3'], a].mean()
+            row[f'{a}_later_absdiff'] = abs(g.loc['run2', a] - g.loc['run3', a])   # spread between two ordinary runs
+            row[f'{a}_run1_minus_later'] = g.loc['run1', a] - row[f'{a}_later_mean']
+        rows.append(row)
+    rel = pd.DataFrame(rows)
+    tr = pd.read_csv(OUT / 'test_retest_by_run_pair.csv')
+    tr['run1_excess_pct'] = tr[['run1_vs_run2', 'run1_vs_run3']].mean(axis=1) - tr.run2_vs_run3
+    rel = rel.merge(tr[['subject_x', 'scanner_x', 'protocol', 'run1_excess_pct']]
+                    .rename(columns={'subject_x': 'subject', 'scanner_x': 'scanner'}), on=['subject', 'scanner', 'protocol'])
+    rel.round(3).to_csv(OUT / 'within_run_drift.csv', index=False)
+    out = {}
+    for prot, g in rel.groupby('protocol'):
+        out[prot] = {a.replace('drift_hz_', ''): {
+            'run1_median_hz': r(g[f'{a}_run1'].median(), 2),
+            'later_median_hz': r(g[f'{a}_later_mean'].median(), 2),
+            'run1_minus_later_median_hz': r(g[f'{a}_run1_minus_later'].median(), 2),
+            'sessions_run1_higher': f'{int((g[f"{a}_run1_minus_later"] > 0).sum())} of {len(g)}',
+            'run2_vs_run3_absdiff_median_hz': r(g[f'{a}_later_absdiff'].median(), 2),
+            'spearman_abs_run1_minus_later_vs_run1_excess': r(spearmanr(g[f'{a}_run1_minus_later'].abs(), g.run1_excess_pct)[0], 2),
+        } for a in axes}
+    return out
+
+
 def b0_angle(pose, a, b, frame):
     """Change in head orientation relative to B0 between two acquisitions (degrees)."""
     va = pose.loc[a, [f'{frame}_b0_{k}' for k in 'xyz']].to_numpy(float)
@@ -501,6 +537,8 @@ if __name__ == '__main__':
     n['issue_10_first_run'] = first_run_effect(ok)
     if (emtp.DATA / 'b0_drift.csv').exists():
         n['issue_10_field_drift'] = field_drift()
+    if (emtp.DATA / 'echo_shift.csv').exists():
+        n['issue_10_within_run_drift'] = within_run_drift()
     if (emtp.DATA / 'image_quality.csv').exists():
         n['issue_10_run1_image_quality'] = run1_image_quality()
     if (emtp.DATA / 'head_pose.csv').exists():

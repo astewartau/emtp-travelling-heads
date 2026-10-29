@@ -982,6 +982,24 @@
       "residual_sd_hz": 1.685
     }
   },
+  "issue_10_run1_image_quality": {
+    "bridge": {
+      "ghost_run1_vs_later_pct_median": -3.0,
+      "sessions_run1_most_ghosting": "4 of 12",
+      "sharpness_run1_vs_later_pct_median": 0.9,
+      "sessions_run1_least_sharp": "1 of 12",
+      "spearman_ghost_vs_run1_excess": -0.06,
+      "spearman_sharpness_vs_run1_excess": 0.22
+    },
+    "local": {
+      "ghost_run1_vs_later_pct_median": 6.5,
+      "sessions_run1_most_ghosting": "7 of 12",
+      "sharpness_run1_vs_later_pct_median": 0.9,
+      "sessions_run1_least_sharp": "1 of 12",
+      "spearman_ghost_vs_run1_excess": 0.01,
+      "spearman_sharpness_vs_run1_excess": 0.24
+    }
+  },
   "issue_9_repositioning": {
     "inter_scanner": {
       "bridge": {

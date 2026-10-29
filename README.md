@@ -17,6 +17,7 @@ Subject IDs are pseudonymised (`s002001`–`s006001`).
 | `data/protocols.csv` | Acquisition parameters per acquisition, from the raw sidecars (`scripts/extract_protocols.py`) |
 | `data/head_pose.csv` | Head pose per acquisition from rigid registration: motion within the session and repositioning between sessions (`scripts/head_pose.py`) |
 | `data/b0_drift.csv` | Field drift between runs of a protocol within a session, from the multi-echo phase (`scripts/b0_drift.py`) |
+| `data/image_quality.csv` | Ghosting outside the head and edge sharpness per acquisition (`scripts/image_quality.py`) |
 | `analysis/followup.py` | Follow-up analyses for the open issues; writes `results/followup/` |
 | `analysis/emtp.py` | Pair definitions, orthogonal fits, per-pipeline summaries, sources of variability |
 | `analysis/abstract_numbers.py` | Writes `results/`: the headline values (`numbers.json`), pair fits, per-pipeline medians, spread tables |

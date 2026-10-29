@@ -387,6 +387,40 @@ def field_drift():
     return {f'{p} {run} vs run3': row.to_dict() for (p, run), row in t.iterrows()}
 
 
+def run1_image_quality():
+    """#10: does bridge run 1 show more motion or drift during the run? data/image_quality.csv (ghosting
+    outside the head, edge sharpness in the brain) per run, relative to the mean of runs 2 and 3 of the
+    same session and protocol, set against how odd run 1 is in test-retest (run-1 pairs minus run 2 vs 3)."""
+    from scipy.stats import spearmanr
+    q = pd.read_csv(emtp.DATA / 'image_quality.csv').merge(emtp.acquisitions(), on='acquisition')
+    rel = []
+    for (subj, sc, prot), g in q.groupby(['subject', 'scanner', 'protocol']):
+        g = g.set_index('run')
+        later = g.loc[['run2', 'run3']]
+        row = {'subject': subj, 'scanner': sc, 'protocol': prot}
+        for m in ('ghost_ratio', 'sharpness_per_mm'):
+            row[f'{m}_run1_vs_later_pct'] = 100 * (g.loc['run1', m] / later[m].mean() - 1)
+            row[f'{m}_run1_is_worst'] = bool(g[m].idxmax() == 'run1') if m == 'ghost_ratio' else bool(g[m].idxmin() == 'run1')
+        rel.append(row)
+    rel = pd.DataFrame(rel)
+    tr = pd.read_csv(OUT / 'test_retest_by_run_pair.csv')
+    tr['run1_excess_pct'] = tr[['run1_vs_run2', 'run1_vs_run3']].mean(axis=1) - tr.run2_vs_run3
+    rel = rel.merge(tr[['subject_x', 'scanner_x', 'protocol', 'run1_excess_pct']]
+                    .rename(columns={'subject_x': 'subject', 'scanner_x': 'scanner'}), on=['subject', 'scanner', 'protocol'])
+    rel.round(3).to_csv(OUT / 'run1_image_quality.csv', index=False)
+    out = {}
+    for prot, g in rel.groupby('protocol'):
+        out[prot] = {
+            'ghost_run1_vs_later_pct_median': r(g.ghost_ratio_run1_vs_later_pct.median(), 1),
+            'sessions_run1_most_ghosting': f'{int(g.ghost_ratio_run1_is_worst.sum())} of {len(g)}',
+            'sharpness_run1_vs_later_pct_median': r(g.sharpness_per_mm_run1_vs_later_pct.median(), 1),
+            'sessions_run1_least_sharp': f'{int(g.sharpness_per_mm_run1_is_worst.sum())} of {len(g)}',
+            'spearman_ghost_vs_run1_excess': r(spearmanr(g.ghost_ratio_run1_vs_later_pct, g.run1_excess_pct)[0], 2),
+            'spearman_sharpness_vs_run1_excess': r(spearmanr(g.sharpness_per_mm_run1_vs_later_pct, g.run1_excess_pct)[0], 2),
+        }
+    return out
+
+
 def b0_angle(pose, a, b, frame):
     """Change in head orientation relative to B0 between two acquisitions (degrees)."""
     va = pose.loc[a, [f'{frame}_b0_{k}' for k in 'xyz']].to_numpy(float)
@@ -465,6 +499,8 @@ if __name__ == '__main__':
     n['issue_10_first_run'] = first_run_effect(ok)
     if (emtp.DATA / 'b0_drift.csv').exists():
         n['issue_10_field_drift'] = field_drift()
+    if (emtp.DATA / 'image_quality.csv').exists():
+        n['issue_10_run1_image_quality'] = run1_image_quality()
     if (emtp.DATA / 'head_pose.csv').exists():
         n['issue_9_repositioning'] = repositioning(ok)
     (OUT / 'followup.json').write_text(json.dumps(n, indent=2) + '\n')

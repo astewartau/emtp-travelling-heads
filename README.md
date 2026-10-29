@@ -20,6 +20,7 @@ Subject IDs are pseudonymised (`s002001`–`s006001`).
 | `analysis/followup.py` | Follow-up analyses for the open issues; writes `results/followup/` |
 | `analysis/emtp.py` | Pair definitions, orthogonal fits, per-pipeline summaries, sources of variability |
 | `analysis/abstract_numbers.py` | Writes `results/`: the headline values (`numbers.json`), pair fits, per-pipeline medians, spread tables |
+| `docs/decisions.md` | Analysis decisions since the abstract, each with the alternative not taken |
 | `analysis.ipynb` | Walk-through of the analysis with outputs: dataset, regions per fit, agreement, sources of variability, key results and Figures 1–5 (rebuild: `python analysis/build_notebook.py`) |
 | `figures/` | Figures 1–5; sources in `figures/src/` |
 

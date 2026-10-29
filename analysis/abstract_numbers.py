@@ -1,6 +1,6 @@
-"""Compute every number the abstract quotes and write results/:
+"""Compute the headline numbers (the ISMRM 2027 abstract is tag ismrm2027-abstract) and write results/:
   pair_fits.csv.gz        one row per pipeline and scan pair (emtp.pair_fits)
-  per_pipeline.csv        per-pipeline medians of |a-1|, R^2 and LoA by comparison and protocol
+  per_pipeline.csv        per-pipeline medians of |a-1|, R^2 and LoA (uncorrected and slope-corrected) by comparison and protocol
   spread_<region>.csv     sources of variability (SD, ppb) for Figure 4
   numbers.json            the values quoted in the text
 Run from the repo root: python analysis/abstract_numbers.py
@@ -22,7 +22,7 @@ fits = emtp.pair_fits(reg)
 fits.to_csv(OUT / 'pair_fits.csv.gz', index=False, float_format='%.6g', compression={'method': 'gzip', 'mtime': 0})
 
 ok = fits[fits.excluded == '']
-pp = pd.concat({m: emtp.per_pipeline(fits, m) for m in ('abs_slope_dev', 'r2', 'ba_loa_ppm')}, axis=1)
+pp = pd.concat({m: emtp.per_pipeline(fits, m) for m in ('abs_slope_dev', 'r2', 'ba_loa_ppm', 'ba_loa_corrected_ppm')}, axis=1)
 # inter-scanner pooled over protocols: the value QSM-CI shows in its pipeline matrix (Figure 5)
 pp[('abs_slope_dev', 'inter_scanner', 'all')] = ok[ok.comparison == 'inter_scanner'].groupby('pipeline').abs_slope_dev.median()
 pp.columns = ['__'.join(c) for c in pp.columns]
@@ -72,8 +72,20 @@ for comp in ('test_retest', 'inter_scanner'):
             'pipelines_above_25pct': int((d > .25).sum()),
             'median_r2': round(float(col('r2', comp, prot).median()), 3),
             'median_loa_ppb': round(1000 * float(col('ba_loa_ppm', comp, prot).median()), 1),
+            # secondary measure (docs/decisions.md): LoA after the fitted scaling
+            'median_loa_corrected_ppb': round(1000 * float(col('ba_loa_corrected_ppm', comp, prot).median()), 1),
             'n_pipelines': int(len(d)),
         }
+# secondary test-retest measures (docs/decisions.md): SD of the slope, and median |a-1| without the pairs that
+# include run 1, the first scan of every session for the bridge protocol
+tr = ok[ok.comparison == 'test_retest']
+first = (tr.run_x == 'run1') | (tr.run_y == 'run1')
+for prot in ('bridge', 'local'):
+    t = tr[tr.protocol == prot]
+    n['agreement'][f'test_retest_{prot}'].update({
+        'median_sd_slope_pct': pct(t.groupby('pipeline').slope.std().median()),
+        'median_abs_slope_dev_without_run1_pct': pct(t[~first[t.index]].groupby('pipeline').abs_slope_dev.median().median()),
+    })
 f5 = col('abs_slope_dev', 'inter_scanner', 'all').reindex([f'romeo-qsmrs+{b}+{d}' for d in emtp.FIG5_DIPOLE for b in emtp.FIG5_BFR])
 n['fig5_range_pct'] = [pct(f5.min()), pct(f5.max())]
 for region in SPREAD_REGIONS:

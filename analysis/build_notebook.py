@@ -25,12 +25,16 @@ cells = [
          "miss = 1 - pres.div(maps, axis=0)\n"
          "miss = miss.join(acq.set_index('acquisition')[['scanner', 'protocol']]).groupby(['scanner', 'protocol']).mean()\n"
          "miss.loc[:, (miss > 0.05).any()].round(2)"),
-    md('## Agreement between scans (Figure 3)\n\nPer pipeline: median over its scan pairs. Then the distribution across pipelines.'),
-    code("pp = {m: emtp.per_pipeline(fits, m) for m in ('abs_slope_dev', 'r2', 'ba_loa_ppm')}\n"
+    md('## Agreement between scans (Figure 3)\n\nPer pipeline: median over its scan pairs. Then the distribution across pipelines. '
+       'The primary measure is |a − 1| for both test-retest and inter-scanner pairs; secondary measures are R², the limits '
+       'of agreement after correcting each pair for its fitted scaling (corrected LoA), and for test-retest the SD of a '
+       '(see `docs/decisions.md`).'),
+    code("pp = {m: emtp.per_pipeline(fits, m) for m in ('abs_slope_dev', 'r2', 'ba_loa_ppm', 'ba_loa_corrected_ppm')}\n"
          "d = 100 * pp['abs_slope_dev']\n"
          "pd.DataFrame({'p25': d.quantile(.25), 'median': d.median(), 'p75': d.quantile(.75), 'p95': d.quantile(.95),\n"
          "              'pipelines > 25%': (d > 25).sum()}).loc[['test_retest', 'inter_scanner']].round(1)"),
-    code("pd.DataFrame({'median R²': pp['r2'].median(), 'median LoA (± ppb)': 1000 * pp['ba_loa_ppm'].median()})"
+    code("pd.DataFrame({'median R²': pp['r2'].median(), 'median LoA (± ppb)': 1000 * pp['ba_loa_ppm'].median(),\n"
+         "              'median corrected LoA (± ppb)': 1000 * pp['ba_loa_corrected_ppm'].median()})"
          ".loc[['test_retest', 'inter_scanner', 'inter_protocol']].round(3)"),
     md('### By scanner pair (inter-scanner, all pipelines)'),
     code("isc = ok[ok.comparison == 'inter_scanner']\n"
@@ -40,7 +44,12 @@ cells = [
          "for step in ('field_mapping', 'background_removal'):\n"
          "    display((100 * isc3.groupby([step, 'protocol']).abs_slope_dev.median()).unstack().round(1))\n"
          "(100 * isc3.groupby(['dipole_inversion', 'protocol']).abs_slope_dev.median()).unstack().sort_values('bridge').round(1)"),
-    md('## Sources of variability (Figure 4)'),
+    md('## Sources of variability (Figure 4)\n\nEach bar is the SD of a region\'s mean χ when one factor varies and the others '
+       'are fixed, median over pipelines (and over subjects and scanners within a pipeline). Rescan: SD over the three runs. '
+       'Protocol: for each subject and scanner, the SD of the run-averaged values of the bridge and local protocols (two '
+       'values), so it includes any scaling difference between the protocols. Scanner: SD over the scanners a subject was '
+       'scanned on, same protocol. Pipeline: SD over all pipelines of the run-averaged values, same subject, scanner and protocol. Between subjects: SD over the subjects '
+       'scanned on the reference scanner. Bars are not corrected for scaling (see `docs/decisions.md`).'),
     code("pd.concat({r: emtp.spread(reg, r) for r in ('Caudate', 'Pallidum', 'Putamen', 'Thalamus')}, axis=1).round(1)"),
     md('## Key results\n\nThe values quoted in the abstract, from `results/numbers.json` (written by `analysis/abstract_numbers.py`).'),
     code("import json\nn = json.load(open('results/numbers.json'))\n"
@@ -49,7 +58,9 @@ cells = [
          "      f\"{n['pipelines']['dipole_inversion_methods']} dipole inversion; {n['pipelines']['combined_or_end_to_end']} combined or end-to-end), \"\n"
          "      f\"{n['pipelines']['maps']:,} maps, {n['pairs']['fitted']:,} scan pairs fitted\")\n"
          "pd.DataFrame(n['agreement']).T.rename(columns={'median_abs_slope_dev_pct': 'median |a-1| %', 'p25_pct': 'p25 %', 'p75_pct': 'p75 %',\n"
-         "    'p95_pct': 'p95 %', 'pipelines_above_25pct': 'pipelines > 25%', 'median_r2': 'median R²', 'median_loa_ppb': 'median LoA (± ppb)'})"),
+         "    'p95_pct': 'p95 %', 'pipelines_above_25pct': 'pipelines > 25%', 'median_r2': 'median R²', 'median_loa_ppb': 'median LoA (± ppb)',\n"
+         "    'median_loa_corrected_ppb': 'median corrected LoA (± ppb)', 'median_sd_slope_pct': 'SD of a %',\n"
+         "    'median_abs_slope_dev_without_run1_pct': 'median |a-1| without run 1 %'})"),
     code("print('Figure 5 subset, inter-scanner |a-1| range (%):', n['fig5_range_pct'])\n"
          "pd.concat({r: pd.DataFrame(v).T for r, v in n['spread_ppb'].items()}, axis=1)  # SD (ppb), Figure 4"),
     md('## Figures\n\nFigures 3 and 4 are drawn here from the data by the same code that writes `figures/*.png` '

@@ -290,5 +290,274 @@
         "local": 2.0
       }
     }
+  },
+  "issue_5_calibration": {
+    "scanners": {
+      "site1-achieva": 5,
+      "site5-mr750": 2,
+      "site5-prisma": 2
+    },
+    "sd_of_local_to_bridge_slope_over_subjects_pct": {
+      "site1-achieva": {
+        "median": 3.72,
+        "p25": 2.64,
+        "p75": 4.89,
+        "n_pipelines": 638
+      },
+      "site5-mr750": {
+        "median": 2.8,
+        "p25": 1.27,
+        "p75": 4.97,
+        "n_pipelines": 627
+      },
+      "site5-prisma": {
+        "median": 4.73,
+        "p25": 3.0,
+        "p75": 6.39,
+        "n_pipelines": 638
+      }
+    },
+    "site1-achieva": {
+      "none_abs_slope_dev": {
+        "median": 3.29,
+        "p25": 2.61,
+        "p75": 4.59,
+        "n_pipelines": 638
+      },
+      "none_loa": {
+        "median": 11.37,
+        "p25": 7.61,
+        "p75": 16.08,
+        "n_pipelines": 638
+      },
+      "loso_abs_slope_dev": {
+        "median": 3.6,
+        "p25": 2.52,
+        "p75": 4.85,
+        "n_pipelines": 638
+      },
+      "loso_loa": {
+        "median": 11.31,
+        "p25": 7.59,
+        "p75": 16.1,
+        "n_pipelines": 638
+      },
+      "in_sample_abs_slope_dev": {
+        "median": 0.82,
+        "p25": 0.53,
+        "p75": 1.16,
+        "n_pipelines": 638
+      },
+      "in_sample_loa": {
+        "median": 10.89,
+        "p25": 7.16,
+        "p75": 15.58,
+        "n_pipelines": 638
+      },
+      "share_of_pipelines_loso_better_than_none": 0.42
+    },
+    "site5-mr750": {
+      "none_abs_slope_dev": {
+        "median": 4.03,
+        "p25": 2.66,
+        "p75": 6.77,
+        "n_pipelines": 627
+      },
+      "none_loa": {
+        "median": 13.97,
+        "p25": 9.52,
+        "p75": 19.18,
+        "n_pipelines": 627
+      },
+      "loso_abs_slope_dev": {
+        "median": 4.03,
+        "p25": 2.27,
+        "p75": 6.95,
+        "n_pipelines": 627
+      },
+      "loso_loa": {
+        "median": 13.85,
+        "p25": 9.49,
+        "p75": 19.3,
+        "n_pipelines": 627
+      },
+      "in_sample_abs_slope_dev": {
+        "median": 1.35,
+        "p25": 0.89,
+        "p75": 2.09,
+        "n_pipelines": 627
+      },
+      "in_sample_loa": {
+        "median": 13.37,
+        "p25": 8.79,
+        "p75": 18.01,
+        "n_pipelines": 627
+      },
+      "share_of_pipelines_loso_better_than_none": 0.48
+    },
+    "site5-prisma": {
+      "none_abs_slope_dev": {
+        "median": 6.9,
+        "p25": 4.13,
+        "p75": 14.52,
+        "n_pipelines": 638
+      },
+      "none_loa": {
+        "median": 17.21,
+        "p25": 13.58,
+        "p75": 24.78,
+        "n_pipelines": 638
+      },
+      "loso_abs_slope_dev": {
+        "median": 7.24,
+        "p25": 4.64,
+        "p75": 9.77,
+        "n_pipelines": 637
+      },
+      "loso_loa": {
+        "median": 17.26,
+        "p25": 12.59,
+        "p75": 24.2,
+        "n_pipelines": 637
+      },
+      "in_sample_abs_slope_dev": {
+        "median": 1.52,
+        "p25": 1.06,
+        "p75": 2.1,
+        "n_pipelines": 637
+      },
+      "in_sample_loa": {
+        "median": 15.09,
+        "p25": 11.33,
+        "p75": 22.5,
+        "n_pipelines": 637
+      },
+      "share_of_pipelines_loso_better_than_none": 0.47
+    },
+    "all": {
+      "none_abs_slope_dev": {
+        "median": 3.97,
+        "p25": 3.16,
+        "p75": 5.4,
+        "n_pipelines": 638
+      },
+      "none_loa": {
+        "median": 12.64,
+        "p25": 8.8,
+        "p75": 17.75,
+        "n_pipelines": 638
+      },
+      "loso_abs_slope_dev": {
+        "median": 4.2,
+        "p25": 3.23,
+        "p75": 5.33,
+        "n_pipelines": 638
+      },
+      "loso_loa": {
+        "median": 12.87,
+        "p25": 8.94,
+        "p75": 17.84,
+        "n_pipelines": 638
+      },
+      "in_sample_abs_slope_dev": {
+        "median": 1.01,
+        "p25": 0.77,
+        "p75": 1.31,
+        "n_pipelines": 638
+      },
+      "in_sample_loa": {
+        "median": 12.13,
+        "p25": 8.24,
+        "p75": 17.14,
+        "n_pipelines": 638
+      },
+      "share_of_pipelines_loso_better_than_none": 0.46
+    }
+  },
+  "issue_10_noise_vs_systematic": {
+    "bridge": {
+      "rms_ln_slope_test_retest_pct": {
+        "median": 3.38,
+        "p25": 2.96,
+        "p75": 3.82,
+        "n_pipelines": 638
+      },
+      "rms_ln_slope_inter_scanner_pct": {
+        "median": 9.15,
+        "p25": 7.4,
+        "p75": 12.08,
+        "n_pipelines": 638
+      },
+      "systematic_rms_pct": {
+        "median": 8.46,
+        "p25": 6.68,
+        "p75": 11.48,
+        "n_pipelines": 638
+      },
+      "run_averaged_inter_scanner_median_abs_slope_dev_pct": {
+        "median": 6.14,
+        "p25": 4.52,
+        "p75": 8.46,
+        "n_pipelines": 638
+      }
+    },
+    "local": {
+      "rms_ln_slope_test_retest_pct": {
+        "median": 2.18,
+        "p25": 1.84,
+        "p75": 2.69,
+        "n_pipelines": 638
+      },
+      "rms_ln_slope_inter_scanner_pct": {
+        "median": 9.87,
+        "p25": 5.88,
+        "p75": 18.24,
+        "n_pipelines": 638
+      },
+      "systematic_rms_pct": {
+        "median": 9.58,
+        "p25": 5.45,
+        "p75": 17.9,
+        "n_pipelines": 638
+      },
+      "run_averaged_inter_scanner_median_abs_slope_dev_pct": {
+        "median": 6.83,
+        "p25": 4.12,
+        "p75": 11.21,
+        "n_pipelines": 638
+      }
+    },
+    "share_of_pipelines_bridge_systematic_lower": 0.5,
+    "run_averaged_share_of_pipelines_bridge_lower": 0.55,
+    "run_averaged_by_scanner_pair_pct": {
+      "site1-achieva|site4-skyra": {
+        "bridge": 8.65,
+        "local": 7.89
+      },
+      "site1-achieva|site5-mr750": {
+        "bridge": 9.56,
+        "local": 6.57
+      },
+      "site1-achieva|site5-prisma": {
+        "bridge": 8.41,
+        "local": 6.42
+      },
+      "site1-achieva|site6-ingenia": {
+        "bridge": 3.76,
+        "local": 3.8
+      },
+      "site1-elition|site5-mr750": {
+        "bridge": 6.97,
+        "local": 5.6
+      },
+      "site1-elition|site5-prisma": {
+        "bridge": 3.87,
+        "local": 8.55
+      },
+      "site5-mr750|site5-prisma": {
+        "bridge": 6.73,
+        "local": 7.08
+      }
+    }
   }
 }

@@ -425,7 +425,9 @@ def b0_angle(pose, a, b, frame):
     """Change in head orientation relative to B0 between two acquisitions (degrees)."""
     va = pose.loc[a, [f'{frame}_b0_{k}' for k in 'xyz']].to_numpy(float)
     vb = pose.loc[b, [f'{frame}_b0_{k}' for k in 'xyz']].to_numpy(float)
-    return float(np.degrees(np.arccos(np.clip(va @ vb, -1, 1))))
+    # atan2 of the cross and dot products: stable for small angles (arccos of a dot product near 1 is not,
+    # and the stored unit vectors carry 5 decimals)
+    return float(np.degrees(np.arctan2(np.linalg.norm(np.cross(va, vb)), va @ vb)))
 
 
 def repositioning(ok):

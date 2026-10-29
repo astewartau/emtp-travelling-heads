@@ -1,0 +1,8 @@
+scanner_pair,site_relation,vendor_pair,bridge,local,subjects
+site1-achieva|site4-skyra,inter_site,Philips vs Siemens,9.19,8.48,s004001
+site1-achieva|site5-mr750,inter_site,GE vs Philips,9.6,6.59,s005002
+site1-achieva|site5-prisma,inter_site,Philips vs Siemens,8.65,6.21,s005002
+site1-achieva|site6-ingenia,inter_site,Philips vs Philips,4.12,3.85,s006001
+site1-elition|site5-mr750,inter_site,GE vs Philips,7.04,5.29,s005001
+site1-elition|site5-prisma,inter_site,Philips vs Siemens,4.75,8.56,s005001
+site5-mr750|site5-prisma,intra_site,GE vs Siemens,6.76,6.8,"s005001, s005002"

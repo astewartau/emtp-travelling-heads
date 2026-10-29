@@ -1,0 +1,294 @@
+{
+  "issue_2_slope_spread": {
+    "bridge": {
+      "test_retest_sd_slope_pct": {
+        "median": 3.29,
+        "p25": 2.92,
+        "p75": 3.78,
+        "n_pipelines": 638
+      },
+      "test_retest_mean_slope_minus_1_pct": {
+        "median": -0.53,
+        "p25": -0.87,
+        "p75": -0.14,
+        "n_pipelines": 638
+      },
+      "test_retest_median_abs_slope_dev_pct": {
+        "median": 2.21,
+        "p25": 1.92,
+        "p75": 2.61,
+        "n_pipelines": 638
+      },
+      "inter_scanner_median_abs_slope_dev_pct": {
+        "median": 6.36,
+        "p25": 5.16,
+        "p75": 8.56,
+        "n_pipelines": 638
+      },
+      "inter_scanner_iqr_across_scanner_pairs_pct": {
+        "median": 6.09,
+        "p25": 4.04,
+        "p75": 9.04,
+        "n_pipelines": 638
+      },
+      "n_scanner_pairs": 7
+    },
+    "local": {
+      "test_retest_sd_slope_pct": {
+        "median": 2.19,
+        "p25": 1.84,
+        "p75": 2.7,
+        "n_pipelines": 638
+      },
+      "test_retest_mean_slope_minus_1_pct": {
+        "median": 0.24,
+        "p25": 0.04,
+        "p75": 0.46,
+        "n_pipelines": 638
+      },
+      "test_retest_median_abs_slope_dev_pct": {
+        "median": 1.42,
+        "p25": 1.2,
+        "p75": 1.79,
+        "n_pipelines": 638
+      },
+      "inter_scanner_median_abs_slope_dev_pct": {
+        "median": 6.98,
+        "p25": 4.17,
+        "p75": 11.11,
+        "n_pipelines": 638
+      },
+      "inter_scanner_iqr_across_scanner_pairs_pct": {
+        "median": 5.47,
+        "p25": 3.47,
+        "p75": 9.95,
+        "n_pipelines": 638
+      },
+      "n_scanner_pairs": 7
+    }
+  },
+  "issue_3_corrected_loa": {
+    "test_retest_bridge": {
+      "loa_ppb": {
+        "median": 8.73,
+        "p25": 5.75,
+        "p75": 11.44,
+        "n_pipelines": 638
+      },
+      "loa_corrected_ppb": {
+        "median": 8.31,
+        "p25": 5.37,
+        "p75": 10.88,
+        "n_pipelines": 638
+      }
+    },
+    "test_retest_local": {
+      "loa_ppb": {
+        "median": 5.61,
+        "p25": 3.9,
+        "p75": 7.39,
+        "n_pipelines": 638
+      },
+      "loa_corrected_ppb": {
+        "median": 5.32,
+        "p25": 3.72,
+        "p75": 7.03,
+        "n_pipelines": 638
+      }
+    },
+    "inter_scanner_bridge": {
+      "loa_ppb": {
+        "median": 19.05,
+        "p25": 14.02,
+        "p75": 26.44,
+        "n_pipelines": 638
+      },
+      "loa_corrected_ppb": {
+        "median": 17.97,
+        "p25": 13.19,
+        "p75": 25.14,
+        "n_pipelines": 638
+      }
+    },
+    "inter_scanner_local": {
+      "loa_ppb": {
+        "median": 17.5,
+        "p25": 12.89,
+        "p75": 24.98,
+        "n_pipelines": 638
+      },
+      "loa_corrected_ppb": {
+        "median": 16.22,
+        "p25": 10.63,
+        "p75": 22.82,
+        "n_pipelines": 638
+      }
+    },
+    "inter_protocol_local_vs_bridge": {
+      "loa_ppb": {
+        "median": 12.23,
+        "p25": 8.65,
+        "p75": 16.77,
+        "n_pipelines": 638
+      },
+      "loa_corrected_ppb": {
+        "median": 11.58,
+        "p25": 7.81,
+        "p75": 15.74,
+        "n_pipelines": 638
+      }
+    }
+  },
+  "issue_7_8_scanner_relation": {
+    "site_relation": {
+      "inter_site": {
+        "bridge": {
+          "median": 6.73,
+          "p25": 5.11,
+          "p75": 8.97,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 6,
+          "n_subjects": 4
+        },
+        "local": {
+          "median": 6.64,
+          "p25": 4.63,
+          "p75": 9.17,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 6,
+          "n_subjects": 4
+        }
+      },
+      "intra_site": {
+        "bridge": {
+          "median": 6.76,
+          "p25": 4.04,
+          "p75": 10.78,
+          "n_pipelines": 636,
+          "n_scanner_pairs": 1,
+          "n_subjects": 2
+        },
+        "local": {
+          "median": 6.8,
+          "p25": 3.18,
+          "p75": 13.22,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 1,
+          "n_subjects": 2
+        }
+      }
+    },
+    "vendor_relation": {
+      "cross_vendor": {
+        "bridge": {
+          "median": 7.12,
+          "p25": 5.61,
+          "p75": 9.52,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 6,
+          "n_subjects": 3
+        },
+        "local": {
+          "median": 7.12,
+          "p25": 4.3,
+          "p75": 12.66,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 6,
+          "n_subjects": 3
+        }
+      },
+      "same_vendor": {
+        "bridge": {
+          "median": 4.12,
+          "p25": 2.3,
+          "p75": 5.95,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 1,
+          "n_subjects": 1
+        },
+        "local": {
+          "median": 3.85,
+          "p25": 2.37,
+          "p75": 6.35,
+          "n_pipelines": 638,
+          "n_scanner_pairs": 1,
+          "n_subjects": 1
+        }
+      }
+    },
+    "scanner_pairs_median_abs_slope_dev_pct": {
+      "site1-achieva|site4-skyra": {
+        "site_relation": "inter_site",
+        "vendors": "Philips vs Siemens",
+        "bridge": 9.19,
+        "local": 8.48,
+        "subjects": "s004001"
+      },
+      "site1-achieva|site5-mr750": {
+        "site_relation": "inter_site",
+        "vendors": "GE vs Philips",
+        "bridge": 9.6,
+        "local": 6.59,
+        "subjects": "s005002"
+      },
+      "site1-achieva|site5-prisma": {
+        "site_relation": "inter_site",
+        "vendors": "Philips vs Siemens",
+        "bridge": 8.65,
+        "local": 6.21,
+        "subjects": "s005002"
+      },
+      "site1-achieva|site6-ingenia": {
+        "site_relation": "inter_site",
+        "vendors": "Philips vs Philips",
+        "bridge": 4.12,
+        "local": 3.85,
+        "subjects": "s006001"
+      },
+      "site1-elition|site5-mr750": {
+        "site_relation": "inter_site",
+        "vendors": "GE vs Philips",
+        "bridge": 7.04,
+        "local": 5.29,
+        "subjects": "s005001"
+      },
+      "site1-elition|site5-prisma": {
+        "site_relation": "inter_site",
+        "vendors": "Philips vs Siemens",
+        "bridge": 4.75,
+        "local": 8.56,
+        "subjects": "s005001"
+      },
+      "site5-mr750|site5-prisma": {
+        "site_relation": "intra_site",
+        "vendors": "GE vs Siemens",
+        "bridge": 6.76,
+        "local": 6.8,
+        "subjects": "s005001, s005002"
+      }
+    }
+  },
+  "issue_4_protocol_spread": {
+    "transform": {
+      "median_slope": 0.987,
+      "p25_slope": 0.956,
+      "p75_slope": 1.022
+    },
+    "Caudate": {
+      "protocol_sd_ppb": 2.1,
+      "protocol_sd_corrected_ppb": 1.8,
+      "rescan_sd_ppb": {
+        "bridge": 1.7,
+        "local": 1.0
+      }
+    },
+    "Pallidum": {
+      "protocol_sd_ppb": 3.0,
+      "protocol_sd_corrected_ppb": 2.1,
+      "rescan_sd_ppb": {
+        "bridge": 2.4,
+        "local": 2.0
+      }
+    }
+  }
+}

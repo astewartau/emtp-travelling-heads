@@ -375,6 +375,18 @@ def first_run_effect(ok):
     return out
 
 
+def field_drift():
+    """#10: field drift between runs (data/b0_drift.csv: each run against run 3 of the same protocol and
+    session). Run 1 against run 2 as the question: is the first scan's field different?"""
+    d = pd.read_csv(emtp.DATA / 'b0_drift.csv').merge(emtp.acquisitions(), on='acquisition')
+    d['gradient_hz_per_cm'] = np.sqrt(d.gradient_x_hz_per_cm ** 2 + d.gradient_y_hz_per_cm ** 2 + d.gradient_z_hz_per_cm ** 2)
+    d['abs_median_hz'] = d.median_hz.abs()
+    cols = ['abs_median_hz', 'gradient_hz_per_cm', 'residual_sd_hz']
+    t = d.groupby(['protocol', 'run'])[cols].median().round(3)
+    d[['acquisition', 'scanner', 'protocol', 'run'] + cols].round(3).to_csv(OUT / 'field_drift.csv', index=False)
+    return {f'{p} {run} vs run3': row.to_dict() for (p, run), row in t.iterrows()}
+
+
 def b0_angle(pose, a, b, frame):
     """Change in head orientation relative to B0 between two acquisitions (degrees)."""
     va = pose.loc[a, [f'{frame}_b0_{k}' for k in 'xyz']].to_numpy(float)
@@ -451,6 +463,8 @@ if __name__ == '__main__':
     n['issue_6_pipeline_conversion'] = pipeline_conversion(reg, vals)
     n['bootstrap_over_subjects'] = bootstrap_subjects(ok)
     n['issue_10_first_run'] = first_run_effect(ok)
+    if (emtp.DATA / 'b0_drift.csv').exists():
+        n['issue_10_field_drift'] = field_drift()
     if (emtp.DATA / 'head_pose.csv').exists():
         n['issue_9_repositioning'] = repositioning(ok)
     (OUT / 'followup.json').write_text(json.dumps(n, indent=2) + '\n')

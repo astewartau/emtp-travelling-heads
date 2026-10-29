@@ -960,6 +960,28 @@
       }
     }
   },
+  "issue_10_field_drift": {
+    "bridge run1 vs run3": {
+      "abs_median_hz": 5.11,
+      "gradient_hz_per_cm": 0.259,
+      "residual_sd_hz": 2.652
+    },
+    "bridge run2 vs run3": {
+      "abs_median_hz": 2.442,
+      "gradient_hz_per_cm": 0.185,
+      "residual_sd_hz": 2.082
+    },
+    "local run1 vs run3": {
+      "abs_median_hz": 5.095,
+      "gradient_hz_per_cm": 0.256,
+      "residual_sd_hz": 2.336
+    },
+    "local run2 vs run3": {
+      "abs_median_hz": 2.709,
+      "gradient_hz_per_cm": 0.183,
+      "residual_sd_hz": 1.685
+    }
+  },
   "issue_9_repositioning": {
     "inter_scanner": {
       "bridge": {

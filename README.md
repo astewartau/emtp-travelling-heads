@@ -23,7 +23,7 @@ Subject IDs are pseudonymised (`s002001`–`s006001`).
 | `analysis/emtp.py` | Pair definitions, orthogonal fits, per-pipeline summaries, sources of variability |
 | `analysis/abstract_numbers.py` | Writes `results/`: the headline values (`numbers.json`), pair fits, per-pipeline medians, spread tables |
 | `docs/decisions.md` | Analysis decisions since the abstract, each with the alternative not taken |
-| `followup.ipynb` | Walk-through of the follow-up analyses: how each pair type is defined, and for every follow-up figure the question, calculation, checks against `results/followup/followup.json` and caveats (rebuild: `python analysis/build_followup_notebook.py`; source `analysis/followup_walkthrough.py`; figures in `figures/followup/`) |
+| `followup.ipynb` | Walk-through of the follow-up analyses, with code written to read like the maths: how each pair type is defined, and for every follow-up figure the question, calculation, checks against `results/followup/followup.json` and caveats (rebuild: `python analysis/build_followup_notebook.py`; source `analysis/followup_walkthrough.py`, notation `analysis/notation.py`, plots `figures/src/followup_plots.py`, figures in `figures/followup/`) |
 | `analysis.ipynb` | Walk-through of the analysis with outputs: dataset, regions per fit, agreement, sources of variability, key results and Figures 1–5 (rebuild: `python analysis/build_notebook.py`) |
 | `figures/` | Figures 1–5; sources in `figures/src/` |
 

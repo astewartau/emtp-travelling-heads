@@ -22,7 +22,17 @@ SLOPE_DEV_CAP = 2.0    # |a - 1| above this is a failed reconstruction, not a re
 
 COMPARISONS = ['test_retest', 'inter_scanner', 'inter_protocol']
 VENDOR = {'site1-achieva': 'Philips', 'site1-elition': 'Philips', 'site4-skyra': 'Siemens',
-          'site5-mr750': 'GE', 'site5-prisma': 'Siemens', 'site6-ingenia': 'Philips'}
+          'site5-mr750': 'GE', 'site5-prisma': 'Siemens', 'site6-ingenia': 'Philips',
+          'site2-prisma': 'Siemens', 'site2-cimax': 'Siemens', 'site2-skyra': 'Siemens',
+          'site3-mr750w': 'GE', 'site3-prisma': 'Siemens'}
+# #14 (decision D8): local protocols that differ substantially from the bridge = single-echo, or a voxel volume
+# <= 0.67x or >= 1.5x the bridge's (data/protocols.csv). TR, flip angle, FOV, acceleration and bandwidth don't count.
+DIFFERENT_LOCALS = ['site2-prisma', 'site2-cimax', 'site2-skyra',  # single echo, TE 17 ms, 0.8 mm isotropic
+                    'site4-skyra',                                   # 1 x 1 x 2 mm
+                    'site5-prisma']                                  # 0.75 mm in-plane, 8 echoes
+BORDERLINE_LOCALS = ['site5-mr750']                                  # 8 echoes to 36 ms, 0.94 mm: sensitivity only
+# #6 (decision D9): good pipelines = top fraction by full-pipeline simulation XSIM (QSM Challenge 2.0)
+GOOD_PIPELINE_FRACTION, GOOD_PIPELINE_FRACTION_SENSITIVITY = 0.10, 0.25
 # Figure 5: the QSM-CI matrix subset shown (ROMEO field mapping; dipole inversion x background removal)
 FIG5_DIPOLE = ['whqsm-qsmrs', 'hdqsm-qsmrs', 'medi-qsmrs', 'ilsqr-sti', 'rts-qsmrs', 'tkd-qsmrs', 'lpcnn', 'qsmnet-plus']
 FIG5_BFR = ['sharp-qsmrs', 'resharp-qsmrs', 'pdf-qsmrs', 'vsharp-sti', 'lbv-qsmrs']
@@ -34,6 +44,13 @@ def acquisitions():
 
 def pipelines():
     return pd.read_csv(DATA / 'pipelines.csv')
+
+
+def good_pipelines(fraction=GOOD_PIPELINE_FRACTION):
+    """Pipelines in the top `fraction` by full-pipeline simulation XSIM (pipelines without a score are left out).
+    Chosen on the simulation, not on test-retest, so the selection is independent of the travelling-head data."""
+    x = pipelines().set_index('pipeline').challenge2_xsim_full_pipeline.dropna()
+    return sorted(x.index[x >= x.quantile(1 - fraction)])
 
 
 def regions():

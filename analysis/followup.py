@@ -4,6 +4,9 @@
   inter_scanner_pairs.csv     #7/#8  per scanner pair and protocol: median |a-1| over pipelines
   calibration_loso.csv.gz     #5  per local-vs-bridge pair: |a-1| and LoA uncorrected, leave-one-subject-out, in-sample
   inter_scanner_run_averaged.csv.gz  #10  inter-scanner fits on run-averaged scans
+  differing_protocols_by_scanner.csv  #14  per scanner: local-vs-bridge a, |a-1| and the rescan floor (all/good pipelines)
+  pipeline_conversion_good_sd.csv / _per_pipeline.csv.gz  #6  conversion on good pipelines: SD across pipelines
+                                     per scan condition, and each pipeline's distance from the consensus
   pipeline_vs_consensus.csv.gz       #6  each pipeline fitted against the median over pipelines, per acquisition
 Each summary is a median over pipelines of a per-pipeline value, as in abstract_numbers.py.
 Run from the repo root: python analysis/followup.py
@@ -183,6 +186,83 @@ def calibration_loso(vals, ok):
     return out
 
 
+def differing_protocols(ok, calib):
+    """#14: the bridge-vs-local analyses restricted to local protocols that differ substantially from the bridge
+    (emtp.DIFFERENT_LOCALS, decision D8; emtp.BORDERLINE_LOCALS added as a sensitivity check), for all pipelines
+    and for the good ones (top 10% and 25% by simulation XSIM, D9). Per subset:
+      local_vs_bridge   slope a of local on bridge (same subject, session and run): median a and |a - 1|,
+                        next to the rescan floor (test-retest |a - 1| of the same scanners, both protocols);
+      test_retest       |a - 1| on those scanners, bridge vs local;
+      inter_scanner     |a - 1| over scanner pairs with at least one of those scanners (for 'similar': both),
+                        bridge vs local on the same pairs (subject, scanner pair and runs);
+      calibration       leave-one-subject-out local -> bridge calibration (#5), where a scanner has 2+ subjects.
+    Each value is a median over pipelines of a per-pipeline median over pairs."""
+    pairs_with = lambda d, sc: d[d.scanner_x.isin(sc) | d.scanner_y.isin(sc)]
+    subsets = {'different': emtp.DIFFERENT_LOCALS,
+               'different_and_borderline': emtp.DIFFERENT_LOCALS + emtp.BORDERLINE_LOCALS,
+               'similar': sorted(set(ok.scanner_x) - set(emtp.DIFFERENT_LOCALS) - set(emtp.BORDERLINE_LOCALS))}
+    pipe_sets = {'all': sorted(ok.pipeline.unique()), 'good_top10': emtp.good_pipelines(emtp.GOOD_PIPELINE_FRACTION),
+                 'good_top25': emtp.good_pipelines(emtp.GOOD_PIPELINE_FRACTION_SENSITIVITY)}
+    per_scanner, out = [], {}
+    for pname, pipes in pipe_sets.items():
+        d0 = ok[ok.pipeline.isin(pipes)]
+        out[pname] = {'n_pipelines': len(pipes)}
+        for sname, sc in subsets.items():
+            res = {'scanners': [s for s in sc if s in set(d0.scanner_x) | set(d0.scanner_y)]}
+            ip = d0[(d0.comparison == 'inter_protocol') & d0.scanner_x.isin(sc)]
+            tr = d0[(d0.comparison == 'test_retest') & d0.scanner_x.isin(sc)]
+            if ip.empty:
+                out[pname][sname] = res | {'note': 'no data for these scanners'}
+                continue
+            g = ip.groupby('pipeline')
+            res['local_vs_bridge'] = {
+                'median_slope': pipeline_summary(g.slope.median(), 1),
+                'median_abs_slope_dev_pct': pipeline_summary(g.abs_slope_dev.median(), 100),
+                'rescan_floor_abs_slope_dev_pct': pipeline_summary(tr.groupby('pipeline').abs_slope_dev.median(), 100),
+                'n_subjects': int(ip.subject_x.nunique())}
+            res['test_retest_abs_slope_dev_pct'] = {
+                prot: pipeline_summary(tr[tr.protocol == prot].groupby('pipeline').abs_slope_dev.median(), 100)
+                for prot in PROTOCOLS}
+            isc = d0[d0.comparison == 'inter_scanner']
+            # pairs with one of these scanners; for 'similar', pairs with no different or borderline local at all
+            isc = isc[isc.scanner_x.isin(sc) & isc.scanner_y.isin(sc)] if sname == 'similar' else pairs_with(isc, sc)
+            key = ['pipeline', 'subject_x', 'scanner_x', 'scanner_y', 'run_x', 'run_y']
+            m = isc.pivot_table(index=key, columns='protocol', values='abs_slope_dev').dropna()
+            if len(m):
+                per = m.groupby('pipeline').median()
+                res['inter_scanner_matched_pairs'] = {
+                    **{f'{prot}_abs_slope_dev_pct': pipeline_summary(per[prot], 100) for prot in PROTOCOLS},
+                    'median_bridge_minus_local_pct': r(100 * (per.bridge - per.local).median(), 2),
+                    'share_of_pipelines_bridge_lower': r((per.bridge < per.local).mean(), 2),
+                    'scanner_pairs': sorted(set(m.index.get_level_values('scanner_x') + '|' + m.index.get_level_values('scanner_y'))),
+                    'n_subjects': int(m.index.get_level_values('subject_x').nunique())}
+            c = calib[calib.pipeline.isin(pipes) & calib.scanner.isin(sc)]
+            if len(c):
+                gc = c.groupby('pipeline')
+                res['calibration_loso'] = {
+                    'scanners': sorted(c.scanner.unique()),
+                    **{f'{lab}_abs_slope_dev_pct': pipeline_summary(gc[f'{lab}_abs_slope_dev'].median(), 100)
+                       for lab in ('none', 'loso', 'in_sample')},
+                    'share_of_pipelines_loso_better_than_none': r(
+                        (gc.loso_abs_slope_dev.median() < gc.none_abs_slope_dev.median()).mean(), 2)}
+            out[pname][sname] = res
+        # per scanner: local-vs-bridge a and the rescan floor
+        a = d0[d0.comparison == 'inter_protocol'].groupby(['scanner_x', 'pipeline'])
+        t = d0[d0.comparison == 'test_retest'].groupby(['scanner_x', 'pipeline']).abs_slope_dev.median()
+        tab = pd.DataFrame({'median_slope': a.slope.median().groupby('scanner_x').median(),
+                            'slope_p25': a.slope.median().groupby('scanner_x').quantile(.25),
+                            'slope_p75': a.slope.median().groupby('scanner_x').quantile(.75),
+                            'median_abs_slope_dev_pct': 100 * a.abs_slope_dev.median().groupby('scanner_x').median(),
+                            'rescan_floor_pct': 100 * t.groupby('scanner_x').median(),
+                            'n_subjects': d0[d0.comparison == 'inter_protocol'].groupby('scanner_x').subject_x.nunique()})
+        tab['pipelines'] = pname
+        tab['local_class'] = ['different' if s in emtp.DIFFERENT_LOCALS else 'borderline' if s in emtp.BORDERLINE_LOCALS
+                              else 'similar' for s in tab.index]
+        per_scanner.append(tab)
+    pd.concat(per_scanner).rename_axis('scanner').to_csv(OUT / 'differing_protocols_by_scanner.csv', float_format='%.6g')
+    return out
+
+
 def noise_vs_systematic(vals, ok):
     """#10: how much of the inter-scanner slope deviation is rescan noise. Two estimates per pipeline:
     (1) RMS of ln a over inter-scanner pairs minus that over test-retest pairs (both compare two single
@@ -328,6 +408,65 @@ def pipeline_conversion(reg, vals):
                                 'scanner_sd_ppb': {p: r(s.loc['scanner', p]) for p in PROTOCOLS},
                                 'protocol_sd_ppb': r(s.loc['protocol', 'both']),
                                 'between_subjects_sd_ppb': {p: r(s.loc['between_subjects', p]) for p in PROTOCOLS}}
+    return out
+
+
+def pipeline_conversion_good(reg):
+    """#6 after the 10 Nov meeting: the per-pipeline conversion on good pipelines only (top 10% by simulation XSIM,
+    top 25% as a sensitivity check, D9; all pipelines for comparison). Within each set, every pipeline is fitted
+    against the set's consensus (median over its pipelines, per region and acquisition) and mapped to consensus space
+    with one global a, b per pipeline, learned either on all scans (in-sample) or on the reference-site bridge scans
+    only (out of sample). Everything is evaluated on the scans outside the reference-site bridge, for caudate and
+    pallidum (ppb):
+      pipeline SD     SD across pipelines per scan condition (subject, scanner, protocol; runs averaged): its
+                      distribution over conditions, before and after conversion;
+      per pipeline    each pipeline's RMS distance from the consensus over conditions, before and after;
+      targets         the scanner SD and the rescan SD (the floor) of the same pipelines, from emtp.spread."""
+    acq = emtp.acquisitions().set_index('acquisition')
+    ref = set(acq.index[(acq.scanner == 'site1-achieva') & (acq.protocol == 'bridge')])
+    sets = {'good_top10': emtp.good_pipelines(emtp.GOOD_PIPELINE_FRACTION),
+            'good_top25': emtp.good_pipelines(emtp.GOOD_PIPELINE_FRACTION_SENSITIVITY), 'all': sorted(reg.pipeline.unique())}
+    out, dist_rows, pipe_rows = {}, [], []
+    for sname, pipes in sets.items():
+        rs = reg[reg.pipeline.isin(pipes)]
+        cons = rs.groupby(['acquisition', 'label']).mean_ppm.median()
+        cons = {a: g.droplevel(0).to_dict() for a, g in cons.groupby(level=0)}
+        rows = []
+        for pipe, pv in region_values(rs).items():
+            for a, v in pv.items():
+                f = fit_dicts(cons[a], v)
+                if f:
+                    rows.append(dict(pipeline=pipe, acquisition=a, slope=f['slope'], intercept_ppm=f['intercept_ppm']))
+        pf = pd.DataFrame(rows)
+
+        def converted(train):
+            ab = train.groupby('pipeline')[['slope', 'intercept_ppm']].median()
+            rc = rs.join(ab, on='pipeline')
+            rc = rc[rc.slope.notna()].copy()
+            rc['mean_ppm'] = (rc.mean_ppm - rc.intercept_ppm) / rc.slope
+            return rc[rs.columns]
+
+        variants = {'none': rs, 'in_sample': converted(pf), 'from_reference_bridge': converted(pf[pf.acquisition.isin(ref)])}
+        out[sname] = {'n_pipelines': len(pipes)}
+        for region in SPREAD_REGIONS:
+            levels = emtp.spread(rs[~rs.acquisition.isin(ref)], region)['both']
+            res = {'scanner_sd_ppb': r(levels['scanner']), 'rescan_sd_ppb': r(levels['rescan'])}
+            for vname, rv in variants.items():
+                b = emtp.bilateral(rv[~rv.acquisition.isin(ref)], region)
+                cond = b.groupby(['pipeline', 'subject', 'scanner', 'protocol'])[region].mean()
+                sd = cond.groupby(['subject', 'scanner', 'protocol']).std()
+                dev = cond - cond.groupby(['subject', 'scanner', 'protocol']).transform('median')
+                rms = np.sqrt((dev ** 2).groupby('pipeline').mean())
+                res[vname] = {'pipeline_sd_ppb': pipeline_summary(sd, 1, 'n_conditions'),
+                              'rms_from_consensus_ppb': pipeline_summary(rms, 1)}
+                dist_rows += [dict(pipelines=sname, region=region, conversion=vname, subject=k[0], scanner=k[1],
+                                   protocol=k[2], pipeline_sd_ppb=v) for k, v in sd.items()]
+                pipe_rows += [dict(pipelines=sname, region=region, conversion=vname, pipeline=k, rms_from_consensus_ppb=v)
+                              for k, v in rms.items()]
+            out[sname][region] = res
+    pd.DataFrame(dist_rows).to_csv(OUT / 'pipeline_conversion_good_sd.csv', index=False, float_format='%.6g')
+    pd.DataFrame(pipe_rows).to_csv(OUT / 'pipeline_conversion_good_per_pipeline.csv.gz', index=False, float_format='%.6g',
+                                   compression={'method': 'gzip', 'mtime': 0})
     return out
 
 
@@ -536,9 +675,11 @@ if __name__ == '__main__':
     }
     vals = region_values(reg)
     n['issue_5_calibration'] = calibration_loso(vals, ok)
+    n['issue_14_differing_protocols'] = differing_protocols(ok, pd.read_csv(OUT / 'calibration_loso.csv.gz'))
     n['issue_10_noise_vs_systematic'] = noise_vs_systematic(vals, ok)
     n['issue_4_scanner_spread'] = scanner_spread_corrected(reg, ok)
     n['issue_6_pipeline_conversion'] = pipeline_conversion(reg, vals)
+    n['issue_6_pipeline_conversion_good'] = pipeline_conversion_good(reg)
     n['bootstrap_over_subjects'] = bootstrap_subjects(ok)
     n['issue_10_first_run'] = first_run_effect(ok)
     if (emtp.DATA / 'b0_drift.csv').exists():

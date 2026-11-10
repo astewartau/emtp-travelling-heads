@@ -14,8 +14,16 @@ Subject IDs are pseudonymised (`s002001`–`s006001`).
 | `data/acquisitions.csv` | Acquisition → subject, scanner, protocol, run |
 | `data/pipelines.csv` | Pipeline → steps and methods, QSM Challenge 2.0 scores |
 | `data/regional_chi.csv.gz` | Per pipeline, acquisition and SynthSeg label: voxel count and mean/median/SD χ (ppm, relative to the whole-brain mean). How it was extracted: `extraction/README.md` |
+| `data/protocols.csv` | Acquisition parameters per acquisition, from the raw sidecars (`scripts/extract_protocols.py`) |
+| `data/head_pose.csv` | Head pose per acquisition from rigid registration: motion within the session and repositioning between sessions (`scripts/head_pose.py`) |
+| `data/b0_drift.csv` | Field drift between runs of a protocol within a session, from the multi-echo phase (`scripts/b0_drift.py`) |
+| `data/image_quality.csv` | Ghosting outside the head and edge sharpness per acquisition (`scripts/image_quality.py`) |
+| `data/echo_shift.csv` | Drift during each run, estimated from the echo-to-echo image shift (`scripts/echo_shift.py`) |
+| `analysis/followup.py` | Follow-up analyses for the open issues; writes `results/followup/` |
 | `analysis/emtp.py` | Pair definitions, orthogonal fits, per-pipeline summaries, sources of variability |
 | `analysis/abstract_numbers.py` | Writes `results/`: the headline values (`numbers.json`), pair fits, per-pipeline medians, spread tables |
+| `docs/decisions.md` | Analysis decisions since the abstract, each with the alternative not taken |
+| `followup.ipynb` | Walk-through of the follow-up analyses, with code written to read like the maths: how each pair type is defined, and for every follow-up figure the question, calculation, checks against `results/followup/followup.json` and caveats (rebuild: `python analysis/build_followup_notebook.py`; source `analysis/followup_walkthrough.py`, notation `analysis/notation.py`, plots `figures/src/followup_plots.py`, figures in `figures/followup/`) |
 | `analysis.ipynb` | Walk-through of the analysis with outputs: dataset, regions per fit, agreement, sources of variability, key results and Figures 1–5 (rebuild: `python analysis/build_notebook.py`) |
 | `figures/` | Figures 1–5; sources in `figures/src/` |
 

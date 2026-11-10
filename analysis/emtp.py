@@ -21,6 +21,8 @@ MIN_PAIR_ROIS = 8      # fewer regions present in both scans: no fit
 SLOPE_DEV_CAP = 2.0    # |a - 1| above this is a failed reconstruction, not a reproducibility value
 
 COMPARISONS = ['test_retest', 'inter_scanner', 'inter_protocol']
+VENDOR = {'site1-achieva': 'Philips', 'site1-elition': 'Philips', 'site4-skyra': 'Siemens',
+          'site5-mr750': 'GE', 'site5-prisma': 'Siemens', 'site6-ingenia': 'Philips'}
 # Figure 5: the QSM-CI matrix subset shown (ROMEO field mapping; dipole inversion x background removal)
 FIG5_DIPOLE = ['whqsm-qsmrs', 'hdqsm-qsmrs', 'medi-qsmrs', 'ilsqr-sti', 'rts-qsmrs', 'tkd-qsmrs', 'lpcnn', 'qsmnet-plus']
 FIG5_BFR = ['sharp-qsmrs', 'resharp-qsmrs', 'pdf-qsmrs', 'vsharp-sti', 'lbv-qsmrs']
@@ -79,13 +81,16 @@ def comparison_plan(acq):
 
 def fit(x, y):
     """Orthogonal (total least squares) regression y = a x + b, first principal component of the
-    centred cloud. Also returns R^2 and Bland-Altman bias and 95% limits of agreement (y - x)."""
+    centred cloud. Also returns R^2 and Bland-Altman bias and 95% limits of agreement (y - x), and the
+    limits of agreement after the fitted scaling, y - (a x + b)."""
     xm, ym = x.mean(), y.mean()
     _, _, vt = np.linalg.svd(np.stack([x - xm, y - ym]).T, full_matrices=False)
     a = vt[0, 1] / vt[0, 0]
+    b = ym - a * xm
     d = y - x
-    return dict(slope=a, intercept_ppm=ym - a * xm, r2=np.corrcoef(x, y)[0, 1] ** 2,
-                ba_bias_ppm=d.mean(), ba_loa_ppm=1.96 * d.std(ddof=1), n_rois=len(x))
+    return dict(slope=a, intercept_ppm=b, r2=np.corrcoef(x, y)[0, 1] ** 2,
+                ba_bias_ppm=d.mean(), ba_loa_ppm=1.96 * d.std(ddof=1),
+                ba_loa_corrected_ppm=1.96 * (y - a * x - b).std(ddof=1), n_rois=len(x))
 
 
 def pair_fits(reg=None):

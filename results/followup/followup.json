@@ -486,6 +486,815 @@
       "share_of_pipelines_loso_better_than_none": 0.46
     }
   },
+  "issue_14_differing_protocols": {
+    "all": {
+      "n_pipelines": 638,
+      "different": {
+        "scanners": [
+          "site4-skyra",
+          "site5-prisma"
+        ],
+        "local_vs_bridge": {
+          "median_slope": {
+            "median": 0.95,
+            "p25": 0.89,
+            "p75": 0.99,
+            "n_pipelines": 638
+          },
+          "median_abs_slope_dev_pct": {
+            "median": 6.63,
+            "p25": 4.11,
+            "p75": 12.9,
+            "n_pipelines": 638
+          },
+          "rescan_floor_abs_slope_dev_pct": {
+            "median": 2.09,
+            "p25": 1.7,
+            "p75": 2.5,
+            "n_pipelines": 638
+          },
+          "n_subjects": 3
+        },
+        "test_retest_abs_slope_dev_pct": {
+          "bridge": {
+            "median": 2.37,
+            "p25": 1.91,
+            "p75": 2.77,
+            "n_pipelines": 638
+          },
+          "local": {
+            "median": 1.83,
+            "p25": 1.43,
+            "p75": 2.35,
+            "n_pipelines": 638
+          }
+        },
+        "inter_scanner_matched_pairs": {
+          "bridge_abs_slope_dev_pct": {
+            "median": 6.6,
+            "p25": 5.03,
+            "p75": 8.67,
+            "n_pipelines": 638
+          },
+          "local_abs_slope_dev_pct": {
+            "median": 6.86,
+            "p25": 4.36,
+            "p75": 12.67,
+            "n_pipelines": 638
+          },
+          "median_bridge_minus_local_pct": -0.63,
+          "share_of_pipelines_bridge_lower": 0.54,
+          "scanner_pairs": [
+            "site1-achieva|site4-skyra",
+            "site1-achieva|site5-prisma",
+            "site1-elition|site5-prisma",
+            "site5-mr750|site5-prisma"
+          ],
+          "n_subjects": 3
+        },
+        "calibration_loso": {
+          "scanners": [
+            "site5-prisma"
+          ],
+          "none_abs_slope_dev_pct": {
+            "median": 6.9,
+            "p25": 4.13,
+            "p75": 14.52,
+            "n_pipelines": 638
+          },
+          "loso_abs_slope_dev_pct": {
+            "median": 7.24,
+            "p25": 4.64,
+            "p75": 9.77,
+            "n_pipelines": 637
+          },
+          "in_sample_abs_slope_dev_pct": {
+            "median": 1.52,
+            "p25": 1.06,
+            "p75": 2.1,
+            "n_pipelines": 637
+          },
+          "share_of_pipelines_loso_better_than_none": 0.47
+        }
+      },
+      "different_and_borderline": {
+        "scanners": [
+          "site4-skyra",
+          "site5-prisma",
+          "site5-mr750"
+        ],
+        "local_vs_bridge": {
+          "median_slope": {
+            "median": 0.98,
+            "p25": 0.95,
+            "p75": 1.01,
+            "n_pipelines": 638
+          },
+          "median_abs_slope_dev_pct": {
+            "median": 6.19,
+            "p25": 3.84,
+            "p75": 9.16,
+            "n_pipelines": 638
+          },
+          "rescan_floor_abs_slope_dev_pct": {
+            "median": 1.98,
+            "p25": 1.7,
+            "p75": 2.37,
+            "n_pipelines": 638
+          },
+          "n_subjects": 3
+        },
+        "test_retest_abs_slope_dev_pct": {
+          "bridge": {
+            "median": 2.31,
+            "p25": 1.99,
+            "p75": 2.7,
+            "n_pipelines": 638
+          },
+          "local": {
+            "median": 1.73,
+            "p25": 1.33,
+            "p75": 2.2,
+            "n_pipelines": 638
+          }
+        },
+        "inter_scanner_matched_pairs": {
+          "bridge_abs_slope_dev_pct": {
+            "median": 7.12,
+            "p25": 5.54,
+            "p75": 9.54,
+            "n_pipelines": 638
+          },
+          "local_abs_slope_dev_pct": {
+            "median": 7.12,
+            "p25": 4.3,
+            "p75": 12.65,
+            "n_pipelines": 638
+          },
+          "median_bridge_minus_local_pct": 0.17,
+          "share_of_pipelines_bridge_lower": 0.48,
+          "scanner_pairs": [
+            "site1-achieva|site4-skyra",
+            "site1-achieva|site5-mr750",
+            "site1-achieva|site5-prisma",
+            "site1-elition|site5-mr750",
+            "site1-elition|site5-prisma",
+            "site5-mr750|site5-prisma"
+          ],
+          "n_subjects": 3
+        },
+        "calibration_loso": {
+          "scanners": [
+            "site5-mr750",
+            "site5-prisma"
+          ],
+          "none_abs_slope_dev_pct": {
+            "median": 6.26,
+            "p25": 3.83,
+            "p75": 9.68,
+            "n_pipelines": 638
+          },
+          "loso_abs_slope_dev_pct": {
+            "median": 5.52,
+            "p25": 3.94,
+            "p75": 7.46,
+            "n_pipelines": 637
+          },
+          "in_sample_abs_slope_dev_pct": {
+            "median": 1.39,
+            "p25": 1.01,
+            "p75": 1.84,
+            "n_pipelines": 637
+          },
+          "share_of_pipelines_loso_better_than_none": 0.5
+        }
+      },
+      "similar": {
+        "scanners": [
+          "site1-achieva",
+          "site1-elition",
+          "site6-ingenia"
+        ],
+        "local_vs_bridge": {
+          "median_slope": {
+            "median": 0.99,
+            "p25": 0.97,
+            "p75": 1.0,
+            "n_pipelines": 638
+          },
+          "median_abs_slope_dev_pct": {
+            "median": 3.32,
+            "p25": 2.64,
+            "p75": 4.52,
+            "n_pipelines": 638
+          },
+          "rescan_floor_abs_slope_dev_pct": {
+            "median": 1.64,
+            "p25": 1.32,
+            "p75": 2.02,
+            "n_pipelines": 638
+          },
+          "n_subjects": 6
+        },
+        "test_retest_abs_slope_dev_pct": {
+          "bridge": {
+            "median": 2.19,
+            "p25": 1.71,
+            "p75": 2.7,
+            "n_pipelines": 638
+          },
+          "local": {
+            "median": 1.3,
+            "p25": 1.02,
+            "p75": 1.66,
+            "n_pipelines": 638
+          }
+        },
+        "inter_scanner_matched_pairs": {
+          "bridge_abs_slope_dev_pct": {
+            "median": 4.12,
+            "p25": 2.3,
+            "p75": 5.95,
+            "n_pipelines": 638
+          },
+          "local_abs_slope_dev_pct": {
+            "median": 3.85,
+            "p25": 2.37,
+            "p75": 6.35,
+            "n_pipelines": 638
+          },
+          "median_bridge_minus_local_pct": -0.18,
+          "share_of_pipelines_bridge_lower": 0.52,
+          "scanner_pairs": [
+            "site1-achieva|site6-ingenia"
+          ],
+          "n_subjects": 1
+        },
+        "calibration_loso": {
+          "scanners": [
+            "site1-achieva"
+          ],
+          "none_abs_slope_dev_pct": {
+            "median": 3.29,
+            "p25": 2.61,
+            "p75": 4.59,
+            "n_pipelines": 638
+          },
+          "loso_abs_slope_dev_pct": {
+            "median": 3.6,
+            "p25": 2.52,
+            "p75": 4.85,
+            "n_pipelines": 638
+          },
+          "in_sample_abs_slope_dev_pct": {
+            "median": 0.82,
+            "p25": 0.53,
+            "p75": 1.16,
+            "n_pipelines": 638
+          },
+          "share_of_pipelines_loso_better_than_none": 0.42
+        }
+      }
+    },
+    "good_top10": {
+      "n_pipelines": 62,
+      "different": {
+        "scanners": [
+          "site4-skyra",
+          "site5-prisma"
+        ],
+        "local_vs_bridge": {
+          "median_slope": {
+            "median": 0.96,
+            "p25": 0.95,
+            "p75": 0.98,
+            "n_pipelines": 62
+          },
+          "median_abs_slope_dev_pct": {
+            "median": 4.69,
+            "p25": 3.96,
+            "p75": 6.11,
+            "n_pipelines": 62
+          },
+          "rescan_floor_abs_slope_dev_pct": {
+            "median": 2.1,
+            "p25": 1.76,
+            "p75": 2.45,
+            "n_pipelines": 62
+          },
+          "n_subjects": 3
+        },
+        "test_retest_abs_slope_dev_pct": {
+          "bridge": {
+            "median": 2.46,
+            "p25": 2.0,
+            "p75": 2.8,
+            "n_pipelines": 62
+          },
+          "local": {
+            "median": 1.75,
+            "p25": 1.29,
+            "p75": 2.21,
+            "n_pipelines": 62
+          }
+        },
+        "inter_scanner_matched_pairs": {
+          "bridge_abs_slope_dev_pct": {
+            "median": 5.62,
+            "p25": 4.89,
+            "p75": 7.4,
+            "n_pipelines": 62
+          },
+          "local_abs_slope_dev_pct": {
+            "median": 4.12,
+            "p25": 3.23,
+            "p75": 6.58,
+            "n_pipelines": 62
+          },
+          "median_bridge_minus_local_pct": 1.44,
+          "share_of_pipelines_bridge_lower": 0.31,
+          "scanner_pairs": [
+            "site1-achieva|site4-skyra",
+            "site1-achieva|site5-prisma",
+            "site1-elition|site5-prisma",
+            "site5-mr750|site5-prisma"
+          ],
+          "n_subjects": 3
+        },
+        "calibration_loso": {
+          "scanners": [
+            "site5-prisma"
+          ],
+          "none_abs_slope_dev_pct": {
+            "median": 6.09,
+            "p25": 4.77,
+            "p75": 7.64,
+            "n_pipelines": 62
+          },
+          "loso_abs_slope_dev_pct": {
+            "median": 7.84,
+            "p25": 4.64,
+            "p75": 9.76,
+            "n_pipelines": 62
+          },
+          "in_sample_abs_slope_dev_pct": {
+            "median": 1.4,
+            "p25": 0.93,
+            "p75": 2.01,
+            "n_pipelines": 62
+          },
+          "share_of_pipelines_loso_better_than_none": 0.32
+        }
+      },
+      "different_and_borderline": {
+        "scanners": [
+          "site4-skyra",
+          "site5-prisma",
+          "site5-mr750"
+        ],
+        "local_vs_bridge": {
+          "median_slope": {
+            "median": 0.99,
+            "p25": 0.97,
+            "p75": 1.01,
+            "n_pipelines": 62
+          },
+          "median_abs_slope_dev_pct": {
+            "median": 4.41,
+            "p25": 3.75,
+            "p75": 5.68,
+            "n_pipelines": 62
+          },
+          "rescan_floor_abs_slope_dev_pct": {
+            "median": 1.92,
+            "p25": 1.62,
+            "p75": 2.27,
+            "n_pipelines": 62
+          },
+          "n_subjects": 3
+        },
+        "test_retest_abs_slope_dev_pct": {
+          "bridge": {
+            "median": 2.26,
+            "p25": 2.02,
+            "p75": 2.63,
+            "n_pipelines": 62
+          },
+          "local": {
+            "median": 1.58,
+            "p25": 1.17,
+            "p75": 2.07,
+            "n_pipelines": 62
+          }
+        },
+        "inter_scanner_matched_pairs": {
+          "bridge_abs_slope_dev_pct": {
+            "median": 6.46,
+            "p25": 5.3,
+            "p75": 7.93,
+            "n_pipelines": 62
+          },
+          "local_abs_slope_dev_pct": {
+            "median": 4.24,
+            "p25": 3.31,
+            "p75": 6.17,
+            "n_pipelines": 62
+          },
+          "median_bridge_minus_local_pct": 1.81,
+          "share_of_pipelines_bridge_lower": 0.24,
+          "scanner_pairs": [
+            "site1-achieva|site4-skyra",
+            "site1-achieva|site5-mr750",
+            "site1-achieva|site5-prisma",
+            "site1-elition|site5-mr750",
+            "site1-elition|site5-prisma",
+            "site5-mr750|site5-prisma"
+          ],
+          "n_subjects": 3
+        },
+        "calibration_loso": {
+          "scanners": [
+            "site5-mr750",
+            "site5-prisma"
+          ],
+          "none_abs_slope_dev_pct": {
+            "median": 4.41,
+            "p25": 3.64,
+            "p75": 6.29,
+            "n_pipelines": 62
+          },
+          "loso_abs_slope_dev_pct": {
+            "median": 5.81,
+            "p25": 4.32,
+            "p75": 6.94,
+            "n_pipelines": 62
+          },
+          "in_sample_abs_slope_dev_pct": {
+            "median": 1.36,
+            "p25": 1.11,
+            "p75": 1.63,
+            "n_pipelines": 62
+          },
+          "share_of_pipelines_loso_better_than_none": 0.31
+        }
+      },
+      "similar": {
+        "scanners": [
+          "site1-achieva",
+          "site1-elition",
+          "site6-ingenia"
+        ],
+        "local_vs_bridge": {
+          "median_slope": {
+            "median": 0.99,
+            "p25": 0.98,
+            "p75": 1.0,
+            "n_pipelines": 62
+          },
+          "median_abs_slope_dev_pct": {
+            "median": 2.75,
+            "p25": 2.3,
+            "p75": 3.42,
+            "n_pipelines": 62
+          },
+          "rescan_floor_abs_slope_dev_pct": {
+            "median": 1.82,
+            "p25": 1.52,
+            "p75": 2.13,
+            "n_pipelines": 62
+          },
+          "n_subjects": 6
+        },
+        "test_retest_abs_slope_dev_pct": {
+          "bridge": {
+            "median": 2.25,
+            "p25": 1.83,
+            "p75": 3.0,
+            "n_pipelines": 62
+          },
+          "local": {
+            "median": 1.4,
+            "p25": 1.2,
+            "p75": 1.66,
+            "n_pipelines": 62
+          }
+        },
+        "inter_scanner_matched_pairs": {
+          "bridge_abs_slope_dev_pct": {
+            "median": 3.96,
+            "p25": 1.8,
+            "p75": 6.32,
+            "n_pipelines": 62
+          },
+          "local_abs_slope_dev_pct": {
+            "median": 4.27,
+            "p25": 2.55,
+            "p75": 6.51,
+            "n_pipelines": 62
+          },
+          "median_bridge_minus_local_pct": -0.63,
+          "share_of_pipelines_bridge_lower": 0.61,
+          "scanner_pairs": [
+            "site1-achieva|site6-ingenia"
+          ],
+          "n_subjects": 1
+        },
+        "calibration_loso": {
+          "scanners": [
+            "site1-achieva"
+          ],
+          "none_abs_slope_dev_pct": {
+            "median": 2.86,
+            "p25": 2.3,
+            "p75": 3.58,
+            "n_pipelines": 62
+          },
+          "loso_abs_slope_dev_pct": {
+            "median": 3.12,
+            "p25": 2.31,
+            "p75": 4.26,
+            "n_pipelines": 62
+          },
+          "in_sample_abs_slope_dev_pct": {
+            "median": 0.72,
+            "p25": 0.46,
+            "p75": 0.93,
+            "n_pipelines": 62
+          },
+          "share_of_pipelines_loso_better_than_none": 0.34
+        }
+      }
+    },
+    "good_top25": {
+      "n_pipelines": 154,
+      "different": {
+        "scanners": [
+          "site4-skyra",
+          "site5-prisma"
+        ],
+        "local_vs_bridge": {
+          "median_slope": {
+            "median": 0.96,
+            "p25": 0.93,
+            "p75": 0.99,
+            "n_pipelines": 154
+          },
+          "median_abs_slope_dev_pct": {
+            "median": 5.46,
+            "p25": 4.19,
+            "p75": 10.01,
+            "n_pipelines": 154
+          },
+          "rescan_floor_abs_slope_dev_pct": {
+            "median": 2.02,
+            "p25": 1.69,
+            "p75": 2.38,
+            "n_pipelines": 154
+          },
+          "n_subjects": 3
+        },
+        "test_retest_abs_slope_dev_pct": {
+          "bridge": {
+            "median": 2.42,
+            "p25": 1.98,
+            "p75": 2.75,
+            "n_pipelines": 154
+          },
+          "local": {
+            "median": 1.7,
+            "p25": 1.3,
+            "p75": 2.1,
+            "n_pipelines": 154
+          }
+        },
+        "inter_scanner_matched_pairs": {
+          "bridge_abs_slope_dev_pct": {
+            "median": 6.06,
+            "p25": 4.98,
+            "p75": 7.78,
+            "n_pipelines": 154
+          },
+          "local_abs_slope_dev_pct": {
+            "median": 5.07,
+            "p25": 3.78,
+            "p75": 9.46,
+            "n_pipelines": 154
+          },
+          "median_bridge_minus_local_pct": 0.94,
+          "share_of_pipelines_bridge_lower": 0.41,
+          "scanner_pairs": [
+            "site1-achieva|site4-skyra",
+            "site1-achieva|site5-prisma",
+            "site1-elition|site5-prisma",
+            "site5-mr750|site5-prisma"
+          ],
+          "n_subjects": 3
+        },
+        "calibration_loso": {
+          "scanners": [
+            "site5-prisma"
+          ],
+          "none_abs_slope_dev_pct": {
+            "median": 6.12,
+            "p25": 4.5,
+            "p75": 10.52,
+            "n_pipelines": 154
+          },
+          "loso_abs_slope_dev_pct": {
+            "median": 7.84,
+            "p25": 4.83,
+            "p75": 9.74,
+            "n_pipelines": 154
+          },
+          "in_sample_abs_slope_dev_pct": {
+            "median": 1.52,
+            "p25": 1.03,
+            "p75": 2.08,
+            "n_pipelines": 154
+          },
+          "share_of_pipelines_loso_better_than_none": 0.4
+        }
+      },
+      "different_and_borderline": {
+        "scanners": [
+          "site4-skyra",
+          "site5-prisma",
+          "site5-mr750"
+        ],
+        "local_vs_bridge": {
+          "median_slope": {
+            "median": 0.99,
+            "p25": 0.96,
+            "p75": 1.01,
+            "n_pipelines": 154
+          },
+          "median_abs_slope_dev_pct": {
+            "median": 4.98,
+            "p25": 3.8,
+            "p75": 8.12,
+            "n_pipelines": 154
+          },
+          "rescan_floor_abs_slope_dev_pct": {
+            "median": 1.84,
+            "p25": 1.64,
+            "p75": 2.2,
+            "n_pipelines": 154
+          },
+          "n_subjects": 3
+        },
+        "test_retest_abs_slope_dev_pct": {
+          "bridge": {
+            "median": 2.25,
+            "p25": 2.01,
+            "p75": 2.6,
+            "n_pipelines": 154
+          },
+          "local": {
+            "median": 1.6,
+            "p25": 1.23,
+            "p75": 2.0,
+            "n_pipelines": 154
+          }
+        },
+        "inter_scanner_matched_pairs": {
+          "bridge_abs_slope_dev_pct": {
+            "median": 6.56,
+            "p25": 5.26,
+            "p75": 8.07,
+            "n_pipelines": 154
+          },
+          "local_abs_slope_dev_pct": {
+            "median": 5.29,
+            "p25": 3.8,
+            "p75": 8.66,
+            "n_pipelines": 154
+          },
+          "median_bridge_minus_local_pct": 1.17,
+          "share_of_pipelines_bridge_lower": 0.38,
+          "scanner_pairs": [
+            "site1-achieva|site4-skyra",
+            "site1-achieva|site5-mr750",
+            "site1-achieva|site5-prisma",
+            "site1-elition|site5-mr750",
+            "site1-elition|site5-prisma",
+            "site5-mr750|site5-prisma"
+          ],
+          "n_subjects": 3
+        },
+        "calibration_loso": {
+          "scanners": [
+            "site5-mr750",
+            "site5-prisma"
+          ],
+          "none_abs_slope_dev_pct": {
+            "median": 5.25,
+            "p25": 3.95,
+            "p75": 7.51,
+            "n_pipelines": 154
+          },
+          "loso_abs_slope_dev_pct": {
+            "median": 6.08,
+            "p25": 4.22,
+            "p75": 7.43,
+            "n_pipelines": 154
+          },
+          "in_sample_abs_slope_dev_pct": {
+            "median": 1.33,
+            "p25": 1.04,
+            "p75": 1.73,
+            "n_pipelines": 154
+          },
+          "share_of_pipelines_loso_better_than_none": 0.43
+        }
+      },
+      "similar": {
+        "scanners": [
+          "site1-achieva",
+          "site1-elition",
+          "site6-ingenia"
+        ],
+        "local_vs_bridge": {
+          "median_slope": {
+            "median": 0.99,
+            "p25": 0.98,
+            "p75": 1.0,
+            "n_pipelines": 154
+          },
+          "median_abs_slope_dev_pct": {
+            "median": 2.79,
+            "p25": 2.29,
+            "p75": 3.41,
+            "n_pipelines": 154
+          },
+          "rescan_floor_abs_slope_dev_pct": {
+            "median": 1.64,
+            "p25": 1.37,
+            "p75": 2.06,
+            "n_pipelines": 154
+          },
+          "n_subjects": 6
+        },
+        "test_retest_abs_slope_dev_pct": {
+          "bridge": {
+            "median": 2.16,
+            "p25": 1.75,
+            "p75": 2.64,
+            "n_pipelines": 154
+          },
+          "local": {
+            "median": 1.34,
+            "p25": 1.1,
+            "p75": 1.68,
+            "n_pipelines": 154
+          }
+        },
+        "inter_scanner_matched_pairs": {
+          "bridge_abs_slope_dev_pct": {
+            "median": 4.05,
+            "p25": 2.02,
+            "p75": 6.09,
+            "n_pipelines": 154
+          },
+          "local_abs_slope_dev_pct": {
+            "median": 4.04,
+            "p25": 2.71,
+            "p75": 5.71,
+            "n_pipelines": 154
+          },
+          "median_bridge_minus_local_pct": -0.23,
+          "share_of_pipelines_bridge_lower": 0.55,
+          "scanner_pairs": [
+            "site1-achieva|site6-ingenia"
+          ],
+          "n_subjects": 1
+        },
+        "calibration_loso": {
+          "scanners": [
+            "site1-achieva"
+          ],
+          "none_abs_slope_dev_pct": {
+            "median": 2.84,
+            "p25": 2.25,
+            "p75": 3.6,
+            "n_pipelines": 154
+          },
+          "loso_abs_slope_dev_pct": {
+            "median": 3.07,
+            "p25": 2.39,
+            "p75": 4.25,
+            "n_pipelines": 154
+          },
+          "in_sample_abs_slope_dev_pct": {
+            "median": 0.81,
+            "p25": 0.51,
+            "p75": 1.1,
+            "n_pipelines": 154
+          },
+          "share_of_pipelines_loso_better_than_none": 0.35
+        }
+      }
+    }
+  },
   "issue_10_noise_vs_systematic": {
     "bridge": {
       "rms_ln_slope_test_retest_pct": {
@@ -748,6 +1557,293 @@
         "between_subjects_sd_ppb": {
           "bridge": 28.4,
           "local": 26.8
+        }
+      }
+    }
+  },
+  "issue_6_pipeline_conversion_good": {
+    "good_top10": {
+      "n_pipelines": 62,
+      "Caudate": {
+        "scanner_sd_ppb": 3.3,
+        "rescan_sd_ppb": 1.3,
+        "none": {
+          "pipeline_sd_ppb": {
+            "median": 10.09,
+            "p25": 8.37,
+            "p75": 10.84,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 8.02,
+            "p25": 5.35,
+            "p75": 11.66,
+            "n_pipelines": 62
+          }
+        },
+        "in_sample": {
+          "pipeline_sd_ppb": {
+            "median": 6.93,
+            "p25": 6.6,
+            "p75": 7.44,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 7.05,
+            "p25": 4.6,
+            "p75": 8.77,
+            "n_pipelines": 62
+          }
+        },
+        "from_reference_bridge": {
+          "pipeline_sd_ppb": {
+            "median": 6.89,
+            "p25": 6.58,
+            "p75": 7.26,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 6.89,
+            "p25": 5.06,
+            "p75": 8.73,
+            "n_pipelines": 62
+          }
+        }
+      },
+      "Pallidum": {
+        "scanner_sd_ppb": 6.2,
+        "rescan_sd_ppb": 2.3,
+        "none": {
+          "pipeline_sd_ppb": {
+            "median": 18.74,
+            "p25": 17.11,
+            "p75": 21.26,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 14.13,
+            "p25": 9.29,
+            "p75": 19.42,
+            "n_pipelines": 62
+          }
+        },
+        "in_sample": {
+          "pipeline_sd_ppb": {
+            "median": 8.37,
+            "p25": 6.1,
+            "p75": 9.59,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 6.93,
+            "p25": 5.4,
+            "p75": 10.63,
+            "n_pipelines": 62
+          }
+        },
+        "from_reference_bridge": {
+          "pipeline_sd_ppb": {
+            "median": 10.0,
+            "p25": 7.49,
+            "p75": 11.52,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 9.21,
+            "p25": 5.89,
+            "p75": 11.25,
+            "n_pipelines": 62
+          }
+        }
+      }
+    },
+    "good_top25": {
+      "n_pipelines": 154,
+      "Caudate": {
+        "scanner_sd_ppb": 3.1,
+        "rescan_sd_ppb": 1.2,
+        "none": {
+          "pipeline_sd_ppb": {
+            "median": 10.14,
+            "p25": 8.59,
+            "p75": 10.72,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 7.64,
+            "p25": 5.42,
+            "p75": 11.19,
+            "n_pipelines": 154
+          }
+        },
+        "in_sample": {
+          "pipeline_sd_ppb": {
+            "median": 6.57,
+            "p25": 6.11,
+            "p75": 6.96,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 6.57,
+            "p25": 4.47,
+            "p75": 8.3,
+            "n_pipelines": 154
+          }
+        },
+        "from_reference_bridge": {
+          "pipeline_sd_ppb": {
+            "median": 6.42,
+            "p25": 6.19,
+            "p75": 7.05,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 6.58,
+            "p25": 4.62,
+            "p75": 8.16,
+            "n_pipelines": 154
+          }
+        }
+      },
+      "Pallidum": {
+        "scanner_sd_ppb": 6.2,
+        "rescan_sd_ppb": 2.1,
+        "none": {
+          "pipeline_sd_ppb": {
+            "median": 20.38,
+            "p25": 18.71,
+            "p75": 22.88,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 18.83,
+            "p25": 11.31,
+            "p75": 25.72,
+            "n_pipelines": 154
+          }
+        },
+        "in_sample": {
+          "pipeline_sd_ppb": {
+            "median": 7.58,
+            "p25": 6.02,
+            "p75": 9.94,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 8.24,
+            "p25": 6.22,
+            "p75": 12.75,
+            "n_pipelines": 154
+          }
+        },
+        "from_reference_bridge": {
+          "pipeline_sd_ppb": {
+            "median": 9.32,
+            "p25": 6.98,
+            "p75": 11.79,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 9.57,
+            "p25": 6.57,
+            "p75": 14.77,
+            "n_pipelines": 154
+          }
+        }
+      }
+    },
+    "all": {
+      "n_pipelines": 638,
+      "Caudate": {
+        "scanner_sd_ppb": 3.3,
+        "rescan_sd_ppb": 1.2,
+        "none": {
+          "pipeline_sd_ppb": {
+            "median": 20.02,
+            "p25": 16.43,
+            "p75": 32.36,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 8.67,
+            "p25": 5.66,
+            "p75": 14.45,
+            "n_pipelines": 638
+          }
+        },
+        "in_sample": {
+          "pipeline_sd_ppb": {
+            "median": 10.08,
+            "p25": 9.22,
+            "p75": 17.71,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 6.71,
+            "p25": 4.72,
+            "p75": 9.73,
+            "n_pipelines": 638
+          }
+        },
+        "from_reference_bridge": {
+          "pipeline_sd_ppb": {
+            "median": 10.75,
+            "p25": 9.72,
+            "p75": 14.32,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 6.68,
+            "p25": 4.73,
+            "p75": 10.05,
+            "n_pipelines": 636
+          }
+        }
+      },
+      "Pallidum": {
+        "scanner_sd_ppb": 6.9,
+        "rescan_sd_ppb": 2.0,
+        "none": {
+          "pipeline_sd_ppb": {
+            "median": 31.09,
+            "p25": 28.2,
+            "p75": 37.62,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 20.4,
+            "p25": 13.34,
+            "p75": 29.63,
+            "n_pipelines": 638
+          }
+        },
+        "in_sample": {
+          "pipeline_sd_ppb": {
+            "median": 15.16,
+            "p25": 11.62,
+            "p75": 17.92,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 9.3,
+            "p25": 6.28,
+            "p75": 15.31,
+            "n_pipelines": 638
+          }
+        },
+        "from_reference_bridge": {
+          "pipeline_sd_ppb": {
+            "median": 16.34,
+            "p25": 13.65,
+            "p75": 20.94,
+            "n_conditions": 19
+          },
+          "rms_from_consensus_ppb": {
+            "median": 10.42,
+            "p25": 6.8,
+            "p75": 17.92,
+            "n_pipelines": 636
+          }
         }
       }
     }

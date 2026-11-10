@@ -1,6 +1,6 @@
 """Follow-up analyses for the open GitHub issues; writes results/followup/:
   followup.json               the summary values, one key per issue
-  slope_spread.csv            #2  per pipeline: SD of a over test-retest pairs, IQR of |a-1| across scanner pairs
+  slope_spread.csv            #2  per pipeline: SD of a over test-retest pairs (as fitted and order-symmetrised), IQR of |a-1| across scanner pairs
   inter_scanner_pairs.csv     #7/#8  per scanner pair and protocol: median |a-1| over pipelines
   calibration_loso.csv.gz     #5  per local-vs-bridge pair: |a-1| and LoA uncorrected, leave-one-subject-out, in-sample
   inter_scanner_run_averaged.csv.gz  #10  inter-scanner fits on run-averaged scans
@@ -39,6 +39,11 @@ def slope_spread(ok):
     g = tr.groupby(['pipeline', 'protocol'])
     per = pd.DataFrame({'tr_sd_slope': g.slope.std(), 'tr_mean_slope_minus_1': g.slope.mean() - 1,
                         'tr_median_abs_slope_dev': g.abs_slope_dev.median()})
+    # The orthogonal fit is symmetric (swapping x and y turns a into 1/a, ln a into -ln a), so the SD of a with the
+    # pair order symmetrised is the SD of ln a over both orientations: sqrt(2 sum ln^2 a / (2n - 1)).
+    ln_a = np.log(tr.slope)
+    per['tr_sd_slope_symmetric'] = (ln_a ** 2).groupby([tr.pipeline, tr.protocol]).agg(
+        lambda v: np.sqrt(2 * v.sum() / (2 * len(v) - 1)))
     isc = ok[ok.comparison == 'inter_scanner']
     by_pair = isc.groupby(['pipeline', 'protocol', 'scanner_pair']).abs_slope_dev.median()
     q = by_pair.groupby(['pipeline', 'protocol'])
@@ -51,6 +56,7 @@ def slope_spread(ok):
         p = per.xs(prot, level='protocol')
         out[prot] = {
             'test_retest_sd_slope_pct': pipeline_summary(p.tr_sd_slope, 100),
+            'test_retest_sd_slope_symmetric_pct': pipeline_summary(p.tr_sd_slope_symmetric, 100),
             'test_retest_mean_slope_minus_1_pct': pipeline_summary(p.tr_mean_slope_minus_1, 100),
             'test_retest_median_abs_slope_dev_pct': pipeline_summary(p.tr_median_abs_slope_dev, 100),
             'inter_scanner_median_abs_slope_dev_pct': pipeline_summary(p.is_median_abs_slope_dev, 100),

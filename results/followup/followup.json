@@ -7,6 +7,12 @@
         "p75": 3.78,
         "n_pipelines": 638
       },
+      "test_retest_sd_slope_symmetric_pct": {
+        "median": 3.4,
+        "p25": 2.98,
+        "p75": 3.84,
+        "n_pipelines": 638
+      },
       "test_retest_mean_slope_minus_1_pct": {
         "median": -0.53,
         "p25": -0.87,
@@ -38,6 +44,12 @@
         "median": 2.19,
         "p25": 1.84,
         "p75": 2.7,
+        "n_pipelines": 638
+      },
+      "test_retest_sd_slope_symmetric_pct": {
+        "median": 2.2,
+        "p25": 1.86,
+        "p75": 2.71,
         "n_pipelines": 638
       },
       "test_retest_mean_slope_minus_1_pct": {

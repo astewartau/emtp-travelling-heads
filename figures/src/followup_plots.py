@@ -185,8 +185,10 @@ def example_fit(panels, *, name=None, show=('Left-Pallidum', 'Left-Putamen', 'Le
         save(fig, name)
 
 
-def pair_design(acq, counts, *, name=None):
-    """The three kinds of scan pair. `counts` gives the numbers for the titles (from emtp.comparison_plan)."""
+def pair_design(acq, counts, *, scanners=None, name=None):
+    """The three kinds of scan pair. `counts` gives the numbers for the titles (from emtp.comparison_plan);
+    `scanners` maps scanner id -> label for panel D (default: the six analysed in v10)."""
+    scanners = scanners or SCANNER
     light, edge = {'B': '#d6e6f8', 'L': '#fbdccd'}, {'B': BRIDGE, 'L': LOCAL}
 
     def scan(ax, x, y, lab, w=0.72, h=0.5):
@@ -249,28 +251,29 @@ def pair_design(acq, counts, *, name=None):
                  loc='left', fontsize=10.5)
 
     ax = fig.add_subplot(gs[1, 1])
-    scanners, subjects = list(SCANNER), sorted(acq.subject.unique())
+    labels, scanners, subjects = list(scanners.values()), list(scanners), sorted(acq.subject.unique())
+    n_multi = int((acq.groupby('subject').scanner.nunique() > 1).sum())
     sessions = acq[['subject', 'scanner']].drop_duplicates()
     for subj, g in sessions.groupby('subject'):
         y, xs = subjects.index(subj), sorted(scanners.index(c) for c in g.scanner)
         for i, a in enumerate(xs):
             for b in xs[i + 1:]:
-                arc(ax, a, b, y, BRIDGE, up=False, height=0.12 + 0.08 * (b - a))
+                arc(ax, a, b, y, BRIDGE, up=False, height=min(0.12 + 0.08 * (b - a), 0.1 + 0.035 * len(scanners) * (b - a) / 6 + 0.05))
         n = len(xs) * (len(xs) - 1) // 2
-        ax.text(6.0, y, (f'{n} pair' + ('s' if n > 1 else '')) if n else 'site 1 only', fontsize=9, va='center',
+        ax.text(len(scanners), y, (f'{n} pair' + ('s' if n > 1 else '')) if n else 'site 1 only', fontsize=9, va='center',
                 color=INK if n else INK2)
     for r in sessions.itertuples():
         ax.scatter(scanners.index(r.scanner), subjects.index(r.subject), s=110, color=INK, zorder=3)
     for i in range(len(subjects)):
         ax.axhline(i, color=GRID, lw=0.8, zorder=0)
-    ax.set_xticks(range(len(scanners))); ax.set_xticklabels(SCANNER.values(), rotation=30, ha='right', fontsize=9)
+    ax.set_xticks(range(len(scanners))); ax.set_xticklabels(labels, rotation=30, ha='right', fontsize=9)
     ax.set_yticks(range(len(subjects))); ax.set_yticklabels(subjects, fontsize=9)
-    ax.set_xlim(-0.5, 7); ax.set_ylim(len(subjects) - 0.4, -0.7)
+    ax.set_xlim(-0.5, len(scanners) + 1); ax.set_ylim(len(subjects) - 0.4, -0.7)
     for s in ('top', 'right', 'left', 'bottom'):
         ax.spines[s].set_visible(False)
     ax.tick_params(length=0)
     ax.set_title(f"D  Which sessions are paired: dot = session, curve = session pair\n"
-                 f"{counts['session_pairs']} session pairs from 4 subjects, {counts['scanner_pairs']} distinct scanner pairs",
+                 f"{counts['session_pairs']} session pairs from {n_multi} subjects, {counts['scanner_pairs']} distinct scanner pairs",
                  loc='left', fontsize=10.5)
     if name:
         save(fig, name)

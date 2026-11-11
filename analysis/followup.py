@@ -2,6 +2,7 @@
   followup.json               the summary values, one key per issue
   slope_spread.csv            #2  per pipeline: SD of a over test-retest pairs (as fitted and order-symmetrised), IQR of |a-1| across scanner pairs
   inter_scanner_pairs.csv     #7/#8  per scanner pair and protocol: median |a-1| over pipelines
+  inter_scanner_by_vendor.csv #8  by vendor pair (and same/cross vendor) x site relation, all and good pipelines
   calibration_loso.csv.gz     #5  per local-vs-bridge pair: |a-1| and LoA uncorrected, leave-one-subject-out, in-sample
   inter_scanner_run_averaged.csv.gz  #10  inter-scanner fits on run-averaged scans
   differing_protocols_by_scanner.csv  #14  per scanner: local-vs-bridge a, |a-1| and the rescan floor (all/good pipelines)
@@ -81,7 +82,10 @@ def corrected_loa(ok):
 
 
 def by_scanner_relation(ok):
-    """#7/#8: inter-scanner |a-1| split by site (same institution or not) and vendor (same or not)."""
+    """#7/#8: inter-scanner |a-1| split by site (same institution or not) and vendor (same or not).
+    Site and vendor are confounded (the only same-vendor pairs are the three Siemens scanners at site 2, all one
+    subject, and Philips vs Philips across sites), so #8 is also reported by vendor pair x site relation, for
+    all pipelines and the good ones (top 10% by simulation XSIM, D9), with the scanner pairs behind each cell."""
     isc = ok[ok.comparison == 'inter_scanner']
     tab = (isc.groupby(['scanner_pair', 'site_relation', 'vendor_pair', 'protocol', 'pipeline']).abs_slope_dev.median()
            .groupby(['scanner_pair', 'site_relation', 'vendor_pair', 'protocol']).median().mul(100).round(2)
@@ -97,8 +101,26 @@ def by_scanner_relation(ok):
             s.update(n_scanner_pairs=int(d.scanner_pair.nunique()), n_subjects=int(d.subject_x.nunique()))
             out[key].setdefault(grp, {})[prot] = s
     out['scanner_pairs_median_abs_slope_dev_pct'] = {
-        k[0]: {'site_relation': k[1], 'vendors': k[2], **{p: r(row[p], 2) for p in PROTOCOLS}, 'subjects': row.subjects}
+        k[0]: {'site_relation': k[1], 'vendors': k[2], **{p: r(row.get(p), 2) for p in PROTOCOLS}, 'subjects': row.subjects}
         for k, row in tab.iterrows()}
+    # #8 by vendor: vendor pair x site relation, and same/cross vendor x site relation
+    sets = {'all': None, 'good_top10': emtp.good_pipelines(emtp.GOOD_PIPELINE_FRACTION)}
+    rows = []
+    for pname, pipes in sets.items():
+        d0 = isc if pipes is None else isc[isc.pipeline.isin(pipes)]
+        for keys in (['vendor_pair', 'site_relation'], ['vendor_relation', 'site_relation']):
+            res = {}
+            for (grp, rel, prot), d in d0.groupby(keys + ['protocol']):
+                s = pipeline_summary(d.groupby('pipeline').abs_slope_dev.median(), 100)
+                s.update(n_scanner_pairs=int(d.scanner_pair.nunique()), n_subjects=int(d.subject_x.nunique()),
+                         scanner_pairs=sorted(d.scanner_pair.unique()))
+                res.setdefault(f'{grp} ({rel})', {})[prot] = s
+                rows.append(dict(pipelines=pname, grouping=keys[0], group=grp, site_relation=rel, protocol=prot,
+                                 median_abs_slope_dev_pct=s['median'], p25=s['p25'], p75=s['p75'],
+                                 n_pipelines=s['n_pipelines'], n_scanner_pairs=s['n_scanner_pairs'],
+                                 n_subjects=s['n_subjects'], scanner_pairs=' '.join(s['scanner_pairs'])))
+            out.setdefault(f'by_{keys[0]}', {})[pname] = res
+    pd.DataFrame(rows).to_csv(OUT / 'inter_scanner_by_vendor.csv', index=False)
     return out
 
 
@@ -620,6 +642,9 @@ def repositioning(ok):
     pose = pd.read_csv(emtp.DATA / 'head_pose.csv').set_index('acquisition')
     out = {}
     per_pair = ok.groupby(['comparison', 'protocol', 'acquisition_x', 'acquisition_y']).abs_slope_dev.median().reset_index()
+    # head_pose.csv covers the first 12 sessions only: pairs with a scan without a pose are left out
+    per_pair = per_pair[per_pair.acquisition_x.isin(pose.index) & per_pair.acquisition_y.isin(pose.index)]
+    out['acquisitions_with_pose'] = int(len(pose))
     for comp, frame in (('inter_scanner', 'subject'), ('test_retest', 'session')):
         d = per_pair[per_pair.comparison == comp].copy()
         d['b0_angle_deg'] = [b0_angle(pose, a, b, frame) for a, b in zip(d.acquisition_x, d.acquisition_y)]

@@ -15,8 +15,10 @@ OUT = Path(__file__).resolve().parents[1] / 'followup'
 INK, INK2, GRID = '#0b0b0b', '#52514e', '#e4e3df'
 BRIDGE, LOCAL, GREY, PURPLE = '#2a78d6', '#eb6834', '#8a8984', '#6b5bb3'
 FAINT_WORDS = ('remov', 'without', 'best case')
-SCANNER = {'site1-achieva': 'S1 Achieva', 'site1-elition': 'S1 Elition X', 'site4-skyra': 'S4 Skyra',
-           'site5-mr750': 'S5 MR750', 'site5-prisma': 'S5 Prisma', 'site6-ingenia': 'S6 Ingenia'}
+SCANNER = {'site1-achieva': 'S1 Achieva', 'site1-elition': 'S1 Elition X', 'site2-prisma': 'S2 Prisma',
+           'site2-cimax': 'S2 Cima.X', 'site2-skyra': 'S2 Skyra', 'site3-mr750w': 'S3 MR750w', 'site3-prisma': 'S3 Prisma',
+           'site4-skyra': 'S4 Skyra', 'site5-mr750': 'S5 MR750', 'site5-prisma': 'S5 Prisma', 'site6-ingenia': 'S6 Ingenia'}
+DATA_LABEL = 'v11 data'   # figure titles: which QSM-CI run the figures come from
 plt.rcParams.update({'font.size': 10, 'axes.edgecolor': INK2, 'axes.labelcolor': INK, 'xtick.color': INK2,
                      'ytick.color': INK2, 'axes.spines.top': False, 'axes.spines.right': False})
 

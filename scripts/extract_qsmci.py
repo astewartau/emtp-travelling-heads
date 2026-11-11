@@ -12,7 +12,8 @@ Only the pipelines and acquisitions in the published payload are written (the ru
 leaves out), so this repository analyses what QSM-CI shows.
 
 pipelines.csv takes each pipeline's full-pipeline simulation scores (QSM Challenge 2.0 phantom, `sim`) from the
-QSM-CI run whose slug is the pipeline's name; pipelines without such a run get none (emtp.good_pipelines leaves
+QSM-CI run that reconstructs the same full chain from the simulated data, field mapping included (sim_chain; never
+a run that starts from the ground-truth field); pipelines without such a run get none (emtp.good_pipelines leaves
 them out). A step may carry a variant tag (`<method>.<tag>`, e.g. a parity or deconvolution setting);
 `default_settings` is true when no step does.
 
@@ -71,15 +72,38 @@ def steps(pipeline):
     return 1, '', '', s[0]
 
 
+def sim_chain(run):
+    """The full chain a simulation run reconstructs from the simulated multi-echo data, as a pipeline name
+    ('<field map>+<background removal>+<inversion>', '<field map>+<combined method>' or '<end-to-end method>'), or
+    None when the run starts later (e.g. from the ground-truth total field, stage 'bfr+dipole'). The chain comes
+    from the run id ('<step>~<step>~...-cmp' / '<method>-iso'): the slug of a two-step run names only its method."""
+    stage, rid = run.get('stage') or '', run.get('id') or ''
+    if not (stage.startswith('field-mapping') or stage == 'end-to-end'):
+        return None
+    if (run.get('combo') or {}).get('field_mapping') == 'gt':
+        return None
+    for suffix in ('-cmp', '-iso'):
+        if rid.endswith(suffix):
+            return '+'.join(rid[:-len(suffix)].split('~'))
+    return None
+
+
 def sim_scores(index):
-    """slug -> metrics of the simulation (QSM Challenge 2.0) runs; a composed run wins over an isolated one with
-    the same slug (an end-to-end method appears as both, with the same scores)."""
-    out = {}
+    """full chain -> metrics of the simulation (QSM Challenge 2.0 phantom `sim`) runs that start from the simulated
+    data, field mapping included. A composed run wins over an isolated one of the same chain (an end-to-end
+    method appears as both, with the same scores)."""
+    out, mode = {}, {}
     for r in index['runs']:
         if r.get('track') != 'sim' or r.get('phantom') != 'sim' or r.get('status') != 'ok':
             continue
-        if r['slug'] not in out or r.get('mode') == 'composed':
-            out[r['slug']] = r.get('metrics') or {}
+        chain = sim_chain(r)
+        if chain is None:
+            continue
+        if chain in out and mode[chain] == 'composed' and r.get('mode') != 'composed':
+            continue
+        if chain in out and mode[chain] == r.get('mode') and out[chain] != (r.get('metrics') or {}):
+            raise SystemExit(f'two simulation runs for {chain} with different scores')
+        out[chain], mode[chain] = r.get('metrics') or {}, r.get('mode')
     return out
 
 

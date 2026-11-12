@@ -8,7 +8,8 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'analysis'))
 import emtp  # noqa: E402
 
-OUT = Path(__file__).resolve().parents[1] / 'fig3_agreement.png'
+# `python fig3_agreement.py v11` writes the current-data version to figures/v11/; no argument: the abstract figure
+OUT = Path(__file__).resolve().parents[1] / (sys.argv[1] if len(sys.argv) > 1 else '') / 'fig3_agreement.png'
 INK, INK2, GRID = '#0b0b0b', '#52514e', '#e4e3df'
 BRIDGE, LOCAL = '#2a78d6', '#eb6834'
 plt.rcParams.update({'font.size': 10, 'axes.edgecolor': INK2, 'axes.labelcolor': INK, 'xtick.color': INK2,
@@ -80,4 +81,5 @@ def make(reg=None, fits=None):
 
 
 if __name__ == '__main__':
+    OUT.parent.mkdir(exist_ok=True)
     make().savefig(OUT, dpi=300, bbox_inches='tight', facecolor='white')

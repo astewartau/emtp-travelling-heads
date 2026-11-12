@@ -1,6 +1,9 @@
 """Figure 5: QSM-CI screenshot (harmonization pipeline matrix, ROMEO field mapping) with a light browser bar."""
+import sys
 from PIL import Image, ImageDraw, ImageFont
-card = Image.open('../../data/qsmci_screenshot/matrix_subset.png').convert('RGB')
+# `python fig_qsmci.py v11`: from matrix_subset_v11.png (shots4.js v11) to figures/v11/; no argument: the abstract figure
+VER = sys.argv[1] if len(sys.argv) > 1 else ''
+card = Image.open(f'../../data/qsmci_screenshot/matrix_subset{"_" + VER if VER else ""}.png').convert('RGB')
 W = card.width; S = W / 900  # scale relative to CSS width of the card
 BAR = int(64 * S); PAD = int(18 * S)
 out = Image.new('RGB', (W + 2 * PAD, card.height + BAR + 2 * PAD), '#ffffff')
@@ -17,5 +20,5 @@ tw = d.textlength('qsmxt.github.io/QSM-CI', font=F(14, True))
 d.text((ux0 + int(14 * S) + tw + int(12 * S), BAR // 2), 'Results  ›  Harmonization (2026)  ›  Pipeline reproducibility',
        font=F(13), fill='#6b7280', anchor='lm')
 out.paste(card, (PAD, BAR + PAD // 2))
-out.save('../fig5_qsmci.png', dpi=(300, 300))
+out.save(f'../{VER + "/" if VER else ""}fig5_qsmci.png', dpi=(300, 300))
 print(out.size)

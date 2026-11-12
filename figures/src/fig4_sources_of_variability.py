@@ -9,7 +9,8 @@ from matplotlib.patches import Patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'analysis'))
 import emtp  # noqa: E402
 
-OUT = Path(__file__).resolve().parents[1] / 'fig4_sources_of_variability.png'
+# `python fig4_sources_of_variability.py v11` writes the current-data version to figures/v11/; no argument: the abstract figure
+OUT = Path(__file__).resolve().parents[1] / (sys.argv[1] if len(sys.argv) > 1 else '') / 'fig4_sources_of_variability.png'
 
 INK, INK2, GRID = '#0b0b0b', '#52514e', '#e4e3df'
 SERIES = [('Bridge', '#2a78d6', 'Bridge protocol'), ('Local', '#eb6834', 'Local protocols')]
@@ -61,4 +62,5 @@ def make(reg=None, regions=('Caudate', 'Pallidum')):
 
 
 if __name__ == '__main__':
+    OUT.parent.mkdir(exist_ok=True)
     make().savefig(OUT, dpi=300, bbox_inches='tight', facecolor='white')

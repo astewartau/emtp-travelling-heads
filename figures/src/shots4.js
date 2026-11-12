@@ -1,6 +1,12 @@
 const { chromium } = require('playwright');
-const ROWS = ['WH-QSM (QSM.rs)', 'HD-QSM (QSM.rs)', 'MEDI (QSM.rs)', 'iLSQR (STI Suite)', 'RTS (QSM.rs)', 'TKD (QSM.rs)', 'LPCNN (PyTorch)', 'QSMnet+ (TensorFlow)'];
-const COLS = ['SHARP (QSM.rs)', 'V-SHARP (STI Suite)', 'PDF (QSM.rs)', 'RESHARP (QSM.rs)', 'LBV (QSM.rs)'];
+// `node shots4.js v11`: the current site (QSM.rs ports) to data/qsmci_screenshot/matrix_subset_v11.png;
+// no argument: the abstract's v10 labels and file
+const VER = process.argv[2] || '';
+const ROWS = VER ? ['WH-QSM (QSM.rs)', 'HD-QSM (QSM.rs)', 'MEDI (QSM.rs)', 'iLSQR (QSM.rs)', 'RTS (QSM.rs)', 'TKD (QSM.rs)', 'LPCNN (QSM.rs)', 'QSMnet+ (QSM.rs)']
+                 : ['WH-QSM (QSM.rs)', 'HD-QSM (QSM.rs)', 'MEDI (QSM.rs)', 'iLSQR (STI Suite)', 'RTS (QSM.rs)', 'TKD (QSM.rs)', 'LPCNN (PyTorch)', 'QSMnet+ (TensorFlow)'];
+const COLS = VER ? ['SHARP (QSM.rs)', 'V-SHARP (QSM.rs)', 'PDF (QSM.rs)', 'RESHARP (QSM.rs)', 'LBV (QSM.rs)']
+                 : ['SHARP (QSM.rs)', 'V-SHARP (STI Suite)', 'PDF (QSM.rs)', 'RESHARP (QSM.rs)', 'LBV (QSM.rs)'];
+const NPIPE = VER ? 996 : 638;
 (async () => {
   const b = await chromium.launch();
   const ctx = await b.newContext({viewport:{width:1440,height:1000}, colorScheme:'light', deviceScaleFactor:3});
@@ -10,11 +16,11 @@ const COLS = ['SHARP (QSM.rs)', 'V-SHARP (STI Suite)', 'PDF (QSM.rs)', 'RESHARP 
   await p.getByText('Harmonization (2026)', {exact:true}).first().click(); await p.waitForTimeout(3000);
   await p.getByText('Pipeline reproducibility', {exact:true}).first().click(); await p.waitForTimeout(6000);
   const sels = p.locator('select'); const n = await sels.count();
-  for (let i = 0; i < n; i++) { const o = (await sels.nth(i).locator('option').allTextContents()).find(t => /ROMEO/.test(t));
+  for (let i = 0; i < n; i++) { const opts = await sels.nth(i).locator('option').allTextContents(); const o = opts.find(t => t === 'ROMEO (QSM.rs)') || opts.find(t => /^ROMEO/.test(t));
     if (o && await sels.nth(i).isVisible()) { await sels.nth(i).selectOption({label: o}); break; } }
   await p.waitForTimeout(4000);
   await p.addStyleTag({content: 'header, nav, .sticky, [class*="sticky"], [class*="fixed"] {position: static !important}'});
-  const res = await p.evaluate(({ROWS, COLS}) => {
+  const res = await p.evaluate(({ROWS, COLS, NPIPE}) => {
     const lab = [...document.querySelectorAll('div')].find(e => e.children.length === 0 && e.textContent.trim() === 'WH-QSM (QSM.rs)');
     const grid = lab.parentElement.parentElement;
     const ncol = getComputedStyle(grid).gridTemplateColumns.split(' ').length;
@@ -38,7 +44,7 @@ const COLS = ['SHARP (QSM.rs)', 'V-SHARP (STI Suite)', 'PDF (QSM.rs)', 'RESHARP 
       r.forEach((c, i) => { if (!keepRow || !keepCols.includes(i)) c.style.display = 'none'; }); });
     header.slice(1).forEach(h => h.querySelectorAll('*').forEach(x => { x.style.whiteSpace = 'normal'; x.style.overflow = 'visible'; x.style.textOverflow = 'clip'; }));
     header.forEach(h => { h.style.whiteSpace = 'normal'; h.style.overflow = 'visible'; h.style.textOverflow = 'clip'; h.style.textAlign = 'center'; });
-    const lastOf = (r) => r[keepCols[keepCols.length - 1]];
+    const lastOf = (r) => r[Math.max(...keepCols)];   // the right-most kept column in page order
     lastOf(header).after(ph(`+${nMoreCols} more`, 'border:none;background:none;height:auto;'));
     keepRows.forEach(r => lastOf(r).after(ph('…')));
     const tail = rows[rows.length - 1][ncol - 1];
@@ -47,7 +53,9 @@ const COLS = ['SHARP (QSM.rs)', 'V-SHARP (STI Suite)', 'PDF (QSM.rs)', 'RESHARP 
     let prev = tail; extra.forEach(e => { prev.after(e); prev = e; });
     // no in-cell accuracy bars: hide thin elements inside the heat cells
     grid.querySelectorAll('.heat-cell *').forEach(x => { const r = x.getBoundingClientRect(); if (r.height > 0 && r.height <= 5) x.style.display = 'none'; });
-    grid.style.gridTemplateColumns = `${first} repeat(${keepCols.length}, minmax(0,1fr))`;
+    // row labels: no wider than the kept labels need (long variant labels of hidden rows widen the column)
+    const firstW = Math.min(parseFloat(first) || 160, 190) + 'px';
+    grid.style.gridTemplateColumns = `${firstW} repeat(${keepCols.length}, minmax(0,1fr))`;
     grid.style.display = 'grid';
     // card: narrower, only title + one line + matrix + one footer line
     const card = grid.closest('.rounded-2xl');
@@ -66,16 +74,16 @@ const COLS = ['SHARP (QSM.rs)', 'V-SHARP (STI Suite)', 'PDF (QSM.rs)', 'RESHARP 
       let e = grid; while (e !== gridBlock) { [...e.parentElement.children].forEach(c => { if (c !== e) c.style.display = 'none'; }); e = e.parentElement; }
     }
     const foot = document.createElement('div');
-    foot.innerHTML = `<span>Showing ${keepRows.length} of ${dataRows.length} dipole inversions × ${keepCols.length - 1} of ${header.length - 1} background removals · 638 pipelines in total on QSM-CI, including combined and end-to-end methods</span>
+    foot.innerHTML = `<span>Showing ${keepRows.length} of ${dataRows.length} dipole inversions × ${keepCols.length - 1} of ${header.length - 1} background removals · ${NPIPE} pipelines in total on QSM-CI, including combined and end-to-end methods</span>
       <span style="display:inline-flex;align-items:center;gap:8px;margin-left:auto">better <span style="display:inline-block;width:90px;height:8px;border-radius:4px;background:linear-gradient(90deg,#b9dcc9,#e8dcc0,#e7b8bd)"></span> worse</span>`;
     foot.style.cssText = 'display:flex;align-items:center;gap:16px;font-size:12px;color:#6b7280;margin-top:14px;';
     grid.after(foot);
     const total = '';
     window.scrollTo(0, 0);
     return {hTexts, nRows: dataRows.length, kept: keepRows.map(rowLab), keptCols: keepCols.map(i => hTexts[i]), total, ncol};
-  }, {ROWS, COLS});
+  }, {ROWS, COLS, NPIPE});
   console.log(JSON.stringify(res));
   await p.waitForTimeout(800);
   const card = p.getByText('Combination matrix', {exact:true}).first().locator('xpath=ancestor::div[contains(@class,"rounded-2xl")][1]');
-  await card.screenshot({path:'../../data/qsmci_screenshot/matrix_subset.png'});
+  await card.screenshot({path:`../../data/qsmci_screenshot/matrix_subset${VER ? '_' + VER : ''}.png`});
   console.log('done'); await b.close(); })();

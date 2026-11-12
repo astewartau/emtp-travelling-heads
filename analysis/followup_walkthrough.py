@@ -1,7 +1,7 @@
 # %% [markdown]
 # # Follow-up analyses (post-abstract)
 #
-# Notes on the follow-up questions raised after the ISMRM 2027 abstract (issues #2–#10). Data: QSM-CI harmonization run, QSMxT v10.0.0; 6 subjects, 12 sessions, 72 acquisitions, 638 pipelines. The October sessions and the v11 re-run are not included.
+# Notes on the follow-up questions raised after the ISMRM 2027 abstract (issues #2–#10). Data: the QSM-CI harmonization run in `data/` (see `extraction/README.md`); the counts are printed below. Numbers in the notes are computed in the cells, so the notebook stays true when the data are replaced; the interpretation is reviewed with each new run.
 #
 # Notation (`analysis/notation.py`): every quantity is indexed by its subscripts. `median(x, each=(…))` takes the median over all subscripts not listed, `restrict(x, …)` selects a subset, `by(x, level)` splits by a subscript. SDs are sample SDs. χ is in ppb, relative to each map's whole-brain mean. Plots: `figures/src/followup_plots.py`. Box plots: box = IQR across pipelines, line = median, whiskers = 5th–95th percentile, +n = pipelines beyond the axis cap.
 
@@ -13,6 +13,7 @@ sys.path.insert(0, 'analysis'); sys.path.insert(0, 'figures/src')
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from IPython.display import Markdown
 from scipy.stats import binom
 
 import emtp
@@ -22,27 +23,38 @@ from notation import (by, chi_by_label, chi_region, exclude, fit_line, fit_to_re
 
 pd.set_option('display.precision', 2)
 
+
+def note(*lines):
+    """Markdown bullets with computed values."""
+    display(Markdown('\n'.join(f'- {l}' for l in lines)))
+
+
+
 reg = emtp.regions()
 acq = emtp.acquisitions()
 chi_lab = chi_by_label(reg)                                         # χ[pipeline, subject, scanner, protocol, run, region]
 chi = {R: chi_region(reg, R) for R in ('Caudate', 'Pallidum')}      # bilateral, χ[pipeline, subject, scanner, protocol, run]
+n_sessions = acq.groupby(['subject', 'scanner']).ngroups
+note(f"{acq.subject.nunique()} subjects, {acq.scanner.nunique()} scanners, {n_sessions} sessions, {len(acq)} acquisitions, "
+     f"{reg.pipeline.nunique()} pipelines",
+     f"multi-scanner subjects: {', '.join(s for s, n in acq.groupby('subject').scanner.nunique().items() if n > 1)}")
 acq.groupby(['subject', 'scanner']).size().unstack(fill_value=0)
 
 # %% [markdown]
-# Run order in every session: B1 L1 B2 L2 B3 L3. Only s004001, s005001, s005002 and s006001 have more than one scanner.
+# Run order in every session: B1 L1 B2 L2 B3 L3.
 #
 # ## Pairs and fits
 #
-# Per pair, orthogonal (TLS) fit over the regions present in both scans (11–25): $y = a x + b$,
+# Per pair, orthogonal (TLS) fit over the regions present in both scans (at least 8 of 25): $y = a x + b$,
 # $a = \dfrac{s_{yy} - s_{xx} + \sqrt{(s_{yy} - s_{xx})^2 + 4 s_{xy}^2}}{2 s_{xy}}$.
 # LoA $= 1.96\,\mathrm{SD}_i(y_i - x_i)$; line-corrected LoA $= 1.96\,\mathrm{SD}_i(y_i - a x_i - b)$.
 # Excluded: < 8 regions, flat maps, $|a - 1| > 2$.
 #
 # | Comparison | Pairs | Per pipeline and protocol |
 # |---|---|---|
-# | test_retest | same session and protocol, every two runs; x = earlier run | 12 × 3 = 36 |
-# | inter_scanner | same subject and protocol, every run × every run; x = site-1 scanner | 8 session pairs × 9 = 72 |
-# | inter_protocol | same session, bridge run k vs local run k; x = bridge | 12 × 3 = 36 |
+# | test_retest | same session and protocol, every two runs; x = earlier run | sessions × 3 |
+# | inter_scanner | same subject and protocol, every run × every run; x = the subject's earlier scanner in QSM-CI's order (site 1 first) | session pairs × 9 |
+# | inter_protocol | same session, bridge run k vs local run k; x = bridge | sessions × 3 |
 
 # %%
 fits = pair_fits(reg)            # a, b (ppb), loa, loa_corrected (± ppb) per pipeline and pair
@@ -80,7 +92,7 @@ plots.example_fit(panels, name='example_fit')
 # %% [markdown]
 # ## F1 · Test-retest: median |a − 1| vs SD of a (#2)
 #
-# Per pipeline, over its 36 test-retest pairs: $m = \operatorname{median}_k |a_k - 1|$, $s = \operatorname{SD}_k\, a_k$, $d = \operatorname{mean}_k (a_k - 1)$.
+# Per pipeline, over its test-retest pairs (3 per session): $m = \operatorname{median}_k |a_k - 1|$, $s = \operatorname{SD}_k\, a_k$, $d = \operatorname{mean}_k (a_k - 1)$.
 
 # %%
 a_T = 100 * restrict(fits.a, comparison='test_retest')
@@ -91,17 +103,16 @@ display(pd.DataFrame({'median m': median(m, each='protocol'), 'median s': median
                       'median d': median(d, each='protocol'), 'm / s': median(m, each='protocol') / median(s, each='protocol')}).round(2))
 plots.boxes({'Median |a − 1|': by(m, 'protocol'), 'SD of a': by(s, 'protocol')},
             ylabel='Scan–rescan, per pipeline (%)', ylim=(0, 7.5), name='fig1_sd_of_a');
-
-# %% [markdown]
-# - No systematic error: mean a − 1 is −0.5% (bridge) and +0.2% (local).
-# - Same ranking either way. m / s ≈ 0.67, as expected for normal a − 1 centred on 0 (median |a − 1| = 0.674 σ).
-# - Kept median |a − 1| as primary (D1), with SD of a as secondary.
-# - The 3 pairs per session share scans, so one odd run affects two of them (see F7).
+md, ms = median(d, each='protocol'), median(m, each='protocol') / median(s, each='protocol')
+note(f"Mean a − 1: {md['bridge']:+.1f}% (bridge), {md['local']:+.1f}% (local).",
+     f"m / s: {ms['bridge']:.2f} (bridge), {ms['local']:.2f} (local); 0.674 is expected for normal a − 1 centred on 0 (median |a − 1| = 0.674 σ).",
+     "Median |a − 1| stays primary (D1), with SD of a as secondary.",
+     "The 3 pairs per session share scans, so one odd run affects two of them (see F7).")
 
 # %% [markdown]
 # ## F2 · Inter-scanner, by scanner pair (#2, #7)
 #
-# $M_{p,\pi} = \operatorname{median}_{k \in \mathcal I_\pi} |a_k - 1|$ over all 72 pairs; $M_{p,\pi,c}$ the same within scanner pair $c$ (9 run combinations, 18 for MR750–Prisma); spread across pairs $\mathrm{IQR}_c\, M_{p,\pi,c}$.
+# $M_{p,\pi} = \operatorname{median}_{k \in \mathcal I_\pi} |a_k - 1|$ over all its inter-scanner pairs; $M_{p,\pi,c}$ the same within scanner pair $c$ (9 run combinations per subject); spread across pairs $\mathrm{IQR}_c\, M_{p,\pi,c}$.
 
 # %%
 dev_I = 100 * abs(restrict(fits.a, comparison='inter_scanner') - 1)
@@ -115,12 +126,14 @@ median(M_c, each=('scanner_pair', 'protocol')).unstack().round(2)
 # %%
 order = mean(median(M_c, each=('scanner_pair', 'protocol')), each='scanner_pair').sort_values().index
 plots.boxes({plots.scanner_pair(c): by(restrict(M_c, scanner_pair=c), 'protocol') for c in order},
-            ylabel='Inter-scanner |a − 1| (%)\nper pipeline, median over run pairs', ylim=(0, 30), cap=25, figsize=(11, 4.2),
-            title='One subject per scanner pair (two for S5 MR750 – S5 Prisma)', name='fig2_scanner_pairs');
+            ylabel='Inter-scanner |a − 1| (%)\nper pipeline, median over run pairs', ylim=(0, 30), cap=25, figsize=(max(11, 1.1 * len(order) + 1.5), 4.2),
+            title='One subject per scanner pair unless noted in the table above', name='fig2_scanner_pairs');
 
 # %%
-# same site (S5 MR750 – S5 Prisma) vs different sites
-median(median(dev_I, each=('pipeline', 'protocol', 'same_site')), each=('same_site', 'protocol')).unstack().round(2)
+# same site vs different sites (#7); by vendor (#8) in results/followup/inter_scanner_by_vendor.csv
+same_site = median(median(dev_I, each=('pipeline', 'protocol', 'same_site')), each=('same_site', 'protocol')).unstack()
+print('same-site scanner pairs:', sorted({c for c in restrict(dev_I, same_site=True).index.get_level_values('scanner_pair')}))
+same_site.round(2)
 
 # %%
 M_bridge, M_local = by(M, 'protocol').values()
@@ -130,10 +143,15 @@ pd.DataFrame({k.replace('inter_scanner_', ''): {'estimate': b[k]['estimate'], 'c
               for k in ('inter_scanner_median_bridge_minus_local_pct', 'inter_scanner_p75_bridge_minus_local_pct',
                         'inter_scanner_p95_bridge_minus_local_pct')}).T
 
-# %% [markdown]
-# - IQR across scanner pairs (6.1% bridge, 5.5% local) is about the size of the median deviation. Each pair is a different subject, so scanner and subject are confounded.
-# - The same-site pair (GE vs Siemens, different local protocols) is no better than pairs between sites.
-# - Bridge vs local is a coin flip per pipeline; the bootstrap CI for the median difference includes 0. The bridge advantage is in the tail (p75, p95).
+# %%
+sc_iqr, med_M = median(spread_c, each='protocol'), median(M, each='protocol')
+ci = {k: b[f'inter_scanner_{k}_bridge_minus_local_pct']['ci95'] for k in ('median', 'p75', 'p95')}
+note(f"IQR across scanner pairs: {sc_iqr['bridge']:.1f}% (bridge), {sc_iqr['local']:.1f}% (local), against median deviations of "
+     f"{med_M['bridge']:.1f}% and {med_M['local']:.1f}%. Most scanner pairs have one subject, so scanner and subject are confounded.",
+     f"Same site vs different sites (median |a − 1|, bridge / local): {same_site.loc[True, 'bridge']:.1f} / {same_site.loc[True, 'local']:.1f}% "
+     f"vs {same_site.loc[False, 'bridge']:.1f} / {same_site.loc[False, 'local']:.1f}%.",
+     f"Pipelines with bridge < local: {((M_bridge - M_local).dropna() < 0).mean():.0%}. Bootstrap 95% CI of bridge − local: median "
+     f"{ci['median'][0]:+.2f} to {ci['median'][1]:+.2f}, p75 {ci['p75'][0]:+.2f} to {ci['p75'][1]:+.2f}, p95 {ci['p95'][0]:+.2f} to {ci['p95'][1]:+.2f} percentage points.")
 
 # %% [markdown]
 # ## F3 · LoA before and after removing each pair's line (#3)
@@ -157,12 +175,12 @@ def loa_boxes(κ):
 plots.boxes({'Scan–rescan': loa_boxes('test_retest'), 'Inter-scanner': loa_boxes('inter_scanner')},
             ylabel='Limits of agreement, ± ppb\nper pipeline, median over scan pairs', ylim=(0, 55), cap=45, figsize=(8, 4.2),
             title='Faint: after removing each pair’s fitted line · +n: pipelines beyond 45 ppb', name='fig3_loa_corrected');
-
-# %% [markdown]
-# - Removing the line narrows the LoA by only 5–8% (it explains ~10–15% of the variance), so the disagreement is mostly regional scatter, not global scale.
-# - A 6% scale moves the pallidum (~150 ppb) by ~9 ppb, but barely moves the many regions near 0.
-# - In-sample (2 parameters fitted on ~25 points), so this is an upper bound.
-# - LoA uses ddof = 1; QSM-CI uses ddof = 0 (~2.5% narrower).
+t = restrict(table, comparison=['test_retest', 'inter_scanner'])
+note(f"Removing the line narrows the LoA by {t['narrower (%)'].min():.0f}–{t['narrower (%)'].max():.0f}% (it explains "
+     f"{t['variance explained (%)'].min():.0f}–{t['variance explained (%)'].max():.0f}% of the variance).",
+     "A 6% scale moves the pallidum (~150 ppb) by ~9 ppb, but barely moves the many regions near 0.",
+     "In-sample (2 parameters fitted on up to 25 points), so this is an upper bound.",
+     "LoA uses ddof = 1; QSM-CI uses ddof = 0 (~2.5% narrower).")
 
 # %% [markdown]
 # ## F4 · Sources of variability; protocol bar corrected for scale (#4)
@@ -212,11 +230,11 @@ for ax, (R, B) in zip(axs, bars.items()):
                 xlabel=f'SD of mean {R.lower()} susceptibility (ppb)', ax=ax, title=R, legend=(R == 'Pallidum'))
 axs[1].set_yticklabels([])
 plots.save(fig, 'fig4_protocol_corrected')
-
-# %% [markdown]
-# - The protocol bar is the SD of two values, i.e. |bridge − local| / √2 (3.0 ppb ≈ 4.2 ppb difference in the pallidum).
-# - Removing the line: caudate 2.1 → 1.8 ppb, pallidum 3.0 → 2.1 ppb, about rescan level. Best case only; F6 is the out-of-sample version.
-# - Bars stay uncorrected in the figure (D4).
+note("The protocol bar is the SD of two values, i.e. |bridge − local| / √2.",
+     'Removing the line: ' + ', '.join(f"{R.lower()} {bars[R].both['protocol']:.1f} → {protocol_after[R]:.1f} ppb "
+                                        f"(rescan {bars[R].bridge['rescan']:.1f} / {bars[R].local['rescan']:.1f})" for R in bars)
+     + '. Best case only; F6 is the out-of-sample version.',
+     'Bars stay uncorrected in the figure (D4).')
 
 # %% [markdown]
 # ## F5 · One conversion line per pipeline (#6)
@@ -254,12 +272,12 @@ plots.hbars({'Rescan':                           {'bridge': B.bridge['rescan'], 
              'Between subjects':                 {'bridge': B.bridge['between subjects'], 'local': B.local['between subjects']},
              'Pipeline, as is':                  {'bridge': conv['as is'].bridge, 'local': conv['as is'].local}},
             xlabel='SD of mean pallidum χ (ppb)', name='fig5_pipeline_conversion');
-
-# %% [markdown]
-# - One line per pipeline roughly halves the spread between pipelines (pallidum 29–34 → 16–17 ppb), and it transfers from site-1 bridge to the other scanners and protocols.
-# - Within a pipeline, a varies ~1% across runs, 2% across protocols, 4% across scanners and 5% across subjects, against ~±15% between pipelines.
-# - The remainder (16–17 ppb) is region-specific and still well above scanner (3–7) and protocol (2–3). Using the same pipeline beats converting between pipelines.
-# - Between-subject SD is essentially unchanged (29.3 → 28.4 ppb).
+asis, one = conv['as is'], conv['one line']
+note(f"Pallidum pipeline SD on the held-out scans: bridge {asis.bridge:.0f} → {one.bridge:.0f} ppb, local {asis.local:.0f} → {one.local:.0f} ppb "
+     f"(scanner {B.bridge['scanner']:.1f} / {B.local['scanner']:.1f}, protocol {B.both['protocol']:.1f}).",
+     'Within a pipeline, SD of a: ' + ', '.join(f'{k} {100 * v:.1f}%' for k, v in within.items())
+     + f"; between pipelines a_p spans {quantile(a_p, .25):.2f}–{quantile(a_p, .75):.2f} (IQR).",
+     "Results for good pipelines only (#6, D9): results/followup/followup.json, issue_6_pipeline_conversion_good.")
 
 # %% [markdown]
 # ## F6 · Local-to-bridge calibration, leave one subject out (#5)
@@ -290,11 +308,12 @@ plots.boxes({'No\ncorrection':                            {'no correction': per_
 plots.subject_boxes(100 * (median(fits_P.a, each=('scanner_x', 'subject', 'pipeline')) - 1),
                     ylabel='Local-to-bridge slope a − 1 (%)\nper pipeline, median over 3 runs', ax=right, ylim=(-16, 13))
 plots.save(fig, 'fig6_calibration')
-
-# %% [markdown]
-# - No gain out of sample (4.0% → 4.2%). In-sample gives 1.0%, but that is circular.
-# - The local-to-bridge slope varies 3–5% between subjects on the same scanner, around a median of 0.99. With protocols this similar there is little to calibrate.
-# - Only 2 subjects on MR750 and Prisma, so "the others" is a single person there.
+mp = median(per_pipeline)
+note(f"Local vs bridge |a − 1|: no correction {mp['no correction']:.1f}%, learned on the other subjects {mp['other subjects']:.1f}%, "
+     f"same subject (in-sample, circular) {mp['same subject']:.1f}%.",
+     'SD of the local-to-bridge slope over subjects: ' + ', '.join(f'{c} {100 * v:.1f}%' for c, v in median(sd(line_s.a, each=('pipeline', 'scanner_x')), each='scanner_x').items())
+     + f"; median a {median(fits_P.a):.3f}.",
+     'Scanners with 2+ subjects: ' + ', '.join(f'{c} ({n})' for c, n in acq.groupby('scanner').subject.nunique().items() if n >= 2) + '.')
 
 # %% [markdown]
 # ## F7 · Bridge run 1 (#10)
@@ -313,17 +332,20 @@ restrict(pd.DataFrame({'r12': r12, 'r13': r13, 'r23': r23, 'run 1 odd': run1_odd
 # %%
 plots.run_pairs(r12, r13, r23, name='fig7_run_pairs_sessions')
 
+# %%
+note(*(f"{π}: run 1 odd in {int(odd.loc[π, 'run 1 odd'])} of {int(odd.loc[π, 'sessions'])} sessions "
+       f"(p = {odd.loc[π, 'p (binomial, one-sided)']:.3f})" for π in odd.index),
+     'The p-value treats sessions as independent, which they are not quite (a subject contributes several sessions).')
+
 # %% [markdown]
-# - Bridge: 9 of 12 sessions (p ≈ 0.004); local: 4 of 12 (chance). The p-value treats sessions as independent, which they are not quite (s005001 has three sessions).
-# - Marginal cases: s005001 MR750 (1.46 / 1.85 vs 1.43). s005002 Achieva and MR750 go the other way (there run 3 is odd).
-# - Ruled out: within-session motion (~0.5°), ghosting, edge sharpness, and field drift between runs (`data/`).
+# - Ruled out on the first 12 sessions: within-session motion (~0.5°), ghosting, edge sharpness, and field drift between runs (`data/`; these measurements cover those sessions only).
 # - Open: pillow settling (3–5 min), scanner warm-up (s002001 was the first scan of the day; s004001/s005001 came after a gap of more than 30 min), physiological settling.
 # - The first scan and the bridge protocol are confounded by the fixed run order. Counterbalance it or add a dummy scan (D6).
 
 # %% [markdown]
 # ## F8 · With and without run 1 (#10)
 #
-# Without run 1: test-retest keeps only run 2 vs 3 (12 pairs per pipeline); inter-scanner keeps 4 of 9 run combinations (32 pairs).
+# Without run 1: test-retest keeps only run 2 vs 3 (1 pair per session); inter-scanner keeps 4 of 9 run combinations.
 
 # %%
 def per_pipeline_dev(comparison, **only):
@@ -339,16 +361,15 @@ fig, axs = plt.subplots(1, 2, figsize=(12, 4.4), gridspec_kw={'wspace': 0.25})
 plots.boxes({'Test-retest': groups['test_retest']}, ylabel='|a − 1| (%), one value per pipeline', ax=axs[0], ylim=(0, 5))
 plots.boxes({'Inter-scanner': groups['inter_scanner']}, ylabel='', ax=axs[1], ylim=(0, 32), legend=False)
 plots.save(fig, 'fig8_without_run1')
-
-# %% [markdown]
-# - Without run 1, bridge and local test-retest are equal (1.6% vs 1.5%). The bridge protocol itself isn't noisier, and scan length may matter less than assumed.
-# - Inter-scanner is unchanged (bridge 6.4% → 6.4%, local 7.0% → 6.8%): the extra ~1% of run-1 noise adds in quadrature to 6–7%.
+g = {κ: {k: median(v) for k, v in grp.items()} for κ, grp in groups.items()}
+note(*(f"{κ.replace('_', '-')}: " + ', '.join(f"{π} {g[κ][π]:.1f}% → {g[κ][π + ', without run 1']:.1f}%" for π in ('bridge', 'local'))
+       for κ in g))
 
 # %% [markdown]
 # ## Caveats
 #
-# - The effective sample size is subjects and sessions (6 subjects and 12 sessions; 4 subjects for inter-scanner), not pipelines × pairs.
+# - The effective sample size is subjects and sessions, not pipelines × pairs.
 # - Scanner and subject are confounded: most scanner pairs have one subject, and the two site-1 scanners share none.
-# - Head angle to B0 changes 2.5–15° between sessions (largest in the GE sessions), confounded with scanner (`data/head_pose.csv`).
-# - All 638 pipelines are included, so the tails reflect poor pipelines.
+# - Head angle to B0 changes 2.5–15° between the first 12 sessions (largest in the GE sessions), confounded with scanner (`data/head_pose.csv`).
+# - All pipelines are included, so the tails reflect poor pipelines; parity and other variants are separate pipelines.
 # - Regions are per hemisphere and include cortex, WM and cerebellum; the slope is dominated by deep grey matter.

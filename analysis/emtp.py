@@ -34,8 +34,10 @@ BORDERLINE_LOCALS = ['site5-mr750']                                  # 8 echoes 
 # #6 (decision D9): good pipelines = top fraction by full-pipeline simulation XSIM (QSM Challenge 2.0)
 GOOD_PIPELINE_FRACTION, GOOD_PIPELINE_FRACTION_SENSITIVITY = 0.10, 0.25
 # Figure 5: the QSM-CI matrix subset shown (ROMEO field mapping; dipole inversion x background removal)
-FIG5_DIPOLE = ['whqsm-qsmrs', 'hdqsm-qsmrs', 'medi-qsmrs', 'ilsqr-sti', 'rts-qsmrs', 'tkd-qsmrs', 'lpcnn', 'qsmnet-plus']
-FIG5_BFR = ['sharp-qsmrs', 'resharp-qsmrs', 'pdf-qsmrs', 'vsharp-sti', 'lbv-qsmrs']
+# (v11 names: the QSM.rs ports; vsharp-qsmrs is V-SHARP without deconvolution, as STI Suite's V-SHARP)
+FIG5_DIPOLE = ['whqsm-qsmrs', 'hdqsm-qsmrs', 'medi-qsmrs', 'ilsqr-qsmrs', 'rts-qsmrs', 'tkd-qsmrs', 'lpcnn-qsmrs',
+               'qsmnet-plus-qsmrs']
+FIG5_BFR = ['sharp-qsmrs', 'resharp-qsmrs', 'pdf-qsmrs', 'vsharp-qsmrs', 'lbv-qsmrs']
 
 
 def acquisitions():
@@ -69,7 +71,8 @@ def bilateral(reg, region):
 
 def comparison_plan(acq):
     """(comparison, acquisition_x, acquisition_y) for every pair the design calls for, as in QSM-CI:
-    pairs never cross subjects; the reference-site (site 1) scan is x, and bridge is x for inter_protocol.
+    pairs never cross subjects; in inter-scanner pairs the scanner earlier in the subject's `scanner_order`
+    (acquisitions.csv: QSM-CI's order, the reference site first) is x; bridge is x for inter_protocol.
       test_retest     same scanner and protocol, every two runs
       inter_scanner   same protocol, every run on one scanner against every run on the other (the
                       sessions are on different days, so run numbers do not correspond)
@@ -77,7 +80,10 @@ def comparison_plan(acq):
     by = {(a.subject, a.scanner, a.protocol, a.run): a.acquisition for a in acq.itertuples()}
     plan = []
     for subj, mine in acq.groupby('subject', sort=True):
-        scanners = sorted(dict.fromkeys(mine.scanner), key=lambda s: not s.startswith('site1-'))
+        if 'scanner_order' in mine:
+            scanners = list(mine.sort_values(['scanner_order', 'scanner']).scanner.drop_duplicates())
+        else:
+            scanners = sorted(dict.fromkeys(mine.scanner), key=lambda s: not s.startswith('site1-'))
         protocols, runs = sorted(set(mine.protocol)), sorted(set(mine.run))
         for sc in scanners:
             for pr in protocols:

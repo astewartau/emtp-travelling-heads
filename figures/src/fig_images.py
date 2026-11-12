@@ -1,11 +1,16 @@
 """Figure 2: representative processing stages for one subject on three vendors (bridge protocol, run 1)."""
+import sys
 import SimpleITK as sitk, numpy as np, matplotlib
 from scipy import ndimage
 matplotlib.use('Agg'); import matplotlib.pyplot as plt
 
 A = '../../data/figure2/align'
 IN = '../../data/figure2/inputs'
-KEEP = '../../data/figure2/recons'
+# `python fig_images.py v11`: fields and QSM from data/figure2/v11/ (QSM-CI volumes of the current run), written to
+# figures/v11/; no argument: the abstract figure
+VER = sys.argv[1] if len(sys.argv) > 1 else ''
+KEEP = f'../../data/figure2/{VER}/recons'.replace('//', '/')
+FIELDS = f'../../data/figure2/{VER}/fields'.replace('//', '/')
 SUB = 's005002'
 ACQS = [('Philips Achieva', 'site1-achieva'), ('GE MR750', 'site5-mr750'), ('Siemens Prisma', 'site5-prisma')]
 
@@ -59,8 +64,8 @@ for name, sc in ACQS:
     head = ndimage.binary_opening(ndimage.binary_fill_holes(mag > 0.1), iterations=2)
     head = ndimage.binary_fill_holes(ndimage.binary_closing(head, iterations=3))
     ph[~head] = 0.0
-    tf = resample(sitk.ReadImage(f'../../data/figure2/fields/{acq}__romeo-qsmrs__totalfield.nii.gz', sitk.sitkFloat32), acq)
-    lf = resample(sitk.ReadImage(f'../../data/figure2/fields/{acq}__romeo-qsmrs_pdf-qsmrs__localfield.nii.gz', sitk.sitkFloat32), acq)
+    tf = resample(sitk.ReadImage(f'{FIELDS}/{acq}__romeo-qsmrs__totalfield.nii.gz', sitk.sitkFloat32), acq)
+    lf = resample(sitk.ReadImage(f'{FIELDS}/{acq}__romeo-qsmrs_pdf-qsmrs__localfield.nii.gz', sitk.sitkFloat32), acq)
     qsm = resample(sitk.ReadImage(f'{KEEP}/romeo-qsmrs~pdf-qsmrs~whqsm-qsmrs-{acq}.nii.gz', sitk.sitkFloat32), acq)
     for a in (tf, lf, qsm):
         a[~mask] = 0.0  # outside the mask shown as 0, the neutral value of every colour scale
@@ -100,5 +105,5 @@ for r, (name, imgs, masks) in enumerate(rows):
             cb.ax.set_xticklabels([f'{v:g}' if unit != 'rad' else s for v, s in zip([lo, 0, hi], ['−π', '0', 'π'])])
             cb.set_label(unit, fontsize=9, color=INK, labelpad=1)
             cb.outline.set_visible(False)
-fig.savefig('../fig2_representative_images.png', dpi=300, bbox_inches='tight', facecolor='white')
+fig.savefig(f'../{VER}/fig2_representative_images.png'.replace('//', '/'), dpi=300, bbox_inches='tight', facecolor='white')
 print('slice', z)

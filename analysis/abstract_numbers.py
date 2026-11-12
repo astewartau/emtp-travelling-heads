@@ -18,6 +18,8 @@ OUT.mkdir(exist_ok=True)
 SPREAD_REGIONS = ['Caudate', 'Pallidum']
 reg = emtp.regions()
 pipes = emtp.pipelines()
+three = pipes[pipes.n_steps == 3]
+base = lambda col: col.str.split('.').str[0]   # method without its variant tag (<method>.<tag>)
 fits = emtp.pair_fits(reg)
 fits.to_csv(OUT / 'pair_fits.csv.gz', index=False, float_format='%.6g', compression={'method': 'gzip', 'mtime': 0})
 
@@ -48,9 +50,11 @@ n = {
         'maps': int(reg[['pipeline', 'acquisition']].drop_duplicates().shape[0]),
         'three_step': int((pipes.n_steps == 3).sum()),
         'combined_or_end_to_end': int((pipes.n_steps < 3).sum()),
-        'field_mapping_methods': int(pipes[pipes.n_steps == 3].field_mapping.nunique()),
-        'background_removal_methods': int(pipes[pipes.n_steps == 3].background_removal.nunique()),
-        'dipole_inversion_methods': int(pipes[pipes.n_steps == 3].dipole_inversion.nunique()),
+        'field_mapping_methods': int(base(three.field_mapping).nunique()),
+        'background_removal_methods': int(base(three.background_removal).nunique()),
+        'dipole_inversion_methods': int(base(three.dipole_inversion).nunique()),
+        'with_a_variant_step': int((~pipes.default_settings).sum()) if 'default_settings' in pipes else 0,
+        'with_simulation_score': int(pipes.challenge2_xsim_full_pipeline.notna().sum()),
     },
     'pairs': {
         'fitted': int(len(ok)),
@@ -87,6 +91,8 @@ for prot in ('bridge', 'local'):
         'median_abs_slope_dev_without_run1_pct': pct(t[~first[t.index]].groupby('pipeline').abs_slope_dev.median().median()),
     })
 f5 = col('abs_slope_dev', 'inter_scanner', 'all').reindex([f'romeo-qsmrs+{b}+{d}' for d in emtp.FIG5_DIPOLE for b in emtp.FIG5_BFR])
+if f5.isna().any():
+    print('Figure 5 pipelines without inter-scanner values:', ', '.join(f5.index[f5.isna()]))
 n['fig5_range_pct'] = [pct(f5.min()), pct(f5.max())]
 for region in SPREAD_REGIONS:
     t = emtp.spread(reg, region)

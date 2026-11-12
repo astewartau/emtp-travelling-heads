@@ -9,7 +9,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'analysis'))
-from followup_plots import GREY, INK, INK2, PURPLE, boxes, save  # noqa: E402
+from followup_plots import DATA_LABEL, GREY, INK, INK2, PURPLE, boxes, save  # noqa: E402
 
 RES = ROOT / 'results/followup'
 SETS = {'good_top10': 'Top 10 %', 'good_top25': 'Top 25 %', 'all': 'All'}
@@ -44,7 +44,7 @@ def make():
     from matplotlib.patches import Patch
     fig.legend(handles=[Patch(facecolor=c, edgecolor=c, alpha=0.5, label=l) for l, c in COLORS.items()], frameon=False,
                fontsize=9, loc='lower center', ncol=3, bbox_to_anchor=(0.5, 0.005))
-    fig.suptitle('Pipeline conversion (#6): one factor per pipeline, good pipelines vs all, v10 data',
+    fig.suptitle(f'Pipeline conversion (#6): one factor per pipeline, good pipelines vs all, {DATA_LABEL}',
                  x=0.06, ha='left', fontsize=12, color=INK)
     fig.text(0.06, -0.03, 'Good pipelines = top fraction by simulation XSIM. Consensus = median over the set\'s pipelines; '
              'factor a, b per pipeline fitted on regional χ against it. Evaluated on all scans except the reference '

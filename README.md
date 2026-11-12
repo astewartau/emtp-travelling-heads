@@ -1,8 +1,8 @@
 # EMTP traveling-brain QSM
 
-Data, analysis and figures for the EMTP traveling-brain QSM calibration study: 6 subjects, 72 acquisitions (bridge and local protocols, 3 runs each) on 6 scanners from 3 vendors, reconstructed with 638 QSM pipelines on [QSM-CI](https://qsmxt.github.io/QSM-CI/).
+Data, analysis and figures for the EMTP traveling-brain QSM calibration study: 6 subjects, 102 acquisitions (bridge and local protocols, 3 runs each; 17 sessions) on 11 scanners at 6 sites from 3 vendors, reconstructed with 996 QSM pipelines on [QSM-CI](https://qsmxt.github.io/QSM-CI/).
 
-This is the analysis snapshot used for the ISMRM 2027 abstract.
+The analysis snapshot used for the ISMRM 2027 abstract (72 acquisitions on 6 scanners, 638 pipelines, QSMxT v10.0.0) is tag `ismrm2027-abstract`.
 
 **Analysis notebook (with outputs): [analysis.ipynb](https://github.com/astewartau/emtp-travelling-heads/blob/main/analysis.ipynb)**
 
@@ -25,7 +25,7 @@ Subject IDs are pseudonymised (`s002001`–`s006001`).
 | `docs/decisions.md` | Analysis decisions since the abstract, each with the alternative not taken |
 | `followup.ipynb` | Walk-through of the follow-up analyses, with code written to read like the maths: how each pair type is defined, and for every follow-up figure the question, calculation, checks against `results/followup/followup.json` and caveats (rebuild: `python analysis/build_followup_notebook.py`; source `analysis/followup_walkthrough.py`, notation `analysis/notation.py`, plots `figures/src/followup_plots.py`, figures in `figures/followup/`) |
 | `analysis.ipynb` | Walk-through of the analysis with outputs: dataset, regions per fit, agreement, sources of variability, key results and Figures 1–5 (rebuild: `python analysis/build_notebook.py`) |
-| `figures/` | Figures 1–5; sources in `figures/src/` |
+| `figures/` | Figures 1–5 of the abstract (v10 data, kept unchanged); `figures/v11/`: the same figures on the current data; sources in `figures/src/` |
 
 ## Reproduce
 ```
@@ -38,6 +38,7 @@ cd figures/src
 ../../scripts/fetch_figure2_data.sh && ../../.venv/bin/python fig_images.py   # Figure 2 (inputs not in git)
 ../../.venv/bin/python fig_qsmci.py        # Figure 5 from data/qsmci_screenshot; shots4.js recaptures it (Node + Playwright)
 ```
+The current-data versions in `figures/v11/`: `fig3_agreement.py v11`, `fig4_sources_of_variability.py v11`, `fig_images.py v11` (fields and QSM of the current run in `data/figure2/v11/`, from the QSM-CI volumes), `node shots4.js v11 && fig_qsmci.py v11`, and Figure 1 from `fig1_study_design_v11.html` (`node render.js "$PWD/fig1_study_design_v11.html" "$PWD/../v11/fig1_study_design.png"`).
 
 ## Data version
-QSM-CI harmonization run with QSMxT v10.0.0 (October 2026). Five sessions acquired in October 2026 at two further sites are not yet included.
+QSM-CI harmonization run v11 (QSMxT v11, November 2026), including the five sessions acquired in October 2026 at two further sites. Head pose, field drift, echo shift and image quality (`data/head_pose.csv`, `b0_drift.csv`, `echo_shift.csv`, `image_quality.csv`) still cover the first 72 acquisitions only. `figures/fig*.png` and `analysis.ipynb` are the abstract's (v10 data, QSMxT v10.0.0) and stay as they were; `figures/v11/` has Figures 1–5 on the current data. Rebuilding `analysis.ipynb` uses the current data.

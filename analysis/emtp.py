@@ -19,9 +19,6 @@ DATA = Path(__file__).resolve().parent.parent / 'data'
 # QSM-CI exclusion rules (repro_eval.py)
 MIN_PAIR_ROIS = 8      # fewer regions present in both scans: no fit
 SLOPE_DEV_CAP = 2.0    # |a - 1| above this is a failed reconstruction, not a reproducibility value
-# A map with any region further than this from its brain mean (ppm) diverged numerically (values up to 1e17 ppm on
-# v11, mostly nonlinear inversions on single-echo scans); left out of every analysis. On v10 no map exceeded 3 ppm.
-DIVERGED_MAP_PPM = 10.0
 
 COMPARISONS = ['test_retest', 'inter_scanner', 'inter_protocol']
 VENDOR = {'site1-achieva': 'Philips', 'site1-elition': 'Philips', 'site4-skyra': 'Siemens',
@@ -58,22 +55,9 @@ def good_pipelines(fraction=GOOD_PIPELINE_FRACTION):
     return sorted(x.index[x >= x.quantile(1 - fraction)])
 
 
-def regions(drop_diverged=True):
-    """Long table: pipeline, acquisition, label, region, n_voxels, mean_ppm, ... Maps that diverged
-    (diverged_maps) are left out unless drop_diverged is False."""
-    reg = pd.read_csv(DATA / 'regional_chi.csv.gz')
-    if not drop_diverged:
-        return reg
-    bad = diverged_maps(reg)
-    keep = ~pd.MultiIndex.from_frame(reg[['pipeline', 'acquisition']]).isin(
-        pd.MultiIndex.from_frame(bad[['pipeline', 'acquisition']]))
-    return reg[keep].reset_index(drop=True)
-
-
-def diverged_maps(reg):
-    """(pipeline, acquisition, max_abs_ppm) of the maps with a region beyond DIVERGED_MAP_PPM (or non-finite)."""
-    m = reg.mean_ppm.abs().where(np.isfinite(reg.mean_ppm), np.inf).groupby([reg.pipeline, reg.acquisition]).max()
-    return m[m > DIVERGED_MAP_PPM].rename('max_abs_ppm').reset_index()
+def regions():
+    """Long table: pipeline, acquisition, label, region, n_voxels, mean_ppm, ..."""
+    return pd.read_csv(DATA / 'regional_chi.csv.gz')
 
 
 def bilateral(reg, region):

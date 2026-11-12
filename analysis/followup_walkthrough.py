@@ -36,8 +36,7 @@ chi_lab = chi_by_label(reg)                                         # χ[pipelin
 chi = {R: chi_region(reg, R) for R in ('Caudate', 'Pallidum')}      # bilateral, χ[pipeline, subject, scanner, protocol, run]
 n_sessions = acq.groupby(['subject', 'scanner']).ngroups
 note(f"{acq.subject.nunique()} subjects, {acq.scanner.nunique()} scanners, {n_sessions} sessions, {len(acq)} acquisitions, "
-     f"{reg.pipeline.nunique()} pipelines; {len(emtp.diverged_maps(emtp.regions(drop_diverged=False)))} diverged maps left out "
-     f"(a region more than {emtp.DIVERGED_MAP_PPM:g} ppm from the brain mean)",
+     f"{reg.pipeline.nunique()} pipelines",
      f"multi-scanner subjects: {', '.join(s for s, n in acq.groupby('subject').scanner.nunique().items() if n > 1)}")
 acq.groupby(['subject', 'scanner']).size().unstack(fill_value=0)
 
@@ -127,7 +126,7 @@ median(M_c, each=('scanner_pair', 'protocol')).unstack().round(2)
 # %%
 order = mean(median(M_c, each=('scanner_pair', 'protocol')), each='scanner_pair').sort_values().index
 plots.boxes({plots.scanner_pair(c): by(restrict(M_c, scanner_pair=c), 'protocol') for c in order},
-            ylabel='Inter-scanner |a − 1| (%)\nper pipeline, median over run pairs', ylim=(0, 30), cap=25, figsize=(11, 4.2),
+            ylabel='Inter-scanner |a − 1| (%)\nper pipeline, median over run pairs', ylim=(0, 30), cap=25, figsize=(max(11, 1.1 * len(order) + 1.5), 4.2),
             title='One subject per scanner pair unless noted in the table above', name='fig2_scanner_pairs');
 
 # %%

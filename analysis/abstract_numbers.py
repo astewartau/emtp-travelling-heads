@@ -17,7 +17,6 @@ OUT = Path(__file__).resolve().parent.parent / 'results'
 OUT.mkdir(exist_ok=True)
 SPREAD_REGIONS = ['Caudate', 'Pallidum']
 reg = emtp.regions()
-diverged = emtp.diverged_maps(emtp.regions(drop_diverged=False))
 pipes = emtp.pipelines()
 three = pipes[pipes.n_steps == 3]
 base = lambda col: col.str.split('.').str[0]   # method without its variant tag (<method>.<tag>)
@@ -56,7 +55,6 @@ n = {
         'dipole_inversion_methods': int(base(three.dipole_inversion).nunique()),
         'with_a_variant_step': int((~pipes.default_settings).sum()) if 'default_settings' in pipes else 0,
         'with_simulation_score': int(pipes.challenge2_xsim_full_pipeline.notna().sum()),
-        'diverged_maps_left_out': int(len(diverged)),
     },
     'pairs': {
         'fitted': int(len(ok)),

@@ -167,12 +167,12 @@ def main():
     if nonfinite[['n_voxels', 'mean_ppm', 'brain_mean_ppm']].any():
         problems.append(f'non-finite or missing values: {nonfinite[nonfinite > 0].to_dict()}')
     elif nonfinite.any():
-        notes.append(f'non-finite values (unused columns, diverged maps): {nonfinite[nonfinite > 0].to_dict()}')
+        notes.append(f'non-finite values (unused columns): {nonfinite[nonfinite > 0].to_dict()}')
     big = reg.mean_ppm.abs().groupby([reg.pipeline, reg.acquisition]).max()
     big = big[big > 10].reset_index()
     if len(big):
         where = big.acquisition.str.split('-').str[1:4].str.join('-').value_counts()
-        notes.append(f'{len(big)} maps diverged (a region > 10 ppm from the brain mean; emtp leaves them out) in '
+        problems.append(f'{len(big)} maps look diverged (a region > 10 ppm from the brain mean) in '
                      f'{big.pipeline.nunique()} pipelines; by scanner and protocol: {where.to_dict()}')
     dup = reg.duplicated(['pipeline', 'acquisition', 'label']).sum()
     if dup:

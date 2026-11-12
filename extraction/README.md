@@ -20,7 +20,7 @@ One difference: here the Bland–Altman limits of agreement use the sample SD (d
 
 Only the published pipelines and acquisitions are written. `acquisitions.csv` gets each subject's scanner order from QSM-CI's inter-scanner pairs (`scanner_order`, which fixes which scan is x), and the script checks that `emtp.comparison_plan` gives exactly QSM-CI's pairs. `pipelines.csv` takes each pipeline's full-pipeline simulation XSIM and DGM linearity (QSM Challenge 2.0 phantom) from the QSM-CI run that reconstructs the same full chain from the simulated data, field mapping included (taken from the run id, never a run that starts from the ground-truth field); pipelines without one (variants such as `.parity`, the GPU dipole inversions) have none, and `emtp.good_pipelines` leaves them out. `default_settings` marks pipelines without a variant step.
 
-Maps with any region more than `emtp.DIVERGED_MAP_PPM` (10 ppm) from the brain mean diverged numerically and are left out of every analysis (`emtp.regions`); QSM-CI keeps them and excludes most of their pairs by the slope cap. `scripts/check_qsmci_fits.py` compares the per-pipeline medians with QSM-CI's: all agree to QSM-CI's rounding except pipelines with diverged maps.
+The script reports maps with a region more than 10 ppm from the brain mean as a problem (a diverged reconstruction; none in the published data). `scripts/check_qsmci_fits.py` compares the per-pipeline medians with QSM-CI's: all agree to QSM-CI's rounding.
 
 ```
 python scripts/extract_qsmci.py --rois repro_rois.json --qsmci <QSM-CI checkout> --ref origin/main --scanner-ids <map.csv>

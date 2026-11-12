@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -31,7 +32,10 @@ def make(fraction=emtp.GOOD_PIPELINE_FRACTION):
         n = ip[ip.scanner_x == s].subject_x.nunique()
         groups[f"{SCANNER[s]}\n{n} subj.\n{CLASS(s)}"] = {'local vs bridge': pct(ip[ip.scanner_x == s]),
                                                          'rescan, same scanner': pct(tr[tr.scanner_x == s])}
-    boxes(groups, '|a − 1| per pipeline (%)', ax=axs[0], ylim=(0, 15.5), cap=14,
+    # axis cap: 14 %, or higher so that no box (IQR) is cut (site 2 single-echo locals)
+    q75 = max(float(np.nanpercentile(v, 75)) for g in groups.values() for v in g.values() if len(v))
+    cap_a = max(14.0, float(np.ceil(q75 / 5) * 5))
+    boxes(groups, '|a − 1| per pipeline (%)', ax=axs[0], ylim=(0, cap_a * 1.107), cap=cap_a,
           colors={'local vs bridge': PURPLE, 'rescan, same scanner': GREY},
           title='A  Protocol effect vs rescan floor (same scanner and session)')
     for t in axs[0].get_xticklabels():
